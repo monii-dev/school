@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>국악기 소리 맞히기</title>
+<style>
+*{box-sizing:border-box}
+:root{color-scheme:dark}
+body{margin:0;background:#101114;color:#f6f7fb;font-family:Arial,"Noto Sans KR",sans-serif}
+button,input{font:inherit}
+button{border:0;cursor:pointer;color:inherit}
+button:focus-visible,input:focus-visible{outline:3px solid #7ca5ff;outline-offset:2px}
+#app{width:min(940px,94%);margin:0 auto;padding:28px 0 60px}
+.screen{display:none}.screen.active{display:block}
+h1{text-align:center;margin:0 0 28px}.menu{display:grid;gap:14px}
+.menu button,.primary,.secondary,.back{border-radius:14px;padding:15px 20px}
+.menu button{padding:24px;font-size:20px}
+.primary{background:#4b7bec}.secondary,.back{background:#30333a}.back{margin-bottom:18px}
+.muted{color:#aeb3bf}.hint{font-size:13px;color:#9ba1ae}
+
+/* quiz flow */
+.flow-stage{position:relative;overflow:hidden;transition:height .34s ease}
+.flow-panel{width:100%}
+.flow-panel.is-hidden{display:none}
+.flow-panel.exit-left{position:absolute;inset:0 auto auto 0;animation:slideOutLeft .34s ease forwards;pointer-events:none}
+.flow-panel.enter-right{animation:slideInRight .34s ease forwards}
+@keyframes slideOutLeft{from{transform:translateX(0);opacity:1}to{transform:translateX(-105%);opacity:.25}}
+@keyframes slideInRight{from{transform:translateX(105%);opacity:.3}to{transform:translateX(0);opacity:1}}
+@media(prefers-reduced-motion:reduce){.flow-stage{transition:none}.flow-panel.exit-left,.flow-panel.enter-right{animation:none}}
+.card{background:#1b1d22;border:1px solid #2b2e36;border-radius:18px;padding:20px}
+.question-card{text-align:center;padding:26px 20px}
+.question-card p{margin-top:0;color:#c9cdd6}
+.answer-input{width:100%;margin:18px 0 12px;padding:15px 16px;border:1px solid #424650;border-radius:12px;background:#111318;color:#fff;font-size:18px}
+.question-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.icon-btn{width:58px;height:58px;border-radius:50%;background:#4b7bec;font-size:25px;display:inline-flex;align-items:center;justify-content:center}
+.check-btn{min-width:120px;border-radius:13px;padding:14px 22px;background:#4b7bec;font-weight:700}
+.result-title.correct{color:#67e68d}.result-title.wrong{color:#ff7979}
+.answer-head{margin-bottom:16px}.answer-head h2{margin:0 0 8px}.answer-head p{margin:0}
+.feature{margin-top:18px;color:#d3d6dd;line-height:1.65}.feature b{color:#fff}
+.next-row{display:flex;justify-content:flex-end;margin-top:18px}.next-btn{border-radius:13px;padding:14px 24px;background:#4b7bec;font-weight:700}
+
+/* player */
+.segment-player{margin-top:12px}
+.video-box{position:relative;background:#000;border-radius:15px 15px 0 0;overflow:hidden;min-height:120px}
+.video-box video{display:block;width:100%;max-height:520px;background:#000}
+.ended-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.68);opacity:0;pointer-events:none;transition:opacity .28s ease}
+.ended-overlay.show{opacity:1;pointer-events:auto}
+.replay-overlay-btn{border-radius:999px;padding:14px 22px;background:rgba(30,32,38,.94);border:1px solid rgba(255,255,255,.25);font-weight:800;font-size:17px}
+.player-controls{display:grid;grid-template-columns:52px auto 1fr;gap:10px;align-items:center;padding:10px 12px;background:#17191e;border-radius:0 0 15px 15px}
+.player-toggle{width:44px;height:44px;border-radius:50%;background:#30343c;font-size:20px}
+.player-time{font-variant-numeric:tabular-nums;white-space:nowrap;color:#e4e6eb;font-size:14px}
+.player-seek{width:100%;accent-color:#6f98ff}
+.jump-row{display:flex;justify-content:flex-end;margin-top:9px}
+.jump-question{border-radius:10px;padding:10px 14px;background:#30343c;border:1px solid #464b56;font-weight:700}
+
+/* listen */
+.instrument-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.instrument-list button{padding:16px;border-radius:12px;background:#23262c;text-align:left}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.84);display:none;align-items:center;justify-content:center;padding:14px;z-index:50}
+.modal.active{display:flex}
+.modal-box{position:relative;width:min(880px,100%);max-height:94vh;overflow-y:auto;background:#181a1f;border-radius:18px;padding:20px}
+.close{position:absolute;top:10px;right:10px;width:44px;height:44px;border-radius:50%;background:#30333a;font-size:26px;z-index:3}
+#listenName{padding-right:52px;margin:0 0 10px}
+
+.error{padding:14px;border-radius:12px;background:#4a2424;color:#ffd5d5;margin-bottom:16px;display:none}
+@media(max-width:600px){
+  .instrument-list{grid-template-columns:1fr}
+  .player-controls{grid-template-columns:48px 1fr}.player-time{grid-column:2}.player-seek{grid-column:1/-1}
+  .next-row{justify-content:stretch}.next-btn{width:100%}
+  .question-player-actions{display:flex;align-items:center;justify-content:center;gap:10px;margin:14px 0}
+  .icon-btn svg{width:26px;height:26px;display:block;pointer-events:none;user-select:none}
+  .icon-btn{-webkit-user-select:none;user-select:none}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="dataError" class="error"></div>
+
+  <section id="home" class="screen active">
+    <h1>🎵 국악기 소리 맞히기</h1>
+    <div class="menu">
+      <button id="startQuiz" class="primary">문제 풀기</button>
+      <button id="openListen" class="secondary">들어보기</button>
+    </div>
+  </section>
+
+  <section id="quiz" class="screen">
+    <button class="back" data-home>← 처음으로</button>
+    <h1>소리 맞히기</h1>
+
+    <div id="flowStage" class="flow-stage">
+      <section id="questionPanel" class="flow-panel">
+        <div class="card question-card">
+          <p>소리만 듣고 악기를 맞혀 보세요.</p>
+          <div class="question-player-actions" aria-label="문제 소리 제어">
+            <button id="questionPlay" class="icon-btn" type="button" aria-label="문제 소리 재생"></button>
+            <button id="questionRestart" class="icon-btn" type="button" aria-label="문제 소리 처음부터 다시 재생"></button>
+          </div>
+          <input id="answerInput" class="answer-input" type="text" placeholder="악기 이름 입력" autocomplete="off">
+          <div class="question-actions">
+            <button id="checkAnswer" class="check-btn" type="button">확인</button>
+          </div>
+          <div class="hint" style="margin-top:12px">Enter 키로도 정답을 확인할 수 있습니다.</div>
+        </div>
+      </section>
+
+      <section id="answerPanel" class="flow-panel is-hidden">
+        <div class="card">
+          <div class="answer-head">
+            <h2 id="resultTitle" class="result-title"></h2>
+            <p>정답: <strong id="correctAnswer"></strong></p>
+          </div>
+
+          <div class="segment-player">
+            <div class="video-box">
+              <video id="answerVideo" src="./main.mp4" playsinline preload="metadata"></video>
+              <div id="answerEnded" class="ended-overlay">
+                <button id="answerReplay" class="replay-overlay-btn" type="button">↻ 다시보기</button>
+              </div>
+            </div>
+            <div class="player-controls">
+              <button id="answerPlay" class="player-toggle" type="button" aria-label="정답 영상 재생">▶️</button>
+              <span id="answerTime" class="player-time">0:00 / 0:00</span>
+              <input id="answerSeek" class="player-seek" type="range" min="0" max="0" value="0" step="0.01" aria-label="정답 영상 재생 위치">
+            </div>
+            <div class="jump-row">
+              <button id="answerJump" class="jump-question" type="button">🔊 소리 바로 듣기</button>
+            </div>
+          </div>
+
+          <div class="feature"><b>특징</b><p id="resultFeature"></p></div>
+          <div class="next-row"><button id="nextQuestion" class="next-btn" type="button">다음 →</button></div>
+          <div class="hint" style="text-align:right;margin-top:10px">Enter 키로 다음 문제로 넘어갈 수 있습니다.</div>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <section id="listen" class="screen">
+    <button class="back" data-home>← 처음으로</button>
+    <h1>국악기 들어보기</h1>
+    <div id="instrumentList" class="instrument-list"></div>
+  </section>
+</div>
+
+<div id="listenModal" class="modal" aria-hidden="true">
+  <div class="modal-box">
+    <button id="closeListen" class="close" type="button" aria-label="닫기">×</button>
+    <h2 id="listenName"></h2>
+
+    <div class="segment-player">
+      <div class="video-box">
+        <video id="listenVideo" src="./main.mp4" playsinline preload="metadata"></video>
+        <div id="listenEnded" class="ended-overlay">
+          <button id="listenReplay" class="replay-overlay-btn" type="button">↻ 다시보기</button>
+        </div>
+      </div>
+      <div class="player-controls">
+        <button id="listenPlay" class="player-toggle" type="button" aria-label="영상 재생">▶️</button>
+        <span id="listenTime" class="player-time">0:00 / 0:00</span>
+        <input id="listenSeek" class="player-seek" type="range" min="0" max="0" value="0" step="0.01" aria-label="영상 재생 위치">
+      </div>
+      <div class="jump-row">
+        <button id="listenJump" class="jump-question" type="button">🔊 소리 바로 듣기</button>
+      </div>
+    </div>
+
+    <div class="feature"><b>특징</b><p id="listenFeature"></p></div>
+  </div>
+</div>
+
+<script src="./plan.js"></script>
+<script>
+(() => {
+  'use strict';
+
+  const $ = id => document.getElementById(id);
+  const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+  const screens = [...document.querySelectorAll('.screen')];
+  const home = $('home');
+  const quiz = $('quiz');
+  const listen = $('listen');
+  const flowStage = $('flowStage');
+  const questionPanel = $('questionPanel');
+  const answerPanel = $('answerPanel');
+  const answerInput = $('answerInput');
+  const questionPlay = $('questionPlay');
+
+  const rawData = window.PLAN_DATA;
+  let normalItems = [];
+  let allItems = [];
+  let current = null;
+  let questionPlaying = false;
+  let questionEnd = 0;
+  let questionRAF = 0;
+  let transitionBusy = false;
+
+  // 문제는 화면 없이 MP4 하나만 사용해 소리만 재생한다.
+  const questionMedia = document.createElement('video');
+  questionMedia.src = './main.mp4';
+  questionMedia.preload = 'metadata';
+  questionMedia.playsInline = true;
+
+  function showError(message) {
+    const box = $('dataError');
+    box.textContent = message;
+    box.style.display = 'block';
+  }
+
+  function showScreen(id) {
+    stopQuestionSound();
+    answerPlayer.pause();
+    listenPlayer.pause();
+    screens.forEach(s => s.classList.toggle('active', s.id === id));
+  }
+
+  function numberOrNull(value) {
+    const n = Number(value);
+    return Number.isFinite(n) ? n : null;
+  }
+
+  function validRange(start, end) {
+    return Number.isFinite(start) && Number.isFinite(end) && end > start;
+  }
+
+  function normalize(text) {
+    return String(text ?? '')
+      .trim()
+      .replace(/\s+/g, '')
+      .toLowerCase();
+  }
+
+  // 동시 연주 악기용 정규화.
+  // 공백, 쉼표, 가운뎃점, 슬래시, +, &, '와/과' 같은 연결 표기를 무시한다.
+  // 예: "소금,    대금" / "소금 대금" / "소금·대금" / "소금대금" -> "소금대금"
+  function normalizeCombined(text) {
+    return String(text ?? '')
+      .trim()
+      .toLowerCase()
+      .replace(/(?:와|과)/g, '')
+      .replace(/[\s,，·ㆍ/＋+&＆]+/g, '');
+  }
+
+  // 아쟁(대아쟁) -> 전체 / 괄호 밖 / 괄호 안 모두 정답.
+  function acceptedNames(name) {
+    const raw = String(name ?? '').trim();
+    const set = new Set();
+    if (!raw) return [];
+
+    set.add(normalize(raw));
+
+    const paren = raw.match(/^(.+?)\((.+?)\)$/);
+    if (paren) {
+      if (paren[1].trim()) set.add(normalize(paren[1]));
+      if (paren[2].trim()) set.add(normalize(paren[2]));
+    }
+
+    return [...set];
+  }
+
+  function answerMatches(input, item) {
+    const user = normalize(input);
+    if (!user) return false;
+
+    // 여러 악기를 동시에 맞혀야 하는 항목.
+    // combined_names가 있으면 구성 악기 전체를 적어야 하며 구분자/공백만 자유롭다.
+    if (Array.isArray(item.combinedNames) && item.combinedNames.length > 1) {
+      const expected = normalizeCombined(item.combinedNames.join(''));
+      const typed = normalizeCombined(input);
+      if (typed === expected) return true;
+
+      // 명시적으로 추가한 별칭은 그대로 허용한다.
+      return (item.aliases || []).some(alias => normalizeCombined(alias) === typed);
+    }
+
+    if (acceptedNames(item.name).includes(user)) return true;
+
+    // plan.js의 aliases에 적힌 이름도 정답으로 인정한다.
+    return (item.aliases || []).some(alias => normalize(alias) === user);
+  }
+
+  function makeNormalItem(item) {
+    const qStart = numberOrNull(item.question_start ?? item.start);
+    const qEnd = numberOrNull(item.question_end ?? item.end);
+    if (!validRange(qStart, qEnd)) return null;
+
+    let answerParts = [];
+
+    // 여러 구간을 하나의 정답 영상처럼 이어 붙일 수 있다.
+    // 향피리는 [공통 설명, 향피리 소리] 두 구간을 사용한다.
+    if (Array.isArray(item.answer_parts)) {
+      answerParts = item.answer_parts
+        .map(part => ({
+          start: numberOrNull(part.start),
+          end: numberOrNull(part.end)
+        }))
+        .filter(part => validRange(part.start, part.end));
+    }
+
+    if (!answerParts.length) {
+      const aStart = numberOrNull(item.answer_start ?? item.start);
+      const aEnd = numberOrNull(item.answer_end ?? item.end);
+      if (!validRange(aStart, aEnd)) return null;
+      answerParts = [{ start: aStart, end: aEnd }];
+    }
+
+    return {
+      kind: 'normal',
+      name: item.name,
+      aliases: Array.isArray(item.aliases) ? item.aliases : [],
+      combinedNames: Array.isArray(item.combined_names) ? item.combined_names.filter(Boolean) : [],
+      feature: item.feature || '',
+      questionStart: qStart,
+      questionEnd: qEnd,
+      answerParts
+    };
+  }
+
+  function prepareData() {
+    if (!rawData) {
+      showError('plan.js를 불러오지 못했습니다. 이 HTML과 같은 폴더에 plan.js와 main.mp4를 넣어 주세요.');
+      return;
+    }
+
+    // 새 구조와 예전 배열 구조를 모두 읽는다.
+    const sourceNormal = Array.isArray(rawData)
+      ? rawData
+      : (Array.isArray(rawData.instruments) ? rawData.instruments : []);
+
+    normalItems = sourceNormal.map(makeNormalItem).filter(Boolean);
+    allItems = [...normalItems];
+
+    if (!allItems.length) showError('출제 가능한 구간이 없습니다. plan.js의 구간을 확인해 주세요.');
+  }
+
+  function formatTime(sec) {
+    sec = Math.max(0, Number(sec) || 0);
+    const minutes = Math.floor(sec / 60);
+    const seconds = Math.floor(sec % 60);
+    const tenth = Math.floor((sec - Math.floor(sec)) * 10);
+    return `${minutes}:${String(seconds).padStart(2, '0')}.${tenth}`;
+  }
+
+  function waitMetadata(media) {
+    if (media.readyState >= 1 && Number.isFinite(media.duration)) return Promise.resolve();
+    return new Promise((resolve, reject) => {
+      const ok = () => { cleanup(); resolve(); };
+      const bad = () => { cleanup(); reject(new Error('main.mp4를 불러오지 못했습니다.')); };
+      const cleanup = () => {
+        media.removeEventListener('loadedmetadata', ok);
+        media.removeEventListener('error', bad);
+      };
+      media.addEventListener('loadedmetadata', ok, { once: true });
+      media.addEventListener('error', bad, { once: true });
+      media.load();
+    });
+  }
+
+  async function seekMedia(media, time) {
+    await waitMetadata(media);
+    const safe = Math.max(0, Math.min(Number(time) || 0, Math.max(0, media.duration - 0.01)));
+    if (Math.abs(media.currentTime - safe) < 0.04) return;
+    await new Promise(resolve => {
+      let done = false;
+      const finish = () => {
+        if (done) return;
+        done = true;
+        media.removeEventListener('seeked', finish);
+        resolve();
+      };
+      media.addEventListener('seeked', finish, { once: true });
+      media.currentTime = safe;
+      setTimeout(finish, 500);
+    });
+  }
+
+  const ICON_PLAY = `
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path fill="currentColor" d="M8 5.14v13.72c0 .78.86 1.26 1.53.85l10.2-6.86a1.02 1.02 0 0 0 0-1.7L9.53 4.29A1.02 1.02 0 0 0 8 5.14Z"/>
+    </svg>`;
+
+  const ICON_PAUSE = `
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path fill="currentColor" d="M7 5h3v14H7zm7 0h3v14h-3z"/>
+    </svg>`;
+
+  const ICON_RESTART = `
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path fill="currentColor" d="M12 5a7 7 0 1 1-6.32 10H8a5 5 0 1 0 1.17-5.22L7 12H3V8l2.72 2.72A6.97 6.97 0 0 1 12 5Z"/>
+    </svg>`;
+
+  function updateQuestionButton() {
+    questionPlay.innerHTML = questionPlaying ? ICON_PAUSE : ICON_PLAY;
+    questionPlay.setAttribute('aria-label', questionPlaying ? '문제 소리 일시정지' : '문제 소리 재생');
+  }
+
+  function stopQuestionSound(reset = false) {
+    cancelAnimationFrame(questionRAF);
+    questionMedia.pause();
+    questionPlaying = false;
+    if (reset && current) {
+      questionMedia.currentTime = current.questionStart;
+    }
+    updateQuestionButton();
+  }
+
+  function monitorQuestion() {
+    cancelAnimationFrame(questionRAF);
+    const tick = () => {
+      if (!questionPlaying) return;
+      if (questionMedia.currentTime >= questionEnd - 0.025) {
+        questionMedia.pause();
+        questionPlaying = false;
+        updateQuestionButton();
+        return;
+      }
+      questionRAF = requestAnimationFrame(tick);
+    };
+    questionRAF = requestAnimationFrame(tick);
+  }
+
+  async function toggleQuestionSound() {
+    if (!current || transitionBusy) return;
+
+    if (questionPlaying) {
+      questionMedia.pause();
+      questionPlaying = false;
+      updateQuestionButton();
+      return;
+    }
+
+    try {
+      await waitMetadata(questionMedia);
+      // 일시정지가 아니라 끝까지 갔거나 범위를 벗어났으면 처음부터 다시 재생.
+      if (
+        questionMedia.currentTime < current.questionStart - 0.05 ||
+        questionMedia.currentTime >= current.questionEnd - 0.05
+      ) {
+        await seekMedia(questionMedia, current.questionStart);
+      }
+      questionEnd = current.questionEnd;
+      await questionMedia.play();
+      questionPlaying = true;
+      updateQuestionButton();
+      monitorQuestion();
+    } catch (e) {
+      showError('문제 소리를 재생하지 못했습니다. main.mp4 파일을 확인해 주세요.');
+    }
+  }
+
+  async function restartQuestionSound() {
+    if (!current) return;
+    try {
+      cancelAnimationFrame(questionRAF);
+      questionMedia.pause();
+      questionPlaying = false;
+      await waitMetadata(questionMedia);
+      await seekMedia(questionMedia, current.questionStart);
+      questionEnd = current.questionEnd;
+      await questionMedia.play();
+      questionPlaying = true;
+      updateQuestionButton();
+      monitorQuestion();
+    } catch (e) {
+      showError('문제 소리를 재생하지 못했습니다. main.mp4 파일을 확인해 주세요.');
+    }
+  }
+
+  class SegmentPlayer {
+    constructor({video, playButton, seek, time, ended, replay}) {
+      this.video = video;
+      this.playButton = playButton;
+      this.seek = seek;
+      this.time = time;
+      this.ended = ended;
+      this.replay = replay;
+      this.parts = [];
+      this.offsets = [];
+      this.total = 0;
+      this.partIndex = 0;
+      this.playing = false;
+      this.finished = false;
+      this.raf = 0;
+      this.ignoreSeekInput = false;
+
+      this.video.controls = false;
+      this.video.addEventListener('play', () => { this.playing = true; this.updateButton(); this.startTick(); });
+      this.video.addEventListener('pause', () => { this.playing = false; this.updateButton(); cancelAnimationFrame(this.raf); });
+      this.video.addEventListener('error', () => showError('main.mp4를 불러오지 못했습니다.'));
+
+      this.playButton.addEventListener('click', () => this.toggle());
+      this.replay.addEventListener('click', () => this.restart());
+
+      // 재생바를 움직이는 즉시 실제 video.currentTime도 바뀌므로 화면 프레임도 같이 바뀐다.
+      this.seek.addEventListener('input', async () => {
+        if (this.ignoreSeekInput) return;
+        const wasPlaying = this.playing;
+        this.pause();
+        this.hideEnded();
+        await this.seekVirtual(Number(this.seek.value), false);
+        if (wasPlaying) await this.play();
+      });
+    }
+
+    updateButton() {
+      this.playButton.textContent = this.playing ? '⏸️' : '▶️';
+      this.playButton.setAttribute('aria-label', this.playing ? '일시정지' : '재생');
+    }
+
+    load(parts) {
+      this.pause();
+      this.parts = (parts || [])
+        .map(p => ({ start: Number(p.start), end: Number(p.end) }))
+        .filter(p => validRange(p.start, p.end));
+      this.offsets = [];
+      let acc = 0;
+      this.parts.forEach(p => { this.offsets.push(acc); acc += p.end - p.start; });
+      this.total = acc;
+      this.partIndex = 0;
+      this.finished = false;
+      this.hideEnded();
+      this.seek.min = '0';
+      this.seek.max = String(this.total || 0);
+      this.seek.value = '0';
+      this.updateTime(0);
+      if (this.parts.length) {
+        seekMedia(this.video, this.parts[0].start).catch(() => {});
+      }
+      this.updateButton();
+    }
+
+    pause() {
+      cancelAnimationFrame(this.raf);
+      this.video.pause();
+      this.playing = false;
+      this.updateButton();
+    }
+
+    hideEnded() {
+      this.finished = false;
+      this.ended.classList.remove('show');
+    }
+
+    showEnded() {
+      this.finished = true;
+      this.pause();
+      this.ended.classList.add('show');
+      this.setVirtualPosition(this.total);
+    }
+
+    virtualPosition() {
+      if (!this.parts.length) return 0;
+      const p = this.parts[this.partIndex];
+      const inside = Math.max(0, Math.min(p.end - p.start, this.video.currentTime - p.start));
+      return Math.min(this.total, this.offsets[this.partIndex] + inside);
+    }
+
+    setVirtualPosition(value) {
+      const v = Math.max(0, Math.min(this.total, Number(value) || 0));
+      this.ignoreSeekInput = true;
+      this.seek.value = String(v);
+      this.ignoreSeekInput = false;
+      this.updateTime(v);
+    }
+
+    updateTime(value) {
+      this.time.textContent = `${formatTime(value)} / ${formatTime(this.total)}`;
+    }
+
+    locateVirtual(value) {
+      let v = Math.max(0, Math.min(this.total, Number(value) || 0));
+      if (!this.parts.length) return null;
+      if (v >= this.total) {
+        const last = this.parts.length - 1;
+        return { index: last, source: Math.max(this.parts[last].start, this.parts[last].end - 0.02) };
+      }
+      for (let i = 0; i < this.parts.length; i++) {
+        const len = this.parts[i].end - this.parts[i].start;
+        if (v < this.offsets[i] + len || i === this.parts.length - 1) {
+          return { index: i, source: this.parts[i].start + (v - this.offsets[i]) };
+        }
+      }
+      return null;
+    }
+
+    async seekVirtual(value, autoplay = false) {
+      const loc = this.locateVirtual(value);
+      if (!loc) return;
+      this.partIndex = loc.index;
+      await seekMedia(this.video, loc.source);
+      this.setVirtualPosition(value);
+      this.finished = false;
+      if (autoplay) await this.play();
+    }
+
+    virtualForSource(sourceTime) {
+      const t = Number(sourceTime);
+      for (let i = 0; i < this.parts.length; i++) {
+        const p = this.parts[i];
+        if (t >= p.start - 0.02 && t <= p.end + 0.02) {
+          return this.offsets[i] + Math.max(0, Math.min(p.end - p.start, t - p.start));
+        }
+      }
+      return null;
+    }
+
+    async jumpToSource(sourceTime) {
+      const virtual = this.virtualForSource(sourceTime);
+      if (virtual === null) return false;
+      this.pause();
+      this.hideEnded();
+      await this.seekVirtual(virtual, false);
+      await this.play();
+      return true;
+    }
+
+    async play() {
+      if (!this.parts.length) return;
+      try {
+        await waitMetadata(this.video);
+        if (this.finished || this.virtualPosition() >= this.total - 0.04) {
+          await this.seekVirtual(0, false);
+          this.hideEnded();
+        }
+        const p = this.parts[this.partIndex];
+        if (this.video.currentTime < p.start - 0.05 || this.video.currentTime >= p.end - 0.03) {
+          await seekMedia(this.video, p.start);
+        }
+        await this.video.play();
+        this.playing = true;
+        this.updateButton();
+        this.startTick();
+      } catch (e) {
+        showError('영상을 재생하지 못했습니다. main.mp4 파일을 확인해 주세요.');
+      }
+    }
+
+    toggle() {
+      if (this.playing) this.pause();
+      else this.play();
+    }
+
+    async restart() {
+      this.pause();
+      this.hideEnded();
+      await this.seekVirtual(0, false);
+      await this.play();
+    }
+
+    async nextPartOrFinish() {
+      if (this.partIndex < this.parts.length - 1) {
+        this.partIndex++;
+        await seekMedia(this.video, this.parts[this.partIndex].start);
+        if (this.playing) {
+          try { await this.video.play(); } catch (_) {}
+        }
+      } else {
+        this.showEnded();
+      }
+    }
+
+    startTick() {
+      cancelAnimationFrame(this.raf);
+      const tick = () => {
+        if (!this.playing || !this.parts.length) return;
+        const p = this.parts[this.partIndex];
+        this.setVirtualPosition(this.virtualPosition());
+        if (this.video.currentTime >= p.end - 0.025) {
+          this.nextPartOrFinish();
+          return;
+        }
+        this.raf = requestAnimationFrame(tick);
+      };
+      this.raf = requestAnimationFrame(tick);
+    }
+  }
+
+  const answerPlayer = new SegmentPlayer({
+    video: $('answerVideo'), playButton: $('answerPlay'), seek: $('answerSeek'),
+    time: $('answerTime'), ended: $('answerEnded'), replay: $('answerReplay')
+  });
+
+  const listenPlayer = new SegmentPlayer({
+    video: $('listenVideo'), playButton: $('listenPlay'), seek: $('listenSeek'),
+    time: $('listenTime'), ended: $('listenEnded'), replay: $('listenReplay')
+  });
+
+  async function slide(from, to) {
+    if (transitionBusy) return;
+    transitionBusy = true;
+
+    to.classList.remove('is-hidden');
+    const targetHeight = to.scrollHeight;
+    const currentHeight = from.scrollHeight;
+    flowStage.style.height = `${Math.max(currentHeight, targetHeight)}px`;
+
+    // 레이아웃 반영 후 오른쪽에서 들어오고 기존 화면은 왼쪽으로 나간다.
+    void to.offsetWidth;
+    from.classList.add('exit-left');
+    to.classList.add('enter-right');
+    flowStage.style.height = `${targetHeight}px`;
+
+    await sleep(360);
+    from.classList.add('is-hidden');
+    from.classList.remove('exit-left');
+    to.classList.remove('enter-right');
+    flowStage.style.height = 'auto';
+    transitionBusy = false;
+  }
+
+  function pickQuestion() {
+    if (!allItems.length) return null;
+    if (allItems.length === 1) return allItems[0];
+    let next;
+    do {
+      next = allItems[Math.floor(Math.random() * allItems.length)];
+    } while (current && next === current);
+    return next;
+  }
+
+  async function prepareQuestion() {
+    stopQuestionSound();
+    answerPlayer.pause();
+    current = pickQuestion();
+    if (!current) return;
+    answerInput.value = '';
+    questionEnd = current.questionEnd;
+    updateQuestionButton();
+    await restartQuestionSound();
+  }
+
+  async function startQuiz() {
+    if (!allItems.length) return;
+    showScreen('quiz');
+    answerPanel.classList.add('is-hidden');
+    questionPanel.classList.remove('is-hidden');
+    await prepareQuestion();
+    requestAnimationFrame(() => answerInput.focus());
+  }
+
+  async function checkCurrentAnswer() {
+    if (!current || transitionBusy || answerPanel.classList.contains('is-hidden') === false) return;
+
+    stopQuestionSound();
+    const ok = answerMatches(answerInput.value, current);
+    $('resultTitle').textContent = ok ? '정답입니다! 🎉' : '아쉽지만 틀렸어요.';
+    $('resultTitle').className = `result-title ${ok ? 'correct' : 'wrong'}`;
+    $('correctAnswer').textContent = current.name;
+    $('resultFeature').textContent = current.feature || '';
+
+    answerPlayer.load(current.answerParts);
+    // 확인/Enter의 사용자 입력 직후 재생을 시작해 브라우저 자동재생 차단을 피한다.
+    // 영상은 슬라이드 애니메이션과 함께 오른쪽에서 들어온다.
+    answerPlayer.play();
+    await slide(questionPanel, answerPanel);
+  }
+
+  async function goNextQuestion() {
+    if (!current || transitionBusy || answerPanel.classList.contains('is-hidden')) return;
+    answerPlayer.pause();
+    await prepareQuestion();
+    await slide(answerPanel, questionPanel);
+    requestAnimationFrame(() => answerInput.focus());
+  }
+
+  function buildInstrumentList() {
+    const box = $('instrumentList');
+    box.innerHTML = '';
+    allItems.forEach(item => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = item.name;
+      btn.addEventListener('click', () => openListenItem(item));
+      box.appendChild(btn);
+    });
+  }
+
+  function openListenItem(item) {
+    $('listenName').textContent = item.name;
+    $('listenFeature').textContent = item.feature || '';
+    $('listenModal').classList.add('active');
+    $('listenModal').setAttribute('aria-hidden', 'false');
+    listenPlayer.load(item.answerParts);
+    $('listenJump').dataset.questionStart = String(item.questionStart);
+    $('listenJump').dataset.questionEnd = String(item.questionEnd);
+    listenPlayer.play();
+  }
+
+  function closeListenModal() {
+    listenPlayer.pause();
+    $('listenModal').classList.remove('active');
+    $('listenModal').setAttribute('aria-hidden', 'true');
+  }
+
+  $('startQuiz').addEventListener('click', startQuiz);
+  $('openListen').addEventListener('click', () => showScreen('listen'));
+  document.querySelectorAll('[data-home]').forEach(btn => btn.addEventListener('click', () => showScreen('home')));
+
+  questionPlay.addEventListener('click', toggleQuestionSound);
+  $('questionRestart').innerHTML = ICON_RESTART;
+  $('questionRestart').addEventListener('click', restartQuestionSound);
+  $('checkAnswer').addEventListener('click', checkCurrentAnswer);
+  $('nextQuestion').addEventListener('click', goNextQuestion);
+
+  // 정답 화면과 들어보기 모두 '소리 바로 듣기'를 누르면 현재 플레이어 안에서 문제 구간 위치로 이동하고 재생한다.
+  $('answerJump').addEventListener('click', () => {
+    if (current) answerPlayer.jumpToSource(current.questionStart);
+  });
+  $('listenJump').addEventListener('click', () => {
+    const start = Number($('listenJump').dataset.questionStart);
+    listenPlayer.jumpToSource(start);
+  });
+
+  $('closeListen').addEventListener('click', closeListenModal);
+  $('listenModal').addEventListener('click', e => {
+    if (e.target === $('listenModal')) closeListenModal();
+  });
+
+  // 문제 화면에서는 Enter = 확인, 정답 화면에서는 Enter = 다음.
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Enter' || !quiz.classList.contains('active') || transitionBusy) return;
+    if (e.isComposing) return;
+    e.preventDefault();
+    if (!questionPanel.classList.contains('is-hidden')) checkCurrentAnswer();
+    else if (!answerPanel.classList.contains('is-hidden')) goNextQuestion();
+  });
+
+  prepareData();
+  buildInstrumentList();
+})();
+</script>
+</body>
+</html>
