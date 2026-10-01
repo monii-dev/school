@@ -575,11 +575,32 @@ function hasRieul(word){
 }
 function josa(word,pair){
   const p=pair.replace(/\s/g,""), batch=hasBatchim(word);
-  if(p==="은/는"||p==="는/은") return batch?"은":"는";
+
+  /*
+    [임시 하드코딩]
+    현재 문제 데이터의 조사 문법이 완전히 정리된 상태가 아니므로
+    이름 뒤의 '은/는'을 자연스럽게 보이도록 우선 처리한다.
+
+    받침 있음:
+      지민 → 지민이는
+      민준 → 민준이는
+
+    받침 없음:
+      철수 → 철수는
+      영희 → 영희는
+
+    나중에 문제 데이터의 조사 문법을 정리하면
+    이 부분을 일반적인 조사 처리 방식으로 변경할 것.
+  */
+  if(p==="은/는"||p==="는/은"){
+    return batch ? "이는" : "는";
+  }
+
   if(p==="이/가"||p==="가/이") return batch?"이":"가";
   if(p==="을/를"||p==="를/을") return batch?"을":"를";
   if(p==="과/와"||p==="와/과") return batch?"과":"와";
   if(p==="으로/로"||p==="로/으로") return (!batch||hasRieul(word))?"로":"으로";
+
   return pair.split("/")[batch?0:1]||"";
 }
 function applyJosa(s){
