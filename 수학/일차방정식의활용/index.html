@@ -1,0 +1,822 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#090b10">
+<title>일차방정식 활용 문제</title>
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#090b10;
+  --panel:#10131a;
+  --panel2:#151922;
+  --panel3:#1b202b;
+  --line:#272d3a;
+  --ink:#f5f7fb;
+  --muted:#929bae;
+  --accent:#7c8cff;
+  --accent2:#9d6cff;
+  --accent-soft:rgba(124,140,255,.13);
+  --good:#55d39a;
+  --bad:#ff7185;
+  --shadow:0 24px 70px rgba(0,0,0,.34);
+}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{
+  margin:0;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 50% -20%,rgba(108,85,255,.15),transparent 36rem),
+    var(--bg);
+  color:var(--ink);
+  font-family:Pretendard,"Noto Sans KR",system-ui,-apple-system,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+button,input,select{font:inherit}
+button{-webkit-tap-highlight-color:transparent}
+.wrap{
+  width:min(900px,100%);
+  margin:0 auto;
+  padding:clamp(18px,4vw,34px) clamp(14px,3vw,24px) 56px;
+}
+.top{
+  display:flex;
+  align-items:flex-start;
+  gap:16px;
+  justify-content:space-between;
+  margin-bottom:22px;
+}
+.title h1{
+  margin:0;
+  font-size:clamp(27px,5vw,43px);
+  line-height:1.08;
+  letter-spacing:-.055em;
+}
+.title p{
+  margin:8px 0 0;
+  color:var(--muted);
+  font-size:14px;
+}
+.icon-actions{display:flex;gap:8px;flex:0 0 auto}
+.icon-btn{
+  width:44px;height:44px;
+  display:grid;place-items:center;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:rgba(21,25,34,.88);
+  color:var(--ink);
+  cursor:pointer;
+  transition:transform .18s ease,background .18s ease,border-color .18s ease;
+}
+.icon-btn:hover{background:var(--panel3);border-color:#3a4253}
+.icon-btn:active{transform:scale(.94)}
+.icon-btn svg{width:21px;height:21px;display:block}
+
+.filters{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-bottom:14px;
+}
+select{
+  width:100%;
+  min-width:0;
+  padding:13px 38px 13px 14px;
+  color:var(--ink);
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:14px;
+  outline:none;
+}
+select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+select:disabled{opacity:.55}
+
+.card{
+  background:rgba(16,19,26,.96);
+  border:1px solid var(--line);
+  border-radius:24px;
+  overflow:hidden;
+  box-shadow:var(--shadow);
+}
+.card-inner{padding:clamp(18px,4vw,28px)}
+.meta{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:20px}
+.badge{
+  display:inline-flex;
+  align-items:center;
+  min-height:29px;
+  padding:5px 10px;
+  border:1px solid rgba(124,140,255,.2);
+  border-radius:999px;
+  background:var(--accent-soft);
+  color:#bdc5ff;
+  font-size:12px;
+  font-weight:800;
+}
+.section+.section{
+  margin-top:23px;
+  padding-top:23px;
+  border-top:1px solid var(--line);
+}
+.kicker{
+  margin:0 0 10px;
+  color:var(--muted);
+  font-size:12px;
+  font-weight:850;
+  letter-spacing:.08em;
+}
+.type{
+  font-weight:800;
+  line-height:1.5;
+}
+.problem{
+  font-size:clamp(18px,3.3vw,22px);
+  line-height:1.82;
+  font-weight:650;
+  letter-spacing:-.018em;
+  word-break:keep-all;
+}
+.answer-row{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:9px;
+  margin-top:20px;
+}
+.answer-input{
+  width:100%;
+  min-width:0;
+  height:50px;
+  padding:0 15px;
+  color:var(--ink);
+  background:#0c0f15;
+  border:1px solid var(--line);
+  border-radius:14px;
+  outline:none;
+  font-size:17px;
+  transition:border-color .18s ease,box-shadow .18s ease;
+}
+.answer-input:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px var(--accent-soft);
+}
+.check-btn{
+  min-width:82px;
+  height:50px;
+  padding:0 17px;
+  border:0;
+  border-radius:14px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;
+  font-weight:900;
+  cursor:pointer;
+}
+.check-btn:active{transform:translateY(1px)}
+.status{
+  min-height:25px;
+  margin-top:10px;
+  font-size:14px;
+  font-weight:850;
+}
+.status.good{color:var(--good)}
+.status.bad{color:var(--bad)}
+
+.solution-toggle{
+  width:100%;
+  margin-top:16px;
+  padding:13px 14px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  color:var(--ink);
+  background:var(--panel2);
+  border:1px solid var(--line);
+  border-radius:14px;
+  cursor:pointer;
+  font-weight:850;
+}
+.solution-toggle svg{
+  width:18px;height:18px;
+  transition:transform .34s cubic-bezier(.2,.8,.2,1);
+}
+.solution-toggle[aria-expanded="true"] svg{transform:rotate(180deg)}
+
+.accordion{
+  display:grid;
+  grid-template-rows:0fr;
+  opacity:0;
+  transition:
+    grid-template-rows .42s cubic-bezier(.2,.8,.2,1),
+    opacity .28s ease,
+    margin-top .35s ease;
+  margin-top:0;
+}
+.accordion.open{
+  grid-template-rows:1fr;
+  opacity:1;
+  margin-top:12px;
+}
+.accordion-inner{overflow:hidden;min-height:0}
+.solution-box{
+  padding:17px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:#0c0f15;
+}
+.solution-text p{
+  margin:0 0 13px;
+  color:#d8ddeb;
+  line-height:1.8;
+  word-break:keep-all;
+}
+.solution-text p:last-child{margin-bottom:0}
+.equation{
+  margin-top:15px;
+  padding:15px;
+  border:1px solid #303748;
+  border-radius:13px;
+  background:#171c26;
+  color:#fff;
+  line-height:1.9;
+  font-size:16px;
+  overflow-x:auto;
+}
+.final{
+  margin-top:14px;
+  color:#bfc6ff;
+  font-weight:950;
+}
+
+.frac{
+  display:inline-grid;
+  grid-template-rows:auto auto;
+  vertical-align:-.48em;
+  min-width:1.55em;
+  margin:0 .12em;
+  text-align:center;
+  line-height:1.14;
+  font-size:.94em;
+}
+.frac>.num{
+  padding:0 .18em .12em;
+  border-bottom:1.5px solid currentColor;
+}
+.frac>.den{padding:.12em .18em 0}
+
+.sheet-backdrop{
+  position:fixed;
+  inset:0;
+  z-index:90;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  padding:16px;
+  background:rgba(0,0,0,.62);
+  backdrop-filter:blur(8px);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .22s ease;
+}
+.sheet-backdrop.open{opacity:1;pointer-events:auto}
+.sheet{
+  width:min(500px,100%);
+  padding:10px;
+  border:1px solid var(--line);
+  border-radius:22px;
+  background:#141820;
+  box-shadow:0 24px 80px rgba(0,0,0,.52);
+  transform:translateY(24px) scale(.98);
+  transition:transform .28s cubic-bezier(.2,.8,.2,1);
+}
+.sheet-backdrop.open .sheet{transform:none}
+.sheet-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 10px 8px;
+}
+.sheet-head strong{font-size:17px}
+.close-btn{
+  width:36px;height:36px;border:0;border-radius:11px;
+  background:var(--panel3);color:var(--ink);cursor:pointer;
+}
+.share-option{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:13px;
+  margin-top:8px;
+  padding:14px;
+  text-align:left;
+  border:1px solid var(--line);
+  border-radius:15px;
+  color:var(--ink);
+  background:#0e1117;
+  cursor:pointer;
+}
+.share-option:hover{background:#171b24}
+.share-option .share-icon{
+  width:39px;height:39px;border-radius:12px;
+  background:var(--accent-soft);
+  color:#c2c9ff;
+  display:grid;place-items:center;flex:0 0 auto;
+}
+.share-option svg{width:19px;height:19px}
+.share-option span{display:block}
+.share-option small{display:block;color:var(--muted);margin-top:3px}
+.toast{
+  position:fixed;
+  left:50%;bottom:24px;
+  transform:translate(-50%,18px);
+  z-index:120;
+  padding:10px 14px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:#1a1f29;
+  color:#fff;
+  font-size:13px;
+  opacity:0;
+  pointer-events:none;
+  transition:.2s ease;
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media(max-width:620px){
+  .wrap{padding:16px 12px 40px}
+  .top{align-items:center;margin-bottom:17px}
+  .title p{display:none}
+  .icon-btn{width:42px;height:42px;border-radius:13px}
+  .filters{grid-template-columns:1fr}
+  .card{border-radius:20px}
+  .card-inner{padding:18px 15px}
+  .problem{line-height:1.76}
+  .answer-row{grid-template-columns:minmax(0,1fr) 76px}
+  .check-btn{min-width:0;padding:0 12px}
+}
+@media(max-width:360px){
+  .title h1{font-size:25px}
+  .icon-actions{gap:6px}
+  .icon-btn{width:39px;height:39px}
+}
+@media print{
+  :root{color-scheme:light}
+  body{background:#fff!important;color:#111!important}
+  .wrap{width:100%;padding:0}
+  .top .icon-actions,.filters,.answer-row,.status,.solution-toggle,.sheet-backdrop,.toast{display:none!important}
+  .top{margin-bottom:12px}
+  .title h1,.title p,.problem,.type{color:#111!important}
+  .title p{display:block!important;color:#555!important}
+  .card{box-shadow:none;border:1px solid #ccc;background:#fff}
+  .badge{color:#333;background:#f2f2f2;border-color:#ddd}
+  .section+.section{border-color:#ddd}
+  .accordion{display:grid!important;grid-template-rows:1fr!important;opacity:1!important;margin-top:10px!important}
+  .solution-box{background:#fff;border-color:#ddd}
+  .solution-text p{color:#222}
+  .equation{background:#f5f5f5;color:#111;border-color:#ddd}
+  .final{color:#111}
+  .frac>.num{border-color:#111}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="title">
+      <h1>일차방정식 활용 문제</h1>
+      <p>유형을 고르거나 전체에서 랜덤으로 문제를 뽑아보세요.</p>
+    </div>
+    <div class="icon-actions">
+      <button id="refreshBtn" class="icon-btn" type="button" aria-label="새 문제" title="새 문제">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M20 6v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M19 11a7 7 0 1 0 1 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <button id="shareBtn" class="icon-btn" type="button" aria-label="공유" title="공유">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="18" cy="5" r="2.5" stroke="currentColor" stroke-width="2"/>
+          <circle cx="6" cy="12" r="2.5" stroke="currentColor" stroke-width="2"/>
+          <circle cx="18" cy="19" r="2.5" stroke="currentColor" stroke-width="2"/>
+          <path d="m8.2 10.8 7.6-4.5M8.2 13.2l7.6 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="filters">
+    <select id="category" aria-label="큰 유형"></select>
+    <select id="subtype" aria-label="소유형"></select>
+  </div>
+
+  <main class="card">
+    <div class="card-inner">
+      <div class="meta">
+        <span id="catBadge" class="badge"></span>
+        <span id="subBadge" class="badge"></span>
+      </div>
+
+      <section class="section">
+        <p class="kicker">문제 유형</p>
+        <div id="typeText" class="type"></div>
+      </section>
+
+      <section class="section">
+        <p class="kicker">문제</p>
+        <div id="problem" class="problem"></div>
+
+        <div class="answer-row">
+          <input id="answer" class="answer-input" placeholder="정답 입력" inputmode="decimal" autocomplete="off">
+          <button id="checkBtn" class="check-btn" type="button">확인</button>
+        </div>
+        <div id="status" class="status"></div>
+
+        <button id="solutionToggle" class="solution-toggle" type="button" aria-expanded="false">
+          <span>풀이 보기</span>
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        <div id="solutionAccordion" class="accordion">
+          <div class="accordion-inner">
+            <div class="solution-box">
+              <div id="solutionText" class="solution-text"></div>
+              <div id="equation" class="equation"></div>
+              <div id="final" class="final"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<div id="shareSheet" class="sheet-backdrop" aria-hidden="true">
+  <div class="sheet" role="dialog" aria-modal="true" aria-label="공유 방법">
+    <div class="sheet-head">
+      <strong>공유</strong>
+      <button id="closeShare" class="close-btn" type="button" aria-label="닫기">✕</button>
+    </div>
+
+    <button id="shareTextBtn" class="share-option" type="button">
+      <span class="share-icon">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 6h14M5 10h14M5 14h9M5 18h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span>
+        <b>텍스트로 공유</b>
+        <small>문제 유형과 문제 내용을 공유합니다.</small>
+      </span>
+    </button>
+
+    <button id="sharePdfBtn" class="share-option" type="button">
+      <span class="share-icon">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M7 3h7l4 4v14H7z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M14 3v5h5M9.5 16h5M9.5 12h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span>
+        <b>PDF로 공유</b>
+        <small>인쇄 화면에서 PDF로 저장하거나 공유합니다.</small>
+      </span>
+    </button>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="./name.js"></script>
+<script src="./problem.js"></script>
+<script>
+(() => {
+"use strict";
+
+const DATA = window.PROBLEM_DATA;
+const NAMES = window.NAME_DATA?.names || [];
+const $ = id => document.getElementById(id);
+const categoryEl = $("category");
+const subtypeEl = $("subtype");
+let current = null;
+let toastTimer = null;
+
+if (!DATA || !Array.isArray(DATA.problems) || !NAMES.length) {
+  document.body.innerHTML = "<p style='padding:24px;color:white'>name.js 또는 problem.js를 불러오지 못했습니다.</p>";
+  return;
+}
+
+function randint(min,max,step=1){
+  min=Number(min);max=Number(max);step=Number(step)||1;
+  const count=Math.floor((max-min)/step);
+  return min+Math.floor(Math.random()*(count+1))*step;
+}
+function fmt(v){
+  if(typeof v==="number"){
+    if(Number.isInteger(v)) return String(v);
+    return String(Math.round(v*1000)/1000);
+  }
+  return String(v);
+}
+function evalExpr(expr,ctx){
+  const keys=Object.keys(ctx).filter(k=>/^[A-Za-z_]\w*$/.test(k));
+  const vals=keys.map(k=>ctx[k]);
+  return Function(...keys,`"use strict";return (${expr});`)(...vals);
+}
+function resolveToken(token,ctx){
+  token=token.trim();
+  if(Object.prototype.hasOwnProperty.call(ctx,token)) return ctx[token];
+  const m=token.match(/^%([A-Za-z_]\w*)%$/);
+  if(m && Object.prototype.hasOwnProperty.call(ctx,m[1])) return ctx[m[1]];
+  return token;
+}
+function command(body,ctx){
+  let assign=null;
+  const a=body.match(/^%([A-Za-z_]\w*)%=(.+)$/);
+  if(a){assign=a[1];body=a[2];}
+  const parts=body.split("=");
+  const cmd=parts[0];
+  let value;
+  if(cmd==="randint"){
+    value=randint(parts[1],parts[2],parts[3]??1);
+  }else if(cmd==="or"){
+    const options=parts.slice(1).map(v=>resolveToken(v,ctx));
+    value=options[Math.floor(Math.random()*options.length)];
+  }else if(cmd==="calc"){
+    value=evalExpr(parts.slice(1).join("="),ctx);
+  }else{
+    value=resolveToken(body,ctx);
+  }
+  if(assign)ctx[assign]=value;
+  return fmt(value);
+}
+function ensureNames(s,ctx){
+  return s.replace(/%name(\d+)%/g,(_,n)=>{
+    const key="name"+n;
+    if(!ctx[key]){
+      const used=new Set(Object.keys(ctx).filter(k=>/^name\d+$/.test(k)).map(k=>ctx[k]));
+      const pool=NAMES.filter(name=>!used.has(name));
+      const source=pool.length?pool:NAMES;
+      ctx[key]=source[Math.floor(Math.random()*source.length)];
+    }
+    return ctx[key];
+  });
+}
+function hasBatchim(word){
+  const chars=[...String(word).trim()];
+  const ch=chars.at(-1)||"";
+  const code=ch.charCodeAt(0);
+  return code>=0xAC00&&code<=0xD7A3 ? ((code-0xAC00)%28)!==0 : false;
+}
+function hasRieul(word){
+  const chars=[...String(word).trim()];
+  const ch=chars.at(-1)||"";
+  const code=ch.charCodeAt(0);
+  return code>=0xAC00&&code<=0xD7A3&&((code-0xAC00)%28)===8;
+}
+function josa(word,pair){
+  const p=pair.replace(/\s/g,""), batch=hasBatchim(word);
+  if(p==="은/는"||p==="는/은") return batch?"은":"는";
+  if(p==="이/가"||p==="가/이") return batch?"이":"가";
+  if(p==="을/를"||p==="를/을") return batch?"을":"를";
+  if(p==="과/와"||p==="와/과") return batch?"과":"와";
+  if(p==="으로/로"||p==="로/으로") return (!batch||hasRieul(word))?"로":"으로";
+  return pair.split("/")[batch?0:1]||"";
+}
+function applyJosa(s){
+  return s.replace(/([가-힣A-Za-z0-9()·]+)\[([^\]]+\/[^\]]+)\]/g,(_,w,p)=>w+josa(w,p));
+}
+function render(template,ctx){
+  let s=ensureNames(String(template??""),ctx);
+  let guard=0;
+  while(/\{[^{}]+\}/.test(s)&&guard++<80){
+    s=s.replace(/\{([^{}]+)\}/g,(_,body)=>command(body,ctx));
+  }
+  s=s.replace(/%([A-Za-z_]\w*)%/g,(_,key)=>
+    Object.prototype.hasOwnProperty.call(ctx,key)?fmt(ctx[key]):`%${key}%`
+  );
+  return applyJosa(s);
+}
+
+/* ---------- 안전한 HTML + 실제 분수 렌더 ---------- */
+function escapeHTML(s){
+  return String(s)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+function fracHTML(num,den){
+  return `<span class="frac"><span class="num">${num}</span><span class="den">${den}</span></span>`;
+}
+function mathHTML(text){
+  let s=escapeHTML(text);
+
+  // (a+b) ÷ (c+d)
+  for(let i=0;i<4;i++){
+    s=s.replace(
+      /(\([^()<>]+\)|-?[A-Za-z0-9.]+)\s*÷\s*(\([^()<>]+\)|-?[A-Za-z0-9.]+)/g,
+      (_,a,b)=>fracHTML(a,b)
+    );
+  }
+
+  // 3/4, x/5 등의 간단한 분수
+  s=s.replace(
+    /\b([A-Za-z0-9.]+)\s*\/\s*([A-Za-z0-9.]+)\b/g,
+    (_,a,b)=>fracHTML(a,b)
+  );
+
+  return s;
+}
+
+function populateCategories(){
+  categoryEl.innerHTML =
+    '<option value="all">전체 랜덤</option>'+
+    DATA.categories.map(c=>`<option value="${c.id}">${c.name}</option>`).join("");
+}
+function populateSubtypes(){
+  const cat=DATA.categories.find(c=>c.id===categoryEl.value);
+  if(!cat){
+    subtypeEl.innerHTML='<option value="all">전체 소유형</option>';
+    subtypeEl.disabled=true;
+    return;
+  }
+  subtypeEl.disabled=false;
+  subtypeEl.innerHTML =
+    '<option value="all">이 유형에서 랜덤</option>'+
+    cat.subtypes.map(s=>`<option value="${s.id}">${s.name}</option>`).join("");
+}
+function loadState(){
+  const q=new URLSearchParams(location.search);
+  const cat=q.get("cat")||"all";
+  categoryEl.value=[...categoryEl.options].some(o=>o.value===cat)?cat:"all";
+  populateSubtypes();
+  const sub=q.get("sub")||"all";
+  subtypeEl.value=[...subtypeEl.options].some(o=>o.value===sub)?sub:"all";
+}
+function saveState(){
+  const q=new URLSearchParams();
+  q.set("cat",categoryEl.value);
+  if(categoryEl.value!=="all") q.set("sub",subtypeEl.value);
+  history.replaceState(null,"","?"+q.toString());
+}
+function pool(){
+  return DATA.problems.filter(p=>
+    (categoryEl.value==="all"||p.categoryId===categoryEl.value)&&
+    (subtypeEl.value==="all"||p.subtypeId===subtypeEl.value)
+  );
+}
+function build(t){
+  const ctx={};
+  render("%name1% %name2% %name3%",ctx);
+  for(const init of (t.init||[])) render(init,ctx);
+
+  const problem=render(t.problem,ctx);
+  const equation=render(t.equation,ctx);
+  const solution=(t.solution||[]).map(x=>render(x,ctx));
+  const answer=Object.prototype.hasOwnProperty.call(ctx,t.answer)
+    ?ctx[t.answer]
+    :evalExpr(t.answer,ctx);
+
+  return {t,ctx,problem,equation,solution,answer};
+}
+function closeSolution(){
+  $("solutionAccordion").classList.remove("open");
+  $("solutionToggle").setAttribute("aria-expanded","false");
+  $("solutionToggle").querySelector("span").textContent="풀이 보기";
+}
+function setProblem(){
+  saveState();
+  let items=pool();
+  if(!items.length){
+    categoryEl.value="all";
+    populateSubtypes();
+    subtypeEl.value="all";
+    items=DATA.problems;
+    saveState();
+  }
+
+  const t=items[Math.floor(Math.random()*items.length)];
+  current=build(t);
+
+  $("catBadge").textContent=t.category;
+  $("subBadge").textContent=t.subtype;
+  $("typeText").textContent=`${t.category} > ${t.subtype}`;
+  $("problem").innerHTML=mathHTML(current.problem);
+  $("solutionText").innerHTML=current.solution.map(p=>`<p>${mathHTML(p)}</p>`).join("");
+  $("equation").innerHTML="세운 식: "+mathHTML(current.equation);
+  $("final").innerHTML=`정답: ${mathHTML(fmt(current.answer))}${escapeHTML(t.unit||"")}`;
+
+  $("answer").value="";
+  $("status").textContent="";
+  $("status").className="status";
+  closeSolution();
+  $("answer").focus();
+}
+function check(){
+  if(!current)return;
+  const raw=$("answer").value.trim().replace(/,/g,"");
+  const n=Number(raw), target=Number(current.answer);
+  const ok=Number.isFinite(n)&&Math.abs(n-target)<1e-7;
+
+  $("status").textContent=ok?"정답입니다!":"다시 계산해 보세요.";
+  $("status").className="status "+(ok?"good":"bad");
+}
+function toggleSolution(){
+  const box=$("solutionAccordion");
+  const opening=!box.classList.contains("open");
+  box.classList.toggle("open",opening);
+  $("solutionToggle").setAttribute("aria-expanded",String(opening));
+  $("solutionToggle").querySelector("span").textContent=opening?"풀이 접기":"풀이 보기";
+}
+function showToast(message){
+  const t=$("toast");
+  t.textContent=message;
+  t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove("show"),1800);
+}
+
+/* ---------- 공유 ---------- */
+function openShare(){
+  $("shareSheet").classList.add("open");
+  $("shareSheet").setAttribute("aria-hidden","false");
+}
+function closeShare(){
+  $("shareSheet").classList.remove("open");
+  $("shareSheet").setAttribute("aria-hidden","true");
+}
+function shareText(){
+  if(!current)return;
+  const text=[
+    "일차방정식 활용 문제",
+    `[${current.t.category} > ${current.t.subtype}]`,
+    "",
+    current.problem,
+    "",
+    location.href
+  ].join("\n");
+
+  if(navigator.share){
+    navigator.share({
+      title:"일차방정식 활용 문제",
+      text
+    }).catch(()=>{});
+  }else if(navigator.clipboard){
+    navigator.clipboard.writeText(text)
+      .then(()=>showToast("문제 텍스트를 복사했습니다."))
+      .catch(()=>showToast("공유할 수 없습니다."));
+  }else{
+    const ta=document.createElement("textarea");
+    ta.value=text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    ta.remove();
+    showToast("문제 텍스트를 복사했습니다.");
+  }
+  closeShare();
+}
+function sharePdf(){
+  if(!current)return;
+  closeShare();
+  const oldTitle=document.title;
+  document.title=`${current.t.category}_${current.t.subtype}_활용문제`;
+  requestAnimationFrame(()=>{
+    window.print();
+    setTimeout(()=>document.title=oldTitle,500);
+  });
+}
+
+populateCategories();
+loadState();
+
+categoryEl.addEventListener("change",()=>{
+  populateSubtypes();
+  subtypeEl.value="all";
+  setProblem();
+});
+subtypeEl.addEventListener("change",setProblem);
+$("refreshBtn").addEventListener("click",setProblem);
+$("checkBtn").addEventListener("click",check);
+$("solutionToggle").addEventListener("click",toggleSolution);
+$("answer").addEventListener("keydown",e=>{
+  if(e.key==="Enter")check();
+});
+
+$("shareBtn").addEventListener("click",openShare);
+$("closeShare").addEventListener("click",closeShare);
+$("shareTextBtn").addEventListener("click",shareText);
+$("sharePdfBtn").addEventListener("click",sharePdf);
+$("shareSheet").addEventListener("click",e=>{
+  if(e.target===$("shareSheet"))closeShare();
+});
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape")closeShare();
+});
+
+setProblem();
+})();
+</script>
+</body>
+</html>
