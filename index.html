@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>학습 페이지</title>
+  <style>
+    :root{
+      --bg:#0d1117;
+      --panel:#161c26;
+      --line:#2b3544;
+      --text:#f4f7fb;
+      --muted:#9aa7b8;
+      --accent:#ffd54a;
+      --accent2:#ffbd14;
+      --danger:#ff707d;
+    }
+
+    *{box-sizing:border-box}
+
+    html,body{
+      margin:0;
+      min-height:100%;
+      font-family:Pretendard,"Noto Sans KR",system-ui,sans-serif;
+      background:
+        radial-gradient(circle at 20% 0%,rgba(255,213,74,.10),transparent 30%),
+        var(--bg);
+      color:var(--text);
+    }
+
+    body{
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+      padding:40px 18px;
+    }
+
+    .wrap{
+      width:min(760px,100%);
+    }
+
+    .header{
+      text-align:center;
+      margin-bottom:24px;
+    }
+
+    .header h1{
+      margin:0;
+      font-size:clamp(2rem,6vw,3.3rem);
+      letter-spacing:-.06em;
+    }
+
+    .header p{
+      margin:10px 0 0;
+      color:var(--muted);
+      font-size:.98rem;
+    }
+
+    .panel{
+      background:linear-gradient(160deg,var(--panel),#121821);
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:22px;
+      box-shadow:0 20px 60px rgba(0,0,0,.28);
+    }
+
+    #menu{
+      display:grid;
+      gap:13px;
+    }
+
+    .menu-btn{
+      width:100%;
+      border:1px solid var(--line);
+      border-radius:17px;
+      padding:18px 20px;
+      background:#10161f;
+      color:var(--text);
+      cursor:pointer;
+      text-align:left;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      transition:.16s ease;
+    }
+
+    .menu-btn:hover{
+      transform:translateY(-2px);
+      border-color:var(--accent2);
+      background:#171d27;
+      box-shadow:0 8px 24px rgba(0,0,0,.22);
+    }
+
+    .menu-btn:active{
+      transform:translateY(0);
+    }
+
+    .menu-name{
+      font-size:1.08rem;
+      font-weight:900;
+      letter-spacing:-.03em;
+    }
+
+    .arrow{
+      flex:0 0 auto;
+      width:36px;
+      height:36px;
+      display:grid;
+      place-items:center;
+      border-radius:50%;
+      background:linear-gradient(145deg,var(--accent),var(--accent2));
+      color:#2b2300;
+      font-size:1.15rem;
+      font-weight:1000;
+    }
+
+    .loading,
+    .error{
+      text-align:center;
+      padding:26px 14px;
+      color:var(--muted);
+      line-height:1.7;
+    }
+
+    .error{
+      color:var(--danger);
+    }
+
+    .hint{
+      margin-top:16px;
+      padding:14px;
+      border:1px dashed var(--line);
+      border-radius:14px;
+      background:#0d131b;
+      color:var(--muted);
+      font-size:.85rem;
+      line-height:1.7;
+    }
+
+    code{
+      color:var(--accent);
+      font-family:Consolas,monospace;
+    }
+
+    @media(max-width:540px){
+      body{padding:20px 12px}
+      .panel{padding:15px}
+      .menu-btn{padding:16px}
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header class="header">
+      <h1>학습 페이지</h1>
+      <p>원하는 항목을 선택하세요.</p>
+    </header>
+
+    <section class="panel">
+      <div id="menu">
+        <div class="loading">plan.js를 불러오는 중...</div>
+      </div>
+    </section>
+  </main>
+
+  <script>window.__PLAN_LOAD_ERROR__ = false;</script>
+  <script src="./plan.js" onerror="window.__PLAN_LOAD_ERROR__ = true"></script>
+  <script>
+    const menuEl = document.getElementById("menu");
+
+    function normalizePlan(data) {
+      // 1) 객체형:
+      // {
+      //   "음악 수행평가 대비": "./음악수행평가대비/index.html",
+      //   "일차방정식 연습": "./일차방정식/index.html"
+      // }
+      if (data && !Array.isArray(data) && typeof data === "object") {
+        return Object.entries(data).map(([name, url]) => ({
+          name,
+          url
+        }));
+      }
+
+      // 2) 배열형:
+      // [
+      //   { name:"음악 수행평가 대비", url:"./음악수행평가대비/index.html" },
+      //   { title:"일차방정식 연습", href:"./일차방정식/index.html" }
+      // ]
+      if (Array.isArray(data)) {
+        return data.map(item => {
+          if (typeof item === "string") {
+            return { name:item, url:item };
+          }
+
+          return {
+            name:
+              item.name ??
+              item.title ??
+              item.label ??
+              item.text ??
+              item.button ??
+              "이름 없음",
+
+            url:
+              item.url ??
+              item.href ??
+              item.link ??
+              item.path ??
+              item.to ??
+              "#"
+          };
+        });
+      }
+
+      return [];
+    }
+
+    function renderMenu(items) {
+      menuEl.innerHTML = "";
+
+      if (!items.length) {
+        menuEl.innerHTML = `
+          <div class="error">
+            plan.js는 읽었지만 버튼 정보를 찾지 못했습니다.
+            <div class="hint">
+              plan.js를 아래처럼 작성하세요:<br><br>
+              <code>const plan = {<br>
+              &nbsp;&nbsp;"음악 수행평가 대비": "./음악수행평가대비/index.html",<br>
+              &nbsp;&nbsp;"일차방정식 연습": "./일차방정식/index.html"<br>
+              };</code>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      items.forEach(item => {
+        const button = document.createElement("button");
+        button.className = "menu-btn";
+        button.type = "button";
+
+        const name = document.createElement("span");
+        name.className = "menu-name";
+        name.textContent = item.name;
+
+        const arrow = document.createElement("span");
+        arrow.className = "arrow";
+        arrow.textContent = "→";
+
+        button.append(name, arrow);
+
+        button.addEventListener("click", () => {
+          if (!item.url || item.url === "#") return;
+          window.location.href = item.url;
+        });
+
+        menuEl.appendChild(button);
+      });
+    }
+
+    function loadPlan() {
+      try {
+        // plan.js는 위의 외부 스크립트 태그에서 직접 로드됨
+        // 같은 폴더에 plan.js만 있으면 file:// 로 열어도 동작함
+        let rawPlan;
+
+        if (typeof plan !== "undefined") rawPlan = plan;
+        else if (typeof PLAN !== "undefined") rawPlan = PLAN;
+        else if (typeof plans !== "undefined") rawPlan = plans;
+        else if (typeof menu !== "undefined") rawPlan = menu;
+        else if (typeof menus !== "undefined") rawPlan = menus;
+        else if (typeof items !== "undefined") rawPlan = items;
+        else if (typeof links !== "undefined") rawPlan = links;
+        else if (typeof window.PLAN_DATA !== "undefined") rawPlan = window.PLAN_DATA;
+
+        if (window.__PLAN_LOAD_ERROR__) {
+          throw new Error("plan.js 파일을 불러오지 못했습니다.");
+        }
+
+        const normalized = normalizePlan(rawPlan);
+        renderMenu(normalized);
+
+      } catch (err) {
+        console.error(err);
+
+        menuEl.innerHTML = `
+          <div class="error">
+            plan.js를 읽는 중 오류가 발생했습니다.<br>
+            HTML과 plan.js가 같은 폴더에 있는지 확인하세요.
+            <div class="hint">
+              plan.js 예시:<br><br>
+              <code>const plan = {<br>
+              &nbsp;&nbsp;"음악 수행평가 대비": "./음악수행평가대비/index.html",<br>
+              &nbsp;&nbsp;"일차방정식 연습": "./일차방정식/index.html"<br>
+              };</code>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    loadPlan();
+  </script>
+</body>
+</html>
