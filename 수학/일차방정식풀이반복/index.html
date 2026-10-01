@@ -33,10 +33,34 @@ body{display:flex;justify-content:center;padding:24px 14px}
 .header p{margin:8px 0 0;color:var(--muted)}
 .viewport{overflow:hidden;border-radius:24px}
 .track{
-  display:flex;width:300%;
-  transition:transform .48s cubic-bezier(.22,.75,.2,1)
+  position:relative;
+  width:100%;
 }
-.screen{width:33.333333%;flex:0 0 33.333333%}
+
+.screen{
+  display:none;
+  width:100%;
+}
+
+.screen.active{
+  display:block;
+}
+
+.screen.swipe-right{
+  animation:swipeRightIn .48s cubic-bezier(.22,.75,.2,1) both;
+}
+
+/* 모든 화면 전환을 왼쪽에서 오른쪽으로 */
+@keyframes swipeRightIn{
+  0%{
+    opacity:.25;
+    transform:translateX(-100%);
+  }
+  100%{
+    opacity:1;
+    transform:translateX(0);
+  }
+}
 .card{
   background:linear-gradient(155deg,var(--panel),#121821);
   border:1px solid var(--line);
@@ -104,7 +128,11 @@ body{display:flex;justify-content:center;padding:24px 14px}
   letter-spacing:-.04em;
   line-height:1.55;
   margin:58px 0 36px;
-  min-height:98px
+  min-height:98px;
+  white-space:nowrap;
+  width:100%;
+  max-width:100%;
+  overflow:visible
 }
 /* x는 따로 강조하지 않음 */
 .x{color:inherit}
@@ -144,11 +172,13 @@ input{
 .frac{
   display:inline-grid;
   grid-template-rows:auto auto;
-  vertical-align:-.42em;
+  vertical-align:middle;
   text-align:center;
   line-height:1.02;
   margin:0 .08em;
-  min-width:.72em
+  min-width:.72em;
+  position:relative;
+  top:.02em
 }
 .frac .num{
   border-bottom:1.7px solid currentColor;
@@ -221,7 +251,7 @@ input{
   opacity:0;transform:translateY(10px);pointer-events:none
 }
 .next-btn.show{
-  animation:nextIn .3s ease forwards;
+  animation:nextIn 10s ease forwards;
   pointer-events:auto
 }
 @keyframes nextIn{to{opacity:1;transform:none}}
@@ -254,6 +284,52 @@ input{
   .stat .count{grid-row:2}
   .solution-area{padding-left:0;padding-right:0}
 }
+/* 시간 위치로 복원할 수 있는 풀이 플레이어 */
+.solution-area.solution-player{padding:0;min-height:0;overflow:hidden;margin-top:18px;border:1px solid #303a4b;border-radius:17px;background:linear-gradient(145deg,#131b28,#0c121c);box-shadow:inset 0 1px 0 #ffffff04;--motion-font:28px;--motion-accent:#efc778}
+.motion-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 14px;border-bottom:1px solid #ffffff08;min-height:45px}
+.motion-speed{display:flex;align-items:center;gap:8px;color:#91a0b7;font-size:11px;white-space:nowrap}
+.motion-speed output{width:37px;text-align:right;color:#efc778;font:11px ui-monospace,Consolas,monospace;font-variant-numeric:tabular-nums}
+.solution-player input[type=range]{appearance:none;-webkit-appearance:none;height:4px;border:0;outline:0;border-radius:8px;padding:0;margin:0;cursor:pointer;touch-action:none;box-shadow:none;background:linear-gradient(90deg,var(--motion-accent) 0 var(--range-fill,0%),#2c3648 var(--range-fill,0%) 100%)}
+.solution-player input[type=range]::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:12px;height:12px;border-radius:4px;background:#ecedf3;border:2px solid var(--motion-accent);box-shadow:0 0 0 3px #ffffff04}
+.solution-player input[type=range]::-moz-range-thumb{width:8px;height:8px;border-radius:4px;background:#ecedf3;border:2px solid var(--motion-accent)}
+.solution-player input[type=range]:focus-visible,.solution-player button:focus-visible{outline:2px solid #83dcdf;outline-offset:5px}
+.motion-speed input[type=range]{width:105px;--motion-accent:#efc778}
+.motion-time{font:10px ui-monospace,Consolas,monospace;color:#73839e;white-space:nowrap;font-variant-numeric:tabular-nums}
+.motion-viewport{height:376px;overflow-x:hidden;overflow-y:auto;position:relative;scrollbar-width:thin;scrollbar-color:#354157 transparent;overscroll-behavior:contain}
+.motion-world{position:relative;margin:0 14px;min-height:340px;padding:18px 4px 32px;isolation:isolate}
+.solution-player .math-stack{position:relative;display:flex;gap:9px;font-family:"Cambria Math",Cambria,"Times New Roman",serif;font-size:var(--motion-font);line-height:1.18}
+.motion-row{position:relative;flex:none;height:105px;opacity:0;transform:none;filter:none}
+.motion-row-label{position:absolute;left:1px;top:5px;font:9px/1.4 Pretendard,"Noto Sans KR",system-ui,sans-serif;letter-spacing:.025em;color:#8592a9;white-space:nowrap}
+.motion-row-label b{font:9px ui-monospace,Consolas,monospace;color:#a4aec0;margin-right:7px;font-weight:400}
+.motion-equation{position:absolute;top:24px;bottom:3px;left:0;right:0;display:grid;grid-template-columns:minmax(0,1fr) 30px minmax(0,1fr);align-items:center;font-family:"Cambria Math",Cambria,"Times New Roman",serif;font-size:var(--motion-font);line-height:1.18}
+.motion-side{display:flex;align-items:center;gap:.06em;min-width:0;white-space:nowrap;overflow:visible}.motion-side.l{justify-content:flex-end}.motion-side.r{justify-content:flex-start}
+.motion-equals{text-align:center;color:#7b899f;font-size:.9em}
+.mterm{position:relative;display:inline-flex;align-items:center;gap:.035em;padding:.025em .025em;white-space:nowrap;overflow:visible;transform-origin:center center;flex:none;color:#edf0f7;background:transparent!important;border:0!important;box-shadow:none!important}
+.math-sign{display:inline-flex;align-items:center;justify-content:center;width:.46em;height:.8em;flex:none;position:relative;overflow:visible}
+.math-sign svg{width:100%;height:100%;stroke:currentColor;stroke-width:1.25;fill:none;stroke-linecap:round;overflow:visible}
+.math-sign .sign-v{transform-origin:10px 10px}.math-sign .sign-h{transform-origin:10px 10px}
+.term-body{display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;position:relative;gap:.012em}
+.math-x{font-style:italic}.motion-frac{display:inline-grid;grid-template-rows:1fr 1fr;position:relative;text-align:center;min-width:.85em;line-height:1.1;vertical-align:middle;align-self:center}
+.motion-num,.motion-den{position:relative;display:flex;align-items:center;justify-content:center;white-space:nowrap;padding:0 .10em .08em;min-height:1.12em;gap:.02em}
+.motion-den{padding:.08em .10em 0}.motion-bar{position:absolute;left:0;right:0;height:1.4px;top:50%;background:currentColor;border-radius:4px;transform-origin:center center}
+.motion-work{position:absolute;left:4px;right:4px;z-index:3;pointer-events:none;will-change:transform,opacity;transform-origin:center center}
+.motion-svg,.motion-fx{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}.motion-svg{z-index:4}.motion-fx{z-index:5;font-family:"Cambria Math",Cambria,"Times New Roman",serif;font-size:var(--motion-font);line-height:1.18}
+.motion-fx-group{position:absolute;inset:0;pointer-events:none}
+.motion-ghost{position:absolute;display:flex;align-items:center;justify-content:center;transform-origin:center center;will-change:transform,opacity;background:transparent!important;border:0!important;box-shadow:none!important;color:inherit;white-space:nowrap}
+.motion-ghost .mterm{color:inherit}.motion-badge{position:absolute;font:600 15px/1.2 "Cambria Math",Cambria,serif;white-space:nowrap;color:#83dcdf;transform-origin:center;pointer-events:none;text-shadow:0 0 12px #83dcdf2a}
+.motion-multiplier{font-size:16px;letter-spacing:-.03em}.motion-spark{position:absolute;width:2px;height:2px;border-radius:50%;background:currentColor;box-shadow:0 0 6px currentColor;pointer-events:none;will-change:transform,opacity}
+.motion-caption{position:relative;z-index:7;text-align:center;min-height:64px;padding:12px 15px 13px;border-top:1px solid #ffffff07;background:#0e1520}
+.motion-caption-title{font-weight:600;font-size:12px;line-height:1.5;letter-spacing:-.025em;color:#dce4f1}.motion-caption-title strong{color:var(--motion-accent);font-weight:650}.motion-caption-detail{font-size:10px;color:#8391a8;line-height:1.55;margin-top:4px;word-break:keep-all}
+.motion-transport{display:flex;align-items:center;gap:11px;padding:11px 12px;border-top:1px solid #ffffff07;background:#0a111b;min-height:52px}
+.motion-transport button{display:flex;align-items:center;justify-content:center;gap:5px;flex:none;height:30px;background:#1c2738;border:1px solid #354056;color:#c4d0e4;border-radius:7px;font:600 10px Pretendard,"Noto Sans KR",system-ui,sans-serif;cursor:pointer;padding:0 10px;white-space:nowrap}
+.motion-transport button:hover{color:#fff;background:#29364c}.motion-transport button:active{transform:scale(.96)}
+.motion-transport svg{width:14px;height:14px;stroke:currentColor;stroke-width:1.7;fill:none;stroke-linejoin:round;stroke-linecap:round}
+.motion-transport #motionPause{width:29px;padding:0;background:transparent;border-color:transparent}.motion-transport #motionReplay{margin-left:auto}
+.motion-transport #motionSeek{flex:1;min-width:30px;width:auto;height:5px}
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+.next-btn.show{animation:none;opacity:1;transform:none;pointer-events:auto}
+@media(max-width:520px){.solution-area.solution-player{margin-top:14px;border-radius:13px}.motion-toolbar{padding:12px 10px;gap:7px}.motion-speed{gap:6px;font-size:10px}.motion-speed input[type=range]{width:82px}.motion-speed output{width:32px;font-size:10px}.motion-time{font-size:9px}.motion-world{margin:0 7px;padding-left:2px;padding-right:2px}.motion-work{left:2px;right:2px}.motion-viewport{height:356px}.motion-equation{grid-template-columns:minmax(0,1fr) 25px minmax(0,1fr)}.motion-transport{gap:9px;padding:10px}.motion-caption{padding:10px 10px 12px;min-height:68px}.motion-caption-title{font-size:11px}.motion-caption-detail{font-size:9px}.motion-badge{font-size:12px}.motion-multiplier{font-size:13px}.motion-row-label{font-size:8px}.motion-row-label b{font-size:8px}}
+
 </style>
 </head>
 <body>
@@ -278,6 +354,7 @@ input{
           <div class="equation" id="equation"></div>
 
           <div class="input-row">
+           
             <input id="answer" autocomplete="off" inputmode="text"
                    placeholder="정답 입력">
           </div>
@@ -295,8 +372,24 @@ input{
             <div class="correct-answer" id="correctAnswer"></div>
           </div>
 
-          <div class="solution-area" id="solutionArea">
-            <div class="math-stack" id="mathStack"></div>
+          <div class="solution-area solution-player" id="solutionArea" aria-label="풀이 애니메이션 플레이어">
+            <div class="motion-toolbar">
+              <label class="motion-speed" for="motionSpeed">배속 <input id="motionSpeed" type="range" min="0.25" max="3" step="0.05" value="1" aria-label="풀이 재생 배속"><output id="motionSpeedValue" for="motionSpeed">1.00×</output></label>
+              <span class="motion-time" id="motionTime">00:00 / 00:00</span>
+            </div>
+            <div class="motion-viewport" id="motionViewport">
+              <div class="motion-world" id="motionWorld">
+                <div class="math-stack" id="mathStack"></div>
+                <svg class="motion-svg" id="motionSvg" aria-hidden="true"></svg>
+                <div class="motion-fx" id="motionFx" aria-hidden="true"></div>
+              </div>
+            </div>
+            <div class="motion-caption" role="status" aria-live="polite"><div class="motion-caption-title" id="motionTitle">풀이 준비 중</div><div class="motion-caption-detail" id="motionDetail">아래 슬라이더로 원하는 순간을 다시 볼 수 있어요.</div></div>
+            <div class="motion-transport">
+              <button id="motionPause" title="재생 / 일시정지 (Space)" aria-label="일시정지"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"/></svg></button>
+              <input id="motionSeek" type="range" min="0" max="1000" step="1" value="0" aria-label="풀이 재생 위치" aria-valuetext="처음">
+              <button id="motionReplay" title="풀이 애니메이션 처음부터 다시 보기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10a8 8 0 1 1 1 8M4 4v6h6"/></svg>다시보기</button>
+            </div>
           </div>
 
           <div class="skip-note" id="skipNote">Enter를 누르면 풀이 애니메이션을 건너뜁니다.</div>
@@ -525,6 +618,7 @@ const $=id=>document.getElementById(id);
 
 let qIndex=0;
 let current=null;
+let questionReady=false;
 let batchStats=freshStats();
 let lastStats=null;
 let mode="random";
@@ -561,11 +655,25 @@ function chooseType(){
   return TYPES[2];
 }
 
-function setScreen(name){
+function setScreen(name,animate=true){
   currentScreen=name;
-  if(name==="problem") $("track").style.transform="translateX(0)";
-  if(name==="solution") $("track").style.transform="translateX(-33.333333%)";
-  if(name==="result") $("track").style.transform="translateX(-66.666666%)";
+
+  const order=["problem","solution","result"];
+  const targetIndex=order.indexOf(name);
+  const screens=[...document.querySelectorAll("#track > .screen")];
+
+  screens.forEach((screen,i)=>{
+    screen.classList.remove("active","swipe-right");
+
+    if(i===targetIndex){
+      screen.classList.add("active");
+
+      if(animate){
+        void screen.offsetWidth;
+        screen.classList.add("swipe-right");
+      }
+    }
+  });
 }
 
 function renderProgress(){
@@ -579,13 +687,32 @@ function addProgressResult(correct){
   renderProgress();
 }
 
+/* 문제식은 절대 줄바꿈하지 않고 카드 폭에 맞게 자동 축소 */
+function fitEquation(){
+  const el=$("equation");
+  if(!el)return;
+
+  el.style.fontSize="";
+  const base=parseFloat(getComputedStyle(el).fontSize)||58;
+  let size=base;
+  const minSize=20;
+
+  while(el.scrollWidth>el.clientWidth && size>minSize){
+    size-=1;
+    el.style.fontSize=size+"px";
+  }
+}
+
 function newQuestion(){
+  questionReady=true;
+  $("checkBtn").disabled=false;
   current=generateProblem(chooseType());
 
   $("progress").textContent=`${qIndex+1} / 10`;
   $("typeBadge").textContent=TYPE_NAME[current.type];
   $("equation").innerHTML=
     `${exprHTML(current.left,current.type)} = ${exprHTML(current.right,current.type)}`;
+  requestAnimationFrame(fitEquation);
 
   $("answer").value="";
   $("problemMessage").textContent="";
@@ -617,160 +744,330 @@ function parseAnswer(s){
   return null;
 }
 
-/* ---------- 풀이 구성 ---------- */
-function makeRows(){
-  const p=current,t=p.type;
-  const coef=sub(p.A,p.C);
-  const rhs=sub(p.D,p.B);
-  const final=div(rhs,coef);
+/* ---------- 동작 설정: 코드에서도 ANIMATION_CONFIG.tempo = 1.5 로 변경 ---------- */
+const MOTION_DEFAULTS={tempo:1,arc:1,bounce:.7,trail:.65,glow:.55,pause:1};
+const motionConfig={...MOTION_DEFAULTS};
+try{const saved=Number(localStorage.getItem('equation-practice-motion-tempo'));if(saved>=.25&&saved<=3)motionConfig.tempo=saved}catch(_){}
+const ANIMATION_CONFIG=new Proxy(motionConfig,{set(obj,key,value){
+  if(!(key in MOTION_DEFAULTS))return false;
+  const n=Number(value);if(!Number.isFinite(n))return true;
+  const limits={tempo:[.25,3],arc:[.4,1.6],bounce:[0,1.5],trail:[0,1],glow:[0,1],pause:[.3,2.5]}[key];
+  obj[key]=Math.min(limits[1],Math.max(limits[0],n));
+  if(key==='tempo'){syncMotionSpeed();try{localStorage.setItem('equation-practice-motion-tempo',String(obj[key]))}catch(_){}}
+  return true;
+}});
+window.ANIMATION_CONFIG=ANIMATION_CONFIG;
+const M_COLOR={move:'#efc778',merge:'#b5a0ff',scale:'#83dcdf',final:'#a3e9c6',plain:'#edf0f7'};
+const mClamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+const mLerp=(a,b,t)=>a+(b-a)*t;
+const mSmooth=t=>{t=mClamp(t);return t*t*t*(t*(t*6-15)+10)};
+const mOut=t=>1-Math.pow(1-mClamp(t),3);
+const mPhase=(t,a,b)=>mClamp((t-a)/(b-a));
+const mLCM=(a,b)=>Math.abs(a*b)/gcd(a,b);
+const mCopyTerm=t=>({id:t.id,k:t.k,v:R(t.v.n,t.v.d)});
+const mCopyState=s=>({left:s.left.map(mCopyTerm),right:s.right.map(mCopyTerm),format:s.format});
+const mNumber=r=>r.d===1?String(r.n):r.n+'/'+r.d;
+const mOperand=r=>r.n<0?'('+mNumber(r).replace('-','−')+')':mNumber(r);
+function motionSide(terms,side){const list=terms.filter(t=>t.v.n!==0).map(mCopyTerm);return list.length?list:[{id:'zero_'+side,k:'c',v:R(0)}]}
 
-  const rows=[];
-  rows.push({
-    l:linearHTML(p.A,p.B,t),
-    r:linearHTML(p.C,p.D,t),
-    move:null
-  });
-
-  if(p.C.n!==0){
-    rows.push({
-      l:linearHTML(coef,p.B,t),
-      r:ratHTML(p.D,t),
-      move:{
-        dir:"rtl",
-        term:signedAbsTermHTML(p.C,true,t)
+/* Each snapshot is mathematically equivalent to the original problem.
+   Addition/subtraction is always shown as a transposition, never as an
+   additive operation written on both sides. Multiplication/division stays
+   explicitly bilateral. A timeline can reconstruct any frame independently. */
+function makeMotionPlan(problem){
+  let state={left:motionSide(problem.left.map((t,i)=>({...t,id:'L'+i})),'L'),right:motionSide(problem.right.map((t,i)=>({...t,id:'R'+i})),'R'),format:problem.type};
+  const states=[mCopyState(state)],steps=[],labels=['원래 식'];let serial=0;
+  const push=(next,step,label)=>{const before=mCopyState(state);state=mCopyState(next);steps.push({...step,from:before,to:mCopyState(state)});states.push(mCopyState(state));labels.push(label)};
+  const all=[...state.left,...state.right];
+  const factor=all.reduce((l,t)=>mLCM(l,t.v.d),1);
+  if(factor>1){
+    const next=mCopyState(state);for(const side of['left','right'])next[side]=next[side].map(t=>({...t,v:mul(t.v,R(factor))}));next.format='normal';
+    push(next,{kind:'multiply',factor:R(factor),title:`양변의 <strong>모든 항에 ${factor}</strong>을 곱해요.`,detail:problem.type==='decimal'?'양쪽에 같은 수를 곱해 소수를 정수로 바꿉니다.':`${factor}은 분모들의 최소공배수예요. 곱하는 수가 부딪힌 뒤 분모와 분수선이 사라집니다.`},problem.type==='decimal'?'소수 없애기':'분모 없애기');
+  }
+  function collect(){
+    const next=mCopyState(state),groups=[];
+    for(const side of['left','right']){
+      const input=state[side].filter(t=>t.v.n!==0),output=[];
+      for(const k of['x','c']){
+        const members=input.filter(t=>t.k===k);if(!members.length)continue;
+        if(members.length===1){output.push(mCopyTerm(members[0]));continue}
+        const value=members.reduce((sum,t)=>add(sum,t.v),R(0)),id='merge_'+(++serial);
+        if(value.n)output.push({id,k,v:value});
+        groups.push({side,sources:members.map(t=>t.id),target:value.n?id:null,result:{id,k:value.n?k:'c',v:value}});
       }
+      next[side]=motionSide(output,side==='left'?'L':'R');
+      for(const g of groups.filter(g=>g.side===side&&!g.target))if(next[side].length===1&&next[side][0].v.n===0)g.target=next[side][0].id;
+    }
+    if(groups.length)push(next,{kind:'merge',groups,title:'같은 종류의 항끼리 <strong>모아서 계산해요</strong>.',detail:'문자항은 문자항끼리, 상수항은 상수항끼리 끌려가며 합쳐집니다.'},'동류항 계산');
+  }
+  collect();
+  const rightX=state.right.find(t=>t.k==='x'&&t.v.n!==0);
+  if(rightX){
+    const next=mCopyState(state);next.right=motionSide(next.right.filter(t=>t.id!==rightX.id),'R');next.left=motionSide([...next.left,{...mCopyTerm(rightX),v:R(-rightX.v.n,rightX.v.d)}],'L');
+    push(next,{kind:'transfer',moved:rightX.id,direction:'rtl',title:'오른쪽 문자항을 <strong>왼쪽으로 이항해요</strong>.',detail:'항이 등호를 건너가면서 부호가 반대로 바뀝니다.'},'문자항 이항');
+  }
+  const leftC=state.left.find(t=>t.k==='c'&&t.v.n!==0);
+  if(leftC){
+    const next=mCopyState(state);next.left=motionSide(next.left.filter(t=>t.id!==leftC.id),'L');next.right=motionSide([...next.right,{...mCopyTerm(leftC),v:R(-leftC.v.n,leftC.v.d)}],'R');
+    push(next,{kind:'transfer',moved:leftC.id,direction:'ltr',title:'왼쪽 상수항을 <strong>오른쪽으로 이항해요</strong>.',detail:leftC.v.n<0?'음수인 항을 오른쪽으로 옮기면 양수로 바뀝니다.':'양수인 항을 오른쪽으로 옮기면 음수로 바뀝니다.'},'상수항 이항');
+  }
+  collect();
+  const coefficient=state.left.find(t=>t.k==='x')?.v||R(0);
+  if(!coefficient.n)throw new Error('x의 계수가 0인 식은 이 일차방정식 풀이에 포함되지 않습니다.');
+  if(!isOne(coefficient)){
+    const next=mCopyState(state);for(const side of['left','right'])next[side]=next[side].map(t=>({...t,v:div(t.v,coefficient)}));
+    push(next,{kind:'divide',factor:coefficient,title:`양변을 <strong>${mOperand(coefficient)}로 나눠요</strong>.`,detail:'곱해진 계수는 양변을 같은 수로 나누어 없앱니다.'},'계수 정리');
+  }
+  const answer=state.right.reduce((s,t)=>add(s,t.v),R(0));
+  return {states,steps,labels,answer,problem};
+}
+function makeRows(){return makeMotionPlan(current).states}
+function motionSign(t,first){const visible=!first||t.v.n<0;return `<span class="math-sign" data-negative="${t.v.n<0}" data-visible="${visible}" style="opacity:${visible?1:0}"><span class="sr-only">${visible?(t.v.n<0?'−':'+'):''}</span><svg viewBox="0 0 20 20" aria-hidden="true"><path class="sign-h" d="M3 10h14"/><path class="sign-v" d="M10 3v14" style="transform:scaleY(${t.v.n<0?0:1})"/></svg></span>`}
+function motionBody(t,format){
+  const a=absR(t.v),isX=t.k==='x'&&a.n!==0,x=isX?'<span class="math-x">x</span>':'';
+  if(a.d!==1&&format!=='decimal')return `<span class="motion-frac"><span class="motion-num">${isX&&a.n===1?'':a.n}${x}</span><span class="motion-bar"></span><span class="motion-den">${a.d}</span></span>`;
+  const n=isX&&isOne(a)?'':format==='decimal'?decimalString(a):mNumber(a);
+  return n+x;
+}
+function motionTerm(t,format,first){return `<span class="mterm" data-term="${t.id}">${motionSign(t,first)}<span class="term-body">${motionBody(t,format)}</span></span>`}
+function motionEquation(s){return `<div class="motion-equation"><div class="motion-side l">${s.left.map((t,i)=>motionTerm(t,s.format,i===0)).join('')}</div><div class="motion-equals">=</div><div class="motion-side r">${s.right.map((t,i)=>motionTerm(t,s.format,i===0)).join('')}</div></div>`}
+function mRect(el){const a=el.getBoundingClientRect(),b=$('motionWorld').getBoundingClientRect();return {x:a.left-b.left,y:a.top-b.top,w:a.width,h:a.height,cx:a.left-b.left+a.width/2,cy:a.top-b.top+a.height/2}}
+function mPlace(el,dx=0,dy=0,sx=1,sy=sx,rotation=0){el.style.transform=`translate3d(${dx}px,${dy}px,0) rotate(${rotation}deg) scale(${sx},${sy})`}
+function mGlow(el,color,strength=motionConfig.glow){el.style.textShadow=`0 0 ${strength*13}px ${color}${Math.round(strength*70).toString(16).padStart(2,'0')}`}
+function mSVG(tag,attrs){const e=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const [key,value]of Object.entries(attrs||{}))e.setAttribute(key,value);return e}
+function mCurve(a,b,lift,t){const u=1-t,dx=b.cx-a.cx;return {x:u*u*u*a.cx+3*u*u*t*(a.cx+dx*.18)+3*u*t*t*(b.cx-dx*.18)+t*t*t*b.cx,y:u*u*u*a.cy+3*u*u*t*(a.cy-lift)+3*u*t*t*(b.cy-lift)+t*t*t*b.cy}}
+function mPath(a,b,lift){return `M ${a.cx} ${a.cy} C ${a.cx+(b.cx-a.cx)*.18} ${a.cy-lift}, ${b.cx-(b.cx-a.cx)*.18} ${b.cy-lift}, ${b.cx} ${b.cy}`}
+function mGhost(source,parent,color,bodyOnly=false){
+  const r=mRect(source),el=document.createElement('span');el.className='motion-ghost';el.style.cssText=`left:${r.x}px;top:${r.y}px;width:${r.w}px;height:${r.h}px;color:${color};`;
+  el.appendChild(source.cloneNode(true));parent.appendChild(el);return {el,r};
+}
+function mBadge(text,parent,cx,cy){const el=document.createElement('span');el.className='motion-badge';el.textContent=text;el.style.cssText=`left:${cx}px;top:${cy}px;`;parent.appendChild(el);return el}
+function mSparkSet(parent,cx,cy,color,count=8){return Array.from({length:count},(_,i)=>{const el=document.createElement('i');el.className='motion-spark';el.style.cssText=`left:${cx}px;top:${cy}px;color:${color};`;parent.appendChild(el);return {el,angle:i/count*Math.PI*2+.3,distance:12+(i%4)*5}})}
+function mSparks(particles,t,strength=motionConfig.trail,fall=false){for(const {el,angle,distance}of particles){el.style.opacity=(t>0&&t<1?Math.sin(Math.PI*t):0)*strength*.7;mPlace(el,Math.cos(angle)*distance*mOut(t),Math.sin(angle)*distance*mOut(t)*.65+(fall?28:8)*t*t,1-t*.5)}}
+function mFall(t,d,bounce){if(t<.58)return d*Math.pow(t/.58,2);const u=(t-.58)/.42;return d-Math.abs(Math.sin(u*Math.PI*2))*Math.min(8,Math.abs(d)*.3)*bounce*Math.exp(-u*3)*Math.pow(1-u,2)}
+function mSetSign(sign,from,to,t,force=false){
+  if(!sign)return;const visible=mLerp(from.visible?1:0,to.visible?1:0,t);sign.style.opacity=force?1:visible;
+  const vertical=sign.querySelector('.sign-v');if(vertical)vertical.style.transform=`scaleY(${mLerp(from.negative?0:1,to.negative?0:1,t)})`;
+}
+function mSignInfo(el){return {visible:el.dataset.visible==='true',negative:el.dataset.negative==='true'}}
+function mReadout(ms){const seconds=Math.floor(ms/1000);return String(Math.floor(seconds/60)).padStart(2,'0')+':'+String(seconds%60).padStart(2,'0')}
+function syncMotionSpeed(){const el=$('motionSpeed'),rate=motionConfig.tempo;el.value=rate;el.style.setProperty('--range-fill',((rate-.25)/2.75*100)+'%');$('motionSpeedValue').textContent=rate.toFixed(2)+'×'}
+
+class SolutionPlayer{
+  constructor(){this.plan=null;this.time=0;this.duration=0;this.playing=false;this.last=0;this.rows=[];this.clips=[];this.captionKey='';this.width=0;this.frame=this.frame.bind(this);requestAnimationFrame(this.frame)}
+  frame(now){const dt=this.last?Math.min(50,Math.max(0,now-this.last)):0;this.last=now;if(this.plan&&this.playing&&currentScreen==='solution'&&!document.hidden){this.time=Math.min(this.duration,this.time+dt*motionConfig.tempo);if(this.time>=this.duration)this.playing=false;this.render()}requestAnimationFrame(this.frame)}
+  stop(clear=true){this.playing=false;this.plan=null;this.time=0;this.duration=0;this.rows=[];this.clips=[];this.captionKey='';if(clear){$('mathStack').replaceChildren();$('motionFx').replaceChildren();$('motionSvg').replaceChildren();$('motionWorld').querySelectorAll('.motion-work').forEach(el=>el.remove())}this.updateControls()}
+  load(problem){this.stop();this.plan=makeMotionPlan(problem);this.time=0;this.playing=true;this.build();this.render()}
+  build(){
+    if(!this.plan)return;
+    const stack=$('mathStack'),world=$('motionWorld'),fx=$('motionFx'),svg=$('motionSvg');
+    stack.replaceChildren();fx.replaceChildren();svg.replaceChildren();world.querySelectorAll('.motion-work').forEach(el=>el.remove());
+    this.rows=this.plan.states.map((s,i)=>{const el=document.createElement('div');el.className='motion-row';el.dataset.row=i;el.innerHTML=`<span class="motion-row-label"><b>${String(i+1).padStart(2,'0')}</b>${this.plan.labels[i]}</span>`+motionEquation(s);stack.appendChild(el);return el});
+    // One shared font size preserves token geometry during every transition.
+    const initialFont=$('motionViewport').clientWidth<440?26:29;world.style.setProperty('--motion-font',initialFont+'px');
+    let fit=1;
+    stack.querySelectorAll('.motion-side').forEach(side=>{const content=[...side.children].reduce((sum,el)=>sum+el.getBoundingClientRect().width,0)+Math.max(0,side.children.length-1)*initialFont*.06;const available=side.clientWidth;if(content>0&&available>0)fit=Math.min(fit,(available-4)/content)});
+    world.style.setProperty('--motion-font',Math.max(12,initialFont*Math.min(1,fit))+'px');
+    this.rowRects=this.rows.map(mRect);this.viewportHeight=$('motionViewport').clientHeight||376;
+    this.worldHeight=Math.max(340,(this.rowRects.at(-1)?.y||0)+105+32);world.style.minHeight=this.worldHeight+'px';
+    svg.setAttribute('viewBox',`0 0 ${world.clientWidth} ${this.worldHeight}`);svg.style.height=this.worldHeight+'px';
+    this.clips=[];let cursor=1330;
+    this.plan.steps.forEach((step,i)=>{
+      const idx=i+1,dest=this.rows[idx],work=document.createElement('div');work.className='motion-work';work.style.cssText=`top:${this.rowRects[idx].y}px;height:${this.rowRects[idx].h}px;`;work.innerHTML=motionEquation(step.from);world.appendChild(work);
+      const group=document.createElement('div');group.className='motion-fx-group';fx.appendChild(group);const sg=mSVG('g');svg.appendChild(sg);
+      const target=new Map([...dest.querySelectorAll('.mterm')].map(el=>[el.dataset.term,el]));
+      const terms=new Map([...work.querySelectorAll('.mterm')].map(el=>[el.dataset.term,el]));
+      const motion={multiply:3650,divide:2250,transfer:2020,merge:2000}[step.kind],clip={...step,index:idx,work,group,svg:sg,target,terms,copy:760,motion,hold:750*motionConfig.pause,start:cursor,items:[]};
+      clip.duration=clip.copy+clip.motion+clip.hold;clip.end=cursor+clip.duration;cursor=clip.end;
+      clip.sources=new Map([...terms].map(([id,el])=>[id,{el,r:mRect(el),sign:el.querySelector('.math-sign'),signInfo:mSignInfo(el.querySelector('.math-sign')),body:el.querySelector('.term-body')} ]));
+      clip.targets=new Map([...target].map(([id,el])=>[id,{el,r:mRect(el),sign:el.querySelector('.math-sign'),signInfo:mSignInfo(el.querySelector('.math-sign')),body:el.querySelector('.term-body')} ]));
+      for(const [id,t]of clip.targets)if(!clip.sources.has(id)){const ghost=mGhost(t.el,group,M_COLOR.plain);clip.items.push({kind:'new',id,ghost})}
+      if(step.kind==='transfer')this.prepareTransfer(clip);
+      else if(step.kind==='merge')this.prepareMerge(clip);
+      else this.prepareScale(clip);
+      this.clips.push(clip);work.style.display='none';group.style.display='none';sg.style.display='none';
+    });
+    this.duration=cursor+1550*motionConfig.pause;this.width=$('motionViewport').clientWidth;this.captionKey='';
+    $('motionSeek').max=Math.round(this.duration);$('motionSeek').step='1';
+  }
+  prepareTransfer(c){
+    const a=c.sources.get(c.moved).r,b=c.targets.get(c.moved).r,lift=Math.min(80,Math.max(43,Math.abs(b.cx-a.cx)*.3))*motionConfig.arc;
+    c.flight={a,b,lift};const d=mPath(a,b,lift);
+    c.path=mSVG('path',{d,fill:'none',stroke:M_COLOR.move,'stroke-width':1.1,'stroke-linecap':'round'});c.tail=mSVG('path',{d,fill:'none',stroke:M_COLOR.move,'stroke-width':2,'stroke-linecap':'round'});c.ring=mSVG('ellipse',{cx:a.cx,cy:a.cy,rx:a.w/2+5,ry:a.h/2+5,fill:'none',stroke:M_COLOR.move,'stroke-width':1.2});
+    c.svg.append(c.path,c.tail,c.ring);c.pathLength=c.path.getTotalLength();c.particles=mSparkSet(c.group,b.cx,b.cy,M_COLOR.move,7);
+  }
+  prepareMerge(c){
+    c.merges=c.groups.map(g=>{
+      const sources=g.sources.map(id=>c.sources.get(id)),center={cx:sources.reduce((s,t)=>s+t.r.cx,0)/sources.length,cy:sources.reduce((s,t)=>s+t.r.cy,0)/sources.length};
+      let target=c.targets.get(g.target),ghost;
+      if(target){ghost=mGhost(target.el,c.group,M_COLOR.merge)}
+      else{const holder=document.createElement('span');holder.innerHTML=motionTerm(g.result,'normal',true);const el=holder.firstElementChild;el.style.color=M_COLOR.merge;const wrapper=document.createElement('span');wrapper.className='motion-ghost';wrapper.style.cssText=`left:${center.cx-18}px;top:${center.cy-20}px;width:36px;height:40px;color:${M_COLOR.merge};`;wrapper.appendChild(el);c.group.appendChild(wrapper);ghost={el:wrapper,r:{x:center.cx-18,y:center.cy-20,w:36,h:40,cx:center.cx,cy:center.cy}};}
+      return {...g,sources,center,ghost,particles:mSparkSet(c.group,center.cx,center.cy,M_COLOR.merge,8)};
     });
   }
-
-  if(p.B.n!==0){
-    rows.push({
-      l:xCoeffHTML(coef,t),
-      r:ratHTML(rhs,t),
-      move:{
-        dir:"ltr",
-        term:signedAbsTermHTML(p.B,false,t)
+  prepareScale(c){
+    const operator=c.kind==='multiply'?'×':'÷',text=operator+' '+mOperand(c.factor);c.badges=[];c.scaled=[];
+    for(const side of['l','r']){
+      const sideEl=c.work.querySelector('.motion-side.'+side),sr=mRect(sideEl),origin={cx:sr.cx,cy:this.rowRects[c.index].y+10};
+      const badge=mBadge(text,c.group,origin.cx,origin.cy);c.badges.push(badge);
+      [...sideEl.children].forEach((el,j)=>{
+        const id=el.dataset.term,source=c.sources.get(id),target=c.targets.get(id);if(!target)return;
+        const num=el.querySelector('.motion-num'),den=el.querySelector('.motion-den'),bar=el.querySelector('.motion-bar'),body=source.body;
+        const bodyRect=mRect(body),start=num?mRect(num):bodyRect,destination=mRect(target.body),impact=bar?mRect(bar):bodyRect;
+        const multiplier=mBadge(text,c.group,origin.cx,origin.cy);multiplier.classList.add('motion-multiplier');
+        const result=mGhost(target.body,c.group,M_COLOR.scale,true);
+        c.scaled.push({id,source,target,num,den,bar,body,start,destination,impact,origin,multiplier,result,sourceSign:mRect(source.sign),targetSign:mRect(target.sign),hit:.36+j*.025,particles:mSparkSet(c.group,impact.cx,impact.cy,M_COLOR.scale,9),melt:mSparkSet(c.group,impact.cx,impact.cy+9,M_COLOR.scale,5)});
+      });
+    }
+  }
+  setCaption(key,title,detail,color){if(this.captionKey===key)return;this.captionKey=key;$('motionTitle').innerHTML=title;$('motionDetail').textContent=detail;$('solutionArea').style.setProperty('--motion-accent',color)}
+  updateControls(){
+    const end=!!this.plan&&this.time>=this.duration;
+    $('motionSeek').value=Math.round(this.time);$('motionSeek').style.setProperty('--range-fill',(this.duration?this.time/this.duration*100:0)+'%');
+    const timeText=mReadout(this.time)+' / '+mReadout(this.duration);$('motionTime').textContent=timeText;$('motionSeek').setAttribute('aria-valuetext',timeText);
+    $('motionPause').setAttribute('aria-label',this.playing?'일시정지':end?'다시 재생':'재생');$('motionPause').querySelector('path').setAttribute('d',this.playing?'M8 5v14M16 5v14':'M8 5l11 7-11 7z');
+    animating=!!this.plan&&!end;
+    if(end)$('nextBtn').classList.add('show');
+    $('skipNote').textContent=end?'슬라이더를 움직이면 지난 장면을 다시 볼 수 있어요.':'Enter: 결과 보기 · Space: 재생 / 일시정지';
+  }
+  resetClip(c){
+    c.work.style.transform='';c.work.style.opacity=1;
+    for(const {el,sign,signInfo,body}of c.sources.values()){
+      el.style.opacity=1;el.style.transform='';el.style.color=M_COLOR.plain;el.style.textShadow='';body.style.opacity=1;body.style.transform='';body.style.filter='';
+      sign.style.transform='';mSetSign(sign,signInfo,signInfo,0);
+      el.querySelectorAll('.motion-num,.motion-den,.motion-bar').forEach(part=>{part.style.opacity=1;part.style.transform='';part.style.filter=''});
+    }
+    for(const item of c.items)item.ghost.el.style.opacity=0;
+    c.group.querySelectorAll('.motion-ghost,.motion-badge,.motion-spark').forEach(el=>el.style.opacity=0);
+  }
+  render(){
+    if(!this.plan){this.updateControls();return}
+    const time=this.time,active=this.clips.find(c=>time>=c.start&&time<c.end),index=active?active.index:time<this.clips[0]?.start||!this.clips.length?0:this.rows.length-1;
+    const intro=!active&&index===0&&time<1330,final=!active&&!intro;
+    this.rows.forEach((row,i)=>{row.style.opacity=i>index?0:i===index?1:.36;row.style.transform='';row.querySelector('.motion-equation').style.opacity=1;row.querySelector('.motion-row-label').style.opacity=1;row.querySelectorAll('.mterm').forEach(el=>{el.style.color=final&&i===this.rows.length-1?M_COLOR.final:M_COLOR.plain;el.style.textShadow=''})});
+    this.clips.forEach(c=>{const visible=c===active;c.work.style.display=visible?'block':'none';c.group.style.display=visible?'block':'none';c.svg.style.display=visible?'block':'none'});
+    let scrollTarget=Math.max(0,(this.rowRects[index]?.y||0)+105-this.viewportHeight+30);
+    if(intro){const q=mSmooth(mPhase(time,0,680));this.rows[0].style.opacity=q;this.rows[0].style.transform=`translateY(${(1-q)*11}px)`;this.setCaption('intro','처음 식부터 <strong>차근차근 따라가 볼까요?</strong>','배속을 조절하거나 아래 슬라이더를 앞뒤로 움직여 보세요.',M_COLOR.move);scrollTarget=0}
+    else if(active){
+      const c=active,local=time-c.start,copy=mSmooth(local/c.copy),p=mClamp((local-c.copy)/c.motion),inHold=local>=c.copy+c.motion;
+      this.setCaption('step'+index,c.title,c.detail,M_COLOR[c.kind==='transfer'?'move':c.kind==='merge'?'merge':'scale']);
+      if(inHold){c.work.style.display=c.group.style.display=c.svg.style.display='none'}
+      else{
+        this.resetClip(c);this.rows[index].querySelector('.motion-equation').style.opacity=0;this.rows[index].querySelector('.motion-row-label').style.opacity=copy;
+        if(local<c.copy){const delta=this.rowRects[index].y-this.rowRects[index-1].y;mPlace(c.work,0,-delta*(1-copy));c.work.style.opacity=mLerp(.06,1,copy);c.group.style.display='none';c.svg.style.display='none';}
+        else if(c.kind==='transfer')this.renderTransfer(c,p);
+        else if(c.kind==='merge')this.renderMerge(c,p);
+        else this.renderScale(c,p);
       }
-    });
+      const previousScroll=Math.max(0,this.rowRects[index-1].y+105-this.viewportHeight+30);scrollTarget=mLerp(previousScroll,scrollTarget,copy);
+    }else{
+      this.setCaption('final',`풀이 완성, <strong>x = ${mNumber(this.plan.answer).replace('-','−')}</strong>`,'슬라이더로 되감거나 오른쪽 아래 다시보기 버튼을 눌러 보세요.',M_COLOR.final);
+      this.rows.at(-1).querySelectorAll('.mterm').forEach(el=>mGlow(el,M_COLOR.final,motionConfig.glow*.5));
+    }
+    $('motionViewport').scrollTop=Math.min(scrollTarget,Math.max(0,this.worldHeight-this.viewportHeight));this.updateControls();
   }
-
-  if(!isOne(coef)){
-    rows.push({
-      l:"x",
-      r:`${ratHTML(rhs,t)} ÷ ${ratHTML(coef,t)}`,
-      move:null
-    });
+  renderTransfer(c,p){
+    const q=mSmooth(mPhase(p,.14,.89)),signT=mSmooth(mPhase(q,.38,.66));
+    for(const [id,s]of c.sources){
+      const t=c.targets.get(id);if(!t){s.el.style.opacity=1-mSmooth(mPhase(p,.2,.65));continue}
+      if(id===c.moved){const v=mCurve(c.flight.a,c.flight.b,c.flight.lift,q);mPlace(s.el,v.x-s.r.cx,v.y-s.r.cy,1+Math.sin(Math.PI*q)*.025,1,-Math.sin(q*Math.PI*2)*2*motionConfig.bounce);s.el.style.color=M_COLOR.move;mGlow(s.el,M_COLOR.move);mSetSign(s.sign,s.signInfo,t.signInfo,signT,q<.94);}
+      else{mPlace(s.el,(t.r.cx-s.r.cx)*q,(t.r.cy-s.r.cy)*q);mSetSign(s.sign,s.signInfo,t.signInfo,mSmooth(p))}
+    }
+    for(const item of c.items){item.ghost.el.style.opacity=mSmooth(mPhase(p,.55,.9))}
+    const length=c.pathLength,trail=Math.sin(q*Math.PI)*42*motionConfig.trail;
+    c.path.style.strokeDasharray=length;c.path.style.strokeDashoffset=length*(1-mSmooth(mPhase(p,.03,.25)));c.path.style.opacity=.17*(1-mSmooth(mPhase(p,.78,1)));
+    c.tail.style.strokeDasharray=`${Math.max(.01,trail)} ${length+1}`;c.tail.style.strokeDashoffset=-Math.max(0,length*q-trail);c.tail.style.opacity=Math.sin(Math.PI*q)*motionConfig.trail*.45;
+    c.ring.style.opacity=Math.sin(Math.PI*mPhase(p,0,.27))*.64;c.ring.style.strokeDasharray='none';
+    mSparks(c.particles,mPhase(p,.88,1),motionConfig.trail*.55);
   }
-
-  rows.push({
-    l:"x",
-    r:ratHTML(final,t),
-    move:null
-  });
-
-  return rows;
+  renderMerge(c,p){
+    const grouped=new Set(c.merges.flatMap(g=>g.sources.map(s=>s.el.dataset.term))),targets=new Set(c.merges.map(g=>g.target));
+    for(const [id,s]of c.sources)if(!grouped.has(id)){const t=c.targets.get(id);if(t){const q=mSmooth(p);mPlace(s.el,(t.r.cx-s.r.cx)*q,(t.r.cy-s.r.cy)*q);mSetSign(s.sign,s.signInfo,t.signInfo,q)}else s.el.style.opacity=1-mSmooth(p)}
+    for(const g of c.merges){
+      const pull=mSmooth(mPhase(p,.12,.67)),fuse=mSmooth(mPhase(p,.47,.7));
+      g.sources.forEach((s,i)=>{const direction=s.r.cx<g.center.cx?1:-1,back=-direction*Math.sin(Math.PI*mPhase(p,0,.25))*3*motionConfig.bounce*(1-pull);mPlace(s.el,(g.center.cx-s.r.cx)*pull+back,(g.center.cy-s.r.cy)*pull+Math.sin(Math.PI*pull)*(i%2?1:-1)*3,1-.78*fuse,1+.20*fuse);s.el.style.opacity=1-mSmooth(mPhase(p,.50,.69));s.el.style.color=M_COLOR.merge;mGlow(s.el,M_COLOR.merge)});
+      const emerge=mSmooth(mPhase(p,.55,.81)),settle=mSmooth(mPhase(p,.67,1)),r=g.ghost.r,overshoot=Math.sin(Math.PI*mPhase(p,.75,1))*.055*motionConfig.bounce;
+      g.ghost.el.style.opacity=emerge*(g.target?1:1-mSmooth(mPhase(p,.86,1)));mPlace(g.ghost.el,(g.center.cx-r.cx)*(1-settle),(g.center.cy-r.cy)*(1-settle),mLerp(.23,1,emerge)+overshoot,mLerp(1.28,1,emerge)-overshoot*.5);mGlow(g.ghost.el,M_COLOR.merge);
+      mSparks(g.particles,mPhase(p,.56,.97),motionConfig.trail*.5);
+    }
+    for(const item of c.items)if(!targets.has(item.id))item.ghost.el.style.opacity=mSmooth(mPhase(p,.6,1));
+  }
+  renderScale(c,p){
+    const bilateral=mSmooth(mPhase(p,0,.12))*(1-mSmooth(mPhase(p,.18,.34)));
+    c.badges.forEach(el=>{el.style.opacity=bilateral;mPlace(el,0,-3*(1-bilateral));el.style.marginLeft='-18px';el.style.marginTop='-6px'});
+    for(const v of c.scaled){
+      const flight=mSmooth(mPhase(p,.15,v.hit)),after=mPhase(p,v.hit+.075,Math.min(.99,v.hit+.59));
+      const hitPoint=v.impact,origin=v.origin,x=mLerp(origin.cx,hitPoint.cx,flight),y=mLerp(origin.cy,hitPoint.cy,flight)-Math.sin(Math.PI*flight)*18;
+      const chipOpacity=mSmooth(mPhase(p,.10,.2))*(1-mSmooth(mPhase(p,v.hit,v.hit+.07)));
+      v.multiplier.style.opacity=chipOpacity;mPlace(v.multiplier,x-origin.cx-15,y-origin.cy-7,1-.48*mSmooth(mPhase(p,v.hit,v.hit+.07)),1+.20*mSmooth(mPhase(p,v.hit,v.hit+.07)));
+      v.source.el.style.color=M_COLOR.scale;mGlow(v.source.el,M_COLOR.scale);
+      const morph=mSmooth(mPhase(after,.08,.41)),reflow=mSmooth(mPhase(after,.3,1)),s=v.sourceSign,t=v.targetSign;
+      mPlace(v.source.sign,(t.cx-s.cx)*reflow,(t.cy-s.cy)*reflow);mSetSign(v.source.sign,v.source.signInfo,v.target.signInfo,morph);
+      if(v.num){
+        const melt=mSmooth(mPhase(after,0,.48)),shrink=mSmooth(mPhase(after,.13,.55));
+        v.den.style.opacity=Math.pow(1-melt,1.4);mPlace(v.den,0,23*melt*melt,1-.65*melt,1+.7*melt);v.den.style.filter=`blur(${melt*2.2}px)`;
+        v.bar.style.transform=`scaleX(${1-shrink})`;v.bar.style.opacity=1-shrink;v.num.style.opacity=1-morph;mPlace(v.num,0,0,1-.13*morph,1+.1*morph);
+        const fall=mPhase(after,.35,1),land=mPhase(fall,.58,1),squash=Math.sin(land*Math.PI*4)*Math.exp(-land*6)*(1-land)*.13*motionConfig.bounce;
+        const dx=(v.start.cx-v.destination.cx)*(1-mSmooth(fall)),dy=v.start.cy-v.destination.cy+mFall(fall,v.destination.cy-v.start.cy,motionConfig.bounce);
+        v.result.el.style.opacity=morph;mPlace(v.result.el,dx,dy,1+squash,1-squash);mGlow(v.result.el,M_COLOR.scale);mSparks(v.melt,mPhase(after,.1,.8),motionConfig.trail*.28,true);
+      }else{
+        v.body.style.opacity=1-morph;mPlace(v.body,0,0,1-.25*morph,1+.12*morph);
+        v.result.el.style.opacity=morph;mPlace(v.result.el,(v.start.cx-v.destination.cx)*(1-reflow),(v.start.cy-v.destination.cy)*(1-reflow),mLerp(.7,1,morph),mLerp(1.17,1,morph));mGlow(v.result.el,M_COLOR.scale);mSparks(v.melt,0);
+      }
+      mSparks(v.particles,mPhase(p,v.hit,v.hit+.24),motionConfig.trail*.65);
+    }
+  }
+  seek(ms){if(!this.plan)return;this.time=mClamp(Number(ms)||0,0,this.duration);if(this.time>=this.duration)this.playing=false;this.render()}
+  toggle(){if(!this.plan)return;if(this.time>=this.duration)this.time=0;this.playing=!this.playing;this.last=performance.now();this.render()}
+  replay(){if(!this.plan){if(currentScreen==='solution')this.load(current);return}this.time=0;this.playing=true;this.last=performance.now();this.render()}
 }
-
-function rowHTML(row){
-  return `<div class="eqrow">
-    <div class="l">${row.l}</div>
-    <div class="e">=</div>
-    <div class="r">${row.r}</div>
-  </div>`;
-}
+const motionPlayer=new SolutionPlayer();
+let nextButtonTimer=null;
 
 function resetSolution(){
   animationToken++;
   animating=false;
-  $("mathStack").innerHTML="";
-  $("solutionArea").querySelectorAll(".transfer").forEach(x=>x.remove());
-  $("nextBtn").classList.remove("show");
-  $("skipNote").textContent="Enter를 누르면 풀이 애니메이션을 건너뜁니다.";
+  if(nextButtonTimer){clearTimeout(nextButtonTimer);nextButtonTimer=null}
+  motionPlayer.stop();
+  $('nextBtn').classList.remove('show');
 }
 
-function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
-
-async function animateTransfer(move,token){
-  if(!move || token!==animationToken)return;
-
-  const chip=document.createElement("div");
-  chip.className="transfer";
-  chip.innerHTML=move.term.before;
-  $("solutionArea").appendChild(chip);
-
-  const from=move.dir==="rtl" ? "68%" : "22%";
-  const to=move.dir==="rtl" ? "22%" : "68%";
-  chip.style.left=from;
-
-  const anim=chip.animate([
-    {left:from,opacity:0,transform:"translateY(-5px) scale(.94)"},
-    {left:from,opacity:1,transform:"translateY(0) scale(1)",offset:.15},
-    {left:to,opacity:1,transform:"translateY(38px) scale(1)",offset:.8},
-    {left:to,opacity:0,transform:"translateY(46px) scale(.94)"}
-  ],{
-    duration:760,
-    easing:"cubic-bezier(.2,.75,.2,1)",
-    fill:"forwards"
-  });
-
-  await sleep(330);
-  if(token!==animationToken){anim.cancel();chip.remove();return}
-  chip.innerHTML=move.term.after;
-
-  await anim.finished.catch(()=>{});
-  chip.remove();
-}
-
-async function playSolution(){
+function playSolution(){
+  if(currentScreen!=='solution')return;
   const token=++animationToken;
-  animating=true;
+  motionPlayer.load(current);
 
-  const rows=makeRows();
-  const stack=$("mathStack");
-  stack.innerHTML="";
-
-  for(let i=0;i<rows.length;i++){
-    if(token!==animationToken)return;
-
-    if(i>0 && rows[i].move){
-      await animateTransfer(rows[i].move,token);
-      if(token!==animationToken)return;
-    }else if(i>0){
-      await sleep(260);
-      if(token!==animationToken)return;
-    }
-
-    stack.insertAdjacentHTML("beforeend",rowHTML(rows[i]));
-    const el=stack.lastElementChild;
-    requestAnimationFrame(()=>el.classList.add("show"));
-
-    await sleep(390);
-  }
-
-  if(token!==animationToken)return;
-
-  animating=false;
-  $("skipNote").textContent="";
-  $("nextBtn").classList.add("show");
+  if(nextButtonTimer)clearTimeout(nextButtonTimer);
+  nextButtonTimer=setTimeout(()=>{
+    nextButtonTimer=null;
+    if(token!==animationToken || currentScreen!=='solution')return;
+    $('nextBtn').classList.add('show');
+  },1000);
 }
 
 function skipSolution(){
-  if(!animating)return;
-
-  animationToken++;
-  animating=false;
-
-  $("solutionArea").querySelectorAll(".transfer").forEach(x=>x.remove());
-
-  const rows=makeRows();
-  $("mathStack").innerHTML=rows.map(rowHTML).join("");
-  $("mathStack").querySelectorAll(".eqrow").forEach(x=>x.classList.add("instant"));
-
-  $("skipNote").textContent="";
-  $("nextBtn").classList.add("show");
+  if(currentScreen!=='solution')return;
+  if(!motionPlayer.plan)motionPlayer.load(current);
+  motionPlayer.playing=false;
+  motionPlayer.seek(motionPlayer.duration);
 }
+let motionScrubbing=false,motionResumeAfterSeek=false;
+$('motionSpeed').addEventListener('input',e=>ANIMATION_CONFIG.tempo=Number(e.target.value));
+$('motionPause').addEventListener('click',()=>motionPlayer.toggle());
+$('motionReplay').addEventListener('click',()=>motionPlayer.replay());
+$('motionSeek').addEventListener('pointerdown',()=>{motionScrubbing=true;motionResumeAfterSeek=motionPlayer.playing;motionPlayer.playing=false;motionPlayer.updateControls()});
+$('motionSeek').addEventListener('input',e=>{if(!motionScrubbing)motionPlayer.playing=false;motionPlayer.seek(Number(e.target.value))});
+function finishMotionScrub(){if(!motionScrubbing)return;motionScrubbing=false;if(motionResumeAfterSeek&&motionPlayer.time<motionPlayer.duration){motionPlayer.playing=true;motionPlayer.last=performance.now()}motionPlayer.updateControls()}
+$('motionSeek').addEventListener('change',finishMotionScrub);document.addEventListener('pointerup',finishMotionScrub);document.addEventListener('pointercancel',()=>{motionResumeAfterSeek=false;finishMotionScrub()});
+document.addEventListener('visibilitychange',()=>motionPlayer.last=performance.now());
+const motionResize=new ResizeObserver(()=>{if(!motionPlayer.plan)return;const width=$('motionViewport').clientWidth;if(width&&Math.abs(width-motionPlayer.width)>1){const time=motionPlayer.time;motionPlayer.build();motionPlayer.seek(time)}});motionResize.observe($('motionViewport'));
+window.solutionMotion={get state(){return {time:motionPlayer.time,duration:motionPlayer.duration,playing:motionPlayer.playing,complete:!!motionPlayer.plan&&motionPlayer.time>=motionPlayer.duration,step:motionPlayer.clips.findIndex(c=>motionPlayer.time>=c.start&&motionPlayer.time<c.end),tempo:motionConfig.tempo}},seek:ms=>{motionPlayer.playing=false;motionPlayer.seek(ms)},replay:()=>motionPlayer.replay(),pause:()=>{motionPlayer.playing=false;motionPlayer.updateControls()},play:()=>{if(motionPlayer.plan){if(motionPlayer.time>=motionPlayer.duration)motionPlayer.time=0;motionPlayer.playing=true;motionPlayer.last=performance.now();motionPlayer.render()}},get plan(){return motionPlayer.plan}};
+syncMotionSpeed();
+
 
 /* ---------- 채점 / 이동 ---------- */
 function checkAnswer(){
+  if(currentScreen!=="problem" || !questionReady)return;
   const value=parseAnswer($("answer").value);
 
   if(!value){
@@ -779,6 +1076,8 @@ function checkAnswer(){
     return;
   }
 
+  questionReady=false;
+  $("checkBtn").disabled=true;
   const correct=same(value,current.solution);
   batchStats[current.type].total++;
   if(correct)batchStats[current.type].correct++;
@@ -793,26 +1092,29 @@ function checkAnswer(){
   resetSolution();
   setScreen("solution");
 
-  setTimeout(playSolution,330);
+  playSolution();
 }
 
 function nextProblem(){
-  if(animating){
-    skipSolution();
-    return;
-  }
+  if(currentScreen!=="solution")return;
+
+  if(nextButtonTimer){clearTimeout(nextButtonTimer);nextButtonTimer=null}
+  animationToken++;
+  motionPlayer.playing=false;
 
   if(qIndex>=9){
     showResults();
     return;
   }
 
+  questionReady=false;
   qIndex++;
   setScreen("problem");
   setTimeout(newQuestion,250);
 }
 
 function showResults(){
+  motionPlayer.playing=false;
   lastStats=JSON.parse(JSON.stringify(batchStats));
 
   const totalCorrect=TYPES.reduce((n,t)=>n+batchStats[t].correct,0);
@@ -837,6 +1139,8 @@ function showResults(){
 }
 
 function startBatch(nextMode){
+  motionPlayer.stop();
+  questionReady=false;
   mode=nextMode;
   qIndex=0;
   batchStats=freshStats();
@@ -846,6 +1150,8 @@ function startBatch(nextMode){
   setTimeout(newQuestion,250);
 }
 
+window.addEventListener("resize",()=>requestAnimationFrame(fitEquation));
+
 /* ---------- 이벤트 ---------- */
 $("checkBtn").addEventListener("click",checkAnswer);
 $("nextBtn").addEventListener("click",nextProblem);
@@ -853,24 +1159,30 @@ $("continueBtn").addEventListener("click",()=>startBatch("random"));
 $("weakBtn").addEventListener("click",()=>startBatch("weak"));
 
 document.addEventListener("keydown",e=>{
+  if(e.repeat || e.ctrlKey || e.altKey || e.metaKey)return;
+  const interactive=e.target.closest && e.target.closest('button,select,textarea,[contenteditable="true"]');
+  if(interactive)return;
+  if(currentScreen==="solution" && e.target.closest && e.target.closest('input'))return;
+  if(currentScreen==="solution" && e.code==="Space"){
+    e.preventDefault();motionPlayer.toggle();return;
+  }
   if(e.key!=="Enter")return;
 
+  /* Enter는 현재 화면의 주 버튼을 누른 것과 동일하게 동작 */
   if(currentScreen==="problem"){
     e.preventDefault();
-    checkAnswer();
+    $("checkBtn").click();
     return;
   }
 
-  if(currentScreen==="solution"){
+  if(currentScreen==="solution" && $("nextBtn").classList.contains("show")){
     e.preventDefault();
-
-    if(animating)skipSolution();
-    else if($("nextBtn").classList.contains("show"))nextProblem();
-
+    $("nextBtn").click();
     return;
   }
 });
 
+setScreen("problem",false);
 renderProgress();
 newQuestion();
 </script>
