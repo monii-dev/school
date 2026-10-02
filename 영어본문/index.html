@@ -1,0 +1,3049 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1.0,
+               maximum-scale=1.0">
+
+<title>영어 본문 학습</title>
+
+<style>
+/* =========================================================
+   기본
+========================================================= */
+
+:root {
+    color-scheme: dark;
+
+    --bg: #0d0f13;
+    --bg2: #12151b;
+
+    --card: #171a21;
+    --card2: #1d212a;
+
+    --line: #2a303b;
+
+    --text: #f2f4f8;
+    --subtext: #939bab;
+
+    --primary: #7b8cff;
+    --primary2: #6475ef;
+
+    --green: #38d67a;
+    --green-bg: rgba(56, 214, 122, 0.12);
+
+    --red: #ff646d;
+    --red-bg: rgba(255, 100, 109, 0.12);
+
+    --orange: #ffad42;
+    --orange-bg: rgba(255, 173, 66, 0.14);
+
+    --answer: #6da9ff;
+    --answer-bg: rgba(109, 169, 255, 0.13);
+}
+
+
+* {
+    box-sizing: border-box;
+}
+
+
+html {
+    min-height: 100%;
+    background: var(--bg);
+}
+
+
+body {
+    margin: 0;
+
+    min-height: 100vh;
+
+    font-family:
+        Pretendard,
+        "Noto Sans KR",
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background:
+        radial-gradient(
+            circle at top,
+            #171c29 0,
+            var(--bg) 450px
+        );
+
+    color: var(--text);
+}
+
+
+button,
+input {
+    font-family: inherit;
+}
+
+
+button {
+    -webkit-tap-highlight-color: transparent;
+}
+
+
+.hidden {
+    display: none !important;
+}
+
+
+
+/* =========================================================
+   상단바
+========================================================= */
+
+.topbar {
+    height: 64px;
+
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding:
+        0
+        max(16px, env(safe-area-inset-left));
+
+    padding-right:
+        max(16px, env(safe-area-inset-right));
+
+    background: rgba(13, 15, 19, 0.92);
+
+    border-bottom: 1px solid var(--line);
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+
+
+.top-title {
+    font-size: 18px;
+    font-weight: 850;
+
+    letter-spacing: -0.4px;
+}
+
+
+.home-btn {
+    min-height: 42px;
+
+    border: 1px solid var(--line);
+    border-radius: 12px;
+
+    padding: 0 14px;
+
+    background: var(--card2);
+    color: var(--text);
+
+    cursor: pointer;
+
+    font-size: 14px;
+    font-weight: 750;
+
+    transition: 0.15s;
+}
+
+
+.home-btn:active {
+    transform: scale(0.96);
+}
+
+
+
+/* =========================================================
+   페이지
+========================================================= */
+
+.page {
+    width: min(920px, 100%);
+
+    margin: 0 auto;
+
+    padding: 42px 20px 90px;
+}
+
+
+
+/* =========================================================
+   메인
+========================================================= */
+
+.hero {
+    text-align: center;
+
+    margin: 18px 0 40px;
+}
+
+
+.hero h1 {
+    margin: 0 0 10px;
+
+    font-size: clamp(30px, 6vw, 40px);
+
+    letter-spacing: -1px;
+}
+
+
+.hero p {
+    margin: 0;
+
+    color: var(--subtext);
+
+    font-size: 15px;
+}
+
+
+.main-menu {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 18px;
+}
+
+
+.menu-card {
+    min-height: 210px;
+
+    padding: 30px 27px;
+
+    border: 1px solid var(--line);
+    border-radius: 22px;
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--card2),
+            var(--card)
+        );
+
+    cursor: pointer;
+
+    transition:
+        transform 0.16s,
+        border-color 0.16s,
+        background 0.16s;
+}
+
+
+.menu-card:hover {
+    border-color: #3c465c;
+
+    transform: translateY(-3px);
+}
+
+
+.menu-card:active {
+    transform: scale(0.985);
+}
+
+
+.menu-icon {
+    font-size: 38px;
+
+    margin-bottom: 18px;
+}
+
+
+.menu-card h2 {
+    margin: 0 0 8px;
+
+    font-size: 22px;
+
+    letter-spacing: -0.5px;
+}
+
+
+.menu-card p {
+    margin: 0;
+
+    color: var(--subtext);
+
+    line-height: 1.6;
+}
+
+
+
+/* =========================================================
+   단원 선택
+========================================================= */
+
+.section-title {
+    text-align: center;
+
+    margin: 12px 0 32px;
+}
+
+
+.section-title h1 {
+    margin: 0 0 7px;
+
+    font-size: 30px;
+}
+
+
+.section-title p {
+    margin: 0;
+
+    color: var(--subtext);
+}
+
+
+.lesson-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 16px;
+}
+
+
+.lesson-card {
+    min-height: 160px;
+
+    padding: 26px;
+
+    border: 1px solid var(--line);
+    border-radius: 20px;
+
+    background: var(--card);
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s,
+        border-color 0.15s;
+}
+
+
+.lesson-card:hover {
+    border-color: #465171;
+
+    transform: translateY(-3px);
+}
+
+
+.lesson-card:active {
+    transform: scale(0.985);
+}
+
+
+.lesson-number {
+    margin-bottom: 8px;
+
+    color: var(--primary);
+
+    font-size: 13px;
+    font-weight: 850;
+}
+
+
+.lesson-card h2 {
+    margin: 0 0 7px;
+
+    font-size: 21px;
+}
+
+
+.lesson-card p {
+    margin: 0;
+
+    color: var(--subtext);
+
+    line-height: 1.5;
+}
+
+
+
+/* =========================================================
+   학습 카드
+========================================================= */
+
+.content-card {
+    padding: 40px;
+
+    border: 1px solid var(--line);
+    border-radius: 22px;
+
+    background: rgba(23, 26, 33, 0.97);
+}
+
+
+.lesson-header {
+    margin-bottom: 29px;
+
+    padding-bottom: 21px;
+
+    border-bottom: 1px solid var(--line);
+}
+
+
+.lesson-label {
+    margin-bottom: 6px;
+
+    color: var(--primary);
+
+    font-size: 13px;
+    font-weight: 850;
+}
+
+
+.lesson-header h1 {
+    margin: 0;
+
+    font-size: clamp(23px, 5vw, 30px);
+
+    line-height: 1.25;
+}
+
+
+
+/* =========================================================
+   본문
+========================================================= */
+
+.reading-title {
+    margin: 7px 0 28px;
+
+    font-size: clamp(25px, 5vw, 30px);
+
+    line-height: 1.3;
+}
+
+
+.reading-subtitle {
+    margin: 35px 0 17px;
+
+    font-size: 21px;
+}
+
+
+.reading-paragraph {
+    margin: 0 0 21px;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 20px;
+
+    line-height: 1.9;
+
+    color: #e8ebf1;
+
+    overflow-wrap: break-word;
+}
+
+
+
+/* =========================================================
+   빈칸 래퍼
+========================================================= */
+
+.blank-wrap {
+    position: relative;
+
+    display: inline-block;
+
+    vertical-align: baseline;
+
+    margin:
+        0
+        3px
+        1px;
+}
+
+
+
+/* =========================================================
+   빈칸 input
+========================================================= */
+
+.blank-input {
+    height: 34px;
+
+    min-width: 72px;
+    max-width: 170px;
+
+    padding:
+        2px
+        8px;
+
+    border:
+        1px solid
+        #424957;
+
+    border-bottom:
+        2px solid
+        #737c8c;
+
+    border-radius: 7px;
+
+    outline: none;
+
+    background: #222731;
+
+    color: #f3f5fa;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 17px;
+
+    text-align: center;
+
+    transition:
+        background 0.15s,
+        border-color 0.15s,
+        color 0.15s;
+}
+
+
+.blank-input:focus {
+    border-color: var(--primary);
+
+    background: #282e3b;
+}
+
+
+.blank-input.wrong {
+    border-color: var(--red);
+
+    background: var(--red-bg);
+
+    color: #ff9399;
+}
+
+
+.blank-input.correct {
+    border-color: var(--green);
+
+    background: var(--green-bg);
+
+    color: #7aefa5;
+}
+
+
+.blank-input.correct-after-wrong {
+    border-color: var(--orange);
+
+    background: var(--orange-bg);
+
+    color: #ffc16d;
+}
+
+
+.blank-input.revealed {
+    border-color: var(--answer);
+
+    background: var(--answer-bg);
+
+    color: #98c3ff;
+}
+
+
+.blank-input.locked {
+    cursor: default;
+
+    opacity: 1;
+
+    user-select: none;
+}
+
+
+
+/* =========================================================
+   틀린 횟수
+========================================================= */
+
+.mistake-count {
+    position: absolute;
+
+    top: -8px;
+    right: -7px;
+
+    min-width: 17px;
+    height: 17px;
+
+    padding: 0 4px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 999px;
+
+    background: var(--orange);
+
+    color: #151515;
+
+    font-family:
+        Pretendard,
+        sans-serif;
+
+    font-size: 10px;
+    font-weight: 900;
+
+    line-height: 1;
+
+    box-shadow:
+        0 0 0 2px
+        var(--card);
+}
+
+
+
+/* =========================================================
+   점수
+========================================================= */
+
+.score-box {
+    margin-top: 30px;
+
+    padding: 17px;
+
+    border: 1px solid var(--line);
+    border-radius: 14px;
+
+    background: var(--card2);
+
+    text-align: center;
+
+    font-size: 16px;
+    font-weight: 800;
+
+    line-height: 1.6;
+}
+
+
+
+/* =========================================================
+   버튼
+========================================================= */
+
+.bottom-actions {
+    display: flex;
+    flex-wrap: wrap;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    margin-top: 30px;
+}
+
+
+.action-btn {
+    min-height: 46px;
+
+    padding: 0 19px;
+
+    border: 0;
+    border-radius: 13px;
+
+    cursor: pointer;
+
+    font-size: 15px;
+    font-weight: 800;
+
+    transition:
+        transform 0.1s,
+        opacity 0.1s;
+}
+
+
+.action-btn:active {
+    transform: scale(0.97);
+}
+
+
+.primary-btn {
+    background: var(--primary);
+
+    color: white;
+}
+
+
+.answer-btn {
+    background: #2e72dc;
+
+    color: white;
+}
+
+
+.secondary-btn {
+    border: 1px solid var(--line);
+
+    background: var(--card2);
+
+    color: var(--text);
+}
+
+
+
+/* =========================================================
+   모바일
+========================================================= */
+
+@media (max-width: 680px) {
+
+    body {
+        background: var(--bg);
+    }
+
+
+    .topbar {
+        height: 58px;
+
+        padding-left:
+            max(12px, env(safe-area-inset-left));
+
+        padding-right:
+            max(12px, env(safe-area-inset-right));
+    }
+
+
+    .top-title {
+        font-size: 16px;
+    }
+
+
+    .home-btn {
+        min-height: 38px;
+
+        padding: 0 11px;
+
+        font-size: 13px;
+    }
+
+
+    .page {
+        padding:
+            24px
+            12px
+            calc(
+                105px +
+                env(safe-area-inset-bottom)
+            );
+    }
+
+
+    .hero {
+        margin:
+            10px
+            0
+            27px;
+    }
+
+
+    .hero p {
+        font-size: 14px;
+    }
+
+
+    .main-menu,
+    .lesson-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .main-menu {
+        gap: 12px;
+    }
+
+
+    .menu-card {
+        min-height: 0;
+
+        padding: 23px 20px;
+
+        border-radius: 17px;
+    }
+
+
+    .menu-icon {
+        margin-bottom: 11px;
+
+        font-size: 31px;
+    }
+
+
+    .menu-card h2 {
+        font-size: 20px;
+    }
+
+
+    .lesson-card {
+        min-height: 0;
+
+        padding: 21px;
+
+        border-radius: 17px;
+    }
+
+
+    .section-title {
+        margin:
+            4px
+            0
+            24px;
+    }
+
+
+    .section-title h1 {
+        font-size: 26px;
+    }
+
+
+    .content-card {
+        padding:
+            24px
+            17px
+            25px;
+
+        border-radius: 17px;
+    }
+
+
+    .lesson-header {
+        margin-bottom: 22px;
+
+        padding-bottom: 17px;
+    }
+
+
+    .reading-title {
+        margin-bottom: 22px;
+    }
+
+
+    .reading-paragraph {
+        margin-bottom: 20px;
+
+        font-size: 18px;
+
+        line-height: 1.95;
+    }
+
+
+    .blank-wrap {
+        margin-left: 2px;
+        margin-right: 2px;
+    }
+
+
+    .blank-input {
+        height: 37px;
+
+        min-width: 68px;
+        max-width: 145px;
+
+        padding:
+            3px
+            7px;
+
+        font-size: 16px;
+
+        border-radius: 7px;
+    }
+
+
+    /*
+       학습 페이지의 버튼은
+       화면 아래 고정
+    */
+
+    #studyPage .bottom-actions {
+        position: fixed;
+
+        z-index: 90;
+
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        margin: 0;
+
+        padding:
+            10px
+            11px
+            calc(
+                10px +
+                env(safe-area-inset-bottom)
+            );
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(
+                auto-fit,
+                minmax(100px, 1fr)
+            );
+
+        gap: 7px;
+
+        background:
+            rgba(
+                13,
+                15,
+                19,
+                0.95
+            );
+
+        border-top:
+            1px solid
+            var(--line);
+
+        backdrop-filter:
+            blur(14px);
+
+        -webkit-backdrop-filter:
+            blur(14px);
+    }
+
+
+    #studyPage .action-btn {
+        width: 100%;
+
+        min-height: 46px;
+
+        padding: 0 9px;
+
+        font-size: 13px;
+
+        border-radius: 11px;
+    }
+
+
+    .score-box {
+        margin-top: 24px;
+
+        font-size: 14px;
+    }
+
+}
+
+
+
+/* 아주 작은 폰 */
+
+@media (max-width: 390px) {
+
+    .reading-paragraph {
+        font-size: 17px;
+    }
+
+
+    .blank-input {
+        max-width: 130px;
+
+        font-size: 15px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     상단
+===================================================== -->
+
+<header class="topbar">
+
+    <div class="top-title">
+        영어 본문 학습
+    </div>
+
+    <button
+        class="home-btn"
+        onclick="location.href='../index.html'"
+    >
+        🏠 홈
+    </button>
+
+</header>
+
+
+
+<!-- =====================================================
+     메인
+===================================================== -->
+
+<main
+    id="mainPage"
+    class="page"
+>
+
+    <div class="hero">
+
+        <h1>
+            영어 본문 학습
+        </h1>
+
+        <p>
+            학습 방법을 선택하세요.
+        </p>
+
+    </div>
+
+
+    <div class="main-menu">
+
+        <div
+            class="menu-card"
+            onclick="showLessonSelect('view')"
+        >
+
+            <div class="menu-icon">
+                📖
+            </div>
+
+            <h2>
+                영어 본문 보기
+            </h2>
+
+            <p>
+                교과서 영어 본문을
+                그대로 읽어봅니다.
+            </p>
+
+        </div>
+
+
+        <div
+            class="menu-card"
+            onclick="showLessonSelect('blank')"
+        >
+
+            <div class="menu-icon">
+                ✏️
+            </div>
+
+            <h2>
+                영어 본문 빈칸 채우기
+            </h2>
+
+            <p>
+                랜덤으로 만들어진 빈칸을
+                채우며 본문을 암기합니다.
+            </p>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+
+<!-- =====================================================
+     과 선택
+===================================================== -->
+
+<main
+    id="lessonPage"
+    class="page hidden"
+>
+
+    <div class="section-title">
+
+        <h1 id="lessonSelectTitle">
+            과 선택
+        </h1>
+
+        <p>
+            학습할 단원을 선택하세요.
+        </p>
+
+    </div>
+
+
+    <div class="lesson-grid">
+
+        <div
+            class="lesson-card"
+            onclick="openLesson(4)"
+        >
+
+            <div class="lesson-number">
+                LESSON 4
+            </div>
+
+            <h2>
+                Be Safe Everywhere
+            </h2>
+
+            <p>
+                Stay Safe at School
+            </p>
+
+        </div>
+
+
+        <div
+            class="lesson-card"
+            onclick="openLesson(5)"
+        >
+
+            <div class="lesson-number">
+                LESSON 5
+            </div>
+
+            <h2>
+                Enjoying Art
+            </h2>
+
+            <p>
+                From the Self-Portrait
+                to the Selfie
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="bottom-actions">
+
+        <button
+            class="action-btn secondary-btn"
+            onclick="showMain()"
+        >
+            ← 뒤로
+        </button>
+
+    </div>
+
+</main>
+
+
+
+<!-- =====================================================
+     학습 화면
+===================================================== -->
+
+<main
+    id="studyPage"
+    class="page hidden"
+>
+
+    <div class="content-card">
+
+
+        <div class="lesson-header">
+
+            <div
+                id="lessonLabel"
+                class="lesson-label"
+            ></div>
+
+            <h1 id="unitTitle"></h1>
+
+        </div>
+
+
+        <div id="contentArea"></div>
+
+
+        <div
+            id="scoreBox"
+            class="score-box hidden"
+        ></div>
+
+
+        <div class="bottom-actions">
+
+
+            <!-- 처음부터 존재하는 채점 버튼 -->
+
+            <button
+                id="gradeBtn"
+                class="
+                    action-btn
+                    primary-btn
+                    hidden
+                "
+                onclick="gradeAnswers()"
+            >
+                채점하기
+            </button>
+
+
+            <!--
+                최초 채점 후 나타남
+            -->
+
+            <button
+                id="showAnswerBtn"
+                class="
+                    action-btn
+                    answer-btn
+                    hidden
+                "
+                onclick="showAnswers()"
+            >
+                정답 확인
+            </button>
+
+
+            <button
+                id="retryBtn"
+                class="
+                    action-btn
+                    secondary-btn
+                    hidden
+                "
+                onclick="generateBlankQuiz()"
+            >
+                🎲 새 문제
+            </button>
+
+
+            <button
+                class="
+                    action-btn
+                    secondary-btn
+                "
+                onclick="backToLessons()"
+            >
+                ← 과 선택
+            </button>
+
+
+        </div>
+
+    </div>
+
+</main>
+
+
+
+<script src="./content.js"></script>
+
+
+<script>
+
+/* =========================================================
+   현재 상태
+========================================================= */
+
+let currentMode = null;
+let currentLesson = null;
+
+let blankAnswers = [];
+
+let hasGraded = false;
+let answersShown = false;
+
+
+const BLANK_RATIO = 0.20;
+
+const MIN_BLANKS = 8;
+
+const MAX_BLANKS = 30;
+
+
+
+/* =========================================================
+   화면 이동
+========================================================= */
+
+function hideAllPages() {
+
+    document
+        .querySelectorAll(".page")
+        .forEach(page => {
+
+            page.classList.add(
+                "hidden"
+            );
+
+        });
+
+}
+
+
+
+function showMain() {
+
+    currentMode = null;
+    currentLesson = null;
+
+    hideAllPages();
+
+    document
+        .getElementById(
+            "mainPage"
+        )
+        .classList.remove(
+            "hidden"
+        );
+
+}
+
+
+
+function showLessonSelect(mode) {
+
+    currentMode = mode;
+
+    hideAllPages();
+
+    document
+        .getElementById(
+            "lessonPage"
+        )
+        .classList.remove(
+            "hidden"
+        );
+
+
+    document
+        .getElementById(
+            "lessonSelectTitle"
+        )
+        .textContent =
+        mode === "view"
+            ? "영어 본문 보기"
+            : "영어 본문 빈칸 채우기";
+
+}
+
+
+
+function backToLessons() {
+
+    showLessonSelect(
+        currentMode
+    );
+
+}
+
+
+
+/* =========================================================
+   단원 열기
+========================================================= */
+
+function openLesson(lesson) {
+
+    currentLesson = lesson;
+
+    hideAllPages();
+
+
+    document
+        .getElementById(
+            "studyPage"
+        )
+        .classList.remove(
+            "hidden"
+        );
+
+
+    const data =
+        ENGLISH_CONTENT[
+            lesson
+        ];
+
+
+    document
+        .getElementById(
+            "lessonLabel"
+        )
+        .textContent =
+        "LESSON " +
+        data.lesson;
+
+
+    document
+        .getElementById(
+            "unitTitle"
+        )
+        .textContent =
+        data.unitTitle;
+
+
+    resetButtons();
+
+
+    if (
+        currentMode ===
+        "view"
+    ) {
+
+        renderReading();
+
+    }
+
+    else {
+
+        generateBlankQuiz();
+
+    }
+
+
+    window.scrollTo(
+        0,
+        0
+    );
+
+}
+
+
+
+/* =========================================================
+   버튼 초기화
+========================================================= */
+
+function resetButtons() {
+
+    [
+        "gradeBtn",
+        "showAnswerBtn",
+        "retryBtn"
+    ]
+    .forEach(id => {
+
+        document
+            .getElementById(id)
+            .classList.add(
+                "hidden"
+            );
+
+    });
+
+
+    const scoreBox =
+        document
+            .getElementById(
+                "scoreBox"
+            );
+
+
+    scoreBox
+        .classList
+        .add(
+            "hidden"
+        );
+
+
+    scoreBox.innerHTML = "";
+
+}
+
+
+
+/* =========================================================
+   본문 보기
+========================================================= */
+
+function renderReading() {
+
+    const area =
+        document
+            .getElementById(
+                "contentArea"
+            );
+
+
+    area.innerHTML = "";
+
+
+    const data =
+        ENGLISH_CONTENT[
+            currentLesson
+        ];
+
+
+    data.blocks.forEach(
+        block => {
+
+            const element =
+                createBlockElement(
+                    block.type
+                );
+
+
+            block.runs.forEach(
+                run => {
+
+                    const span =
+                        document
+                            .createElement(
+                                "span"
+                            );
+
+
+                    span.textContent =
+                        run.text;
+
+
+                    if (
+                        run.bold
+                    ) {
+
+                        span.style.fontWeight =
+                            "800";
+
+                    }
+
+
+                    if (
+                        run.italic
+                    ) {
+
+                        span.style.fontStyle =
+                            "italic";
+
+                    }
+
+
+                    element
+                        .appendChild(
+                            span
+                        );
+
+                }
+            );
+
+
+            area.appendChild(
+                element
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =========================================================
+   block 생성
+========================================================= */
+
+function createBlockElement(type) {
+
+    let element;
+
+
+    if (
+        type === "title"
+    ) {
+
+        element =
+            document
+                .createElement(
+                    "h2"
+                );
+
+        element.className =
+            "reading-title";
+
+    }
+
+    else if (
+        type === "subtitle"
+    ) {
+
+        element =
+            document
+                .createElement(
+                    "h3"
+                );
+
+        element.className =
+            "reading-subtitle";
+
+    }
+
+    else {
+
+        element =
+            document
+                .createElement(
+                    "p"
+                );
+
+        element.className =
+            "reading-paragraph";
+
+    }
+
+
+    return element;
+
+}
+
+
+
+/* =========================================================
+   새 랜덤 빈칸 생성
+========================================================= */
+
+function generateBlankQuiz() {
+
+    blankAnswers = [];
+
+    hasGraded = false;
+
+    answersShown = false;
+
+
+    const scoreBox =
+        document
+            .getElementById(
+                "scoreBox"
+            );
+
+
+    scoreBox
+        .classList
+        .add(
+            "hidden"
+        );
+
+
+    scoreBox.innerHTML = "";
+
+
+    const data =
+        ENGLISH_CONTENT[
+            currentLesson
+        ];
+
+
+    const candidates = [];
+
+
+    data.blocks.forEach(
+        (
+            block,
+            blockIndex
+        ) => {
+
+
+            /*
+                제목은 빈칸 제외
+            */
+
+            if (
+                block.type ===
+                "title" ||
+
+                block.type ===
+                "subtitle"
+            ) {
+
+                return;
+
+            }
+
+
+            block.runs.forEach(
+                (
+                    run,
+                    runIndex
+                ) => {
+
+
+                    /*
+                        볼드 부분 제외
+                    */
+
+                    if (
+                        run.bold
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    const tokens =
+                        tokenize(
+                            run.text
+                        );
+
+
+                    tokens.forEach(
+                        (
+                            token,
+                            tokenIndex
+                        ) => {
+
+
+                            if (
+                                isBlankCandidate(
+                                    token
+                                )
+                            ) {
+
+                                candidates
+                                    .push({
+
+                                        blockIndex,
+                                        runIndex,
+                                        tokenIndex
+
+                                    });
+
+                            }
+
+                        }
+                    );
+
+                }
+            );
+
+        }
+    );
+
+
+    shuffleArray(
+        candidates
+    );
+
+
+    let blankCount =
+        Math.round(
+
+            candidates.length *
+
+            BLANK_RATIO
+
+        );
+
+
+    blankCount =
+        Math.max(
+            MIN_BLANKS,
+            blankCount
+        );
+
+
+    blankCount =
+        Math.min(
+            MAX_BLANKS,
+            blankCount,
+            candidates.length
+        );
+
+
+    const selected =
+        new Set();
+
+
+    candidates
+        .slice(
+            0,
+            blankCount
+        )
+        .forEach(
+            item => {
+
+                selected.add(
+
+                    locationKey(
+
+                        item.blockIndex,
+
+                        item.runIndex,
+
+                        item.tokenIndex
+
+                    )
+
+                );
+
+            }
+        );
+
+
+    renderBlankContent(
+        selected
+    );
+
+
+    document
+        .getElementById(
+            "gradeBtn"
+        )
+        .classList.remove(
+            "hidden"
+        );
+
+
+    document
+        .getElementById(
+            "showAnswerBtn"
+        )
+        .classList.add(
+            "hidden"
+        );
+
+
+    document
+        .getElementById(
+            "retryBtn"
+        )
+        .classList.remove(
+            "hidden"
+        );
+
+}
+
+
+
+/* =========================================================
+   빈칸 본문 그리기
+========================================================= */
+
+function renderBlankContent(
+    selected
+) {
+
+    const area =
+        document
+            .getElementById(
+                "contentArea"
+            );
+
+
+    area.innerHTML = "";
+
+
+    const data =
+        ENGLISH_CONTENT[
+            currentLesson
+        ];
+
+
+    let blankId = 0;
+
+
+    data.blocks.forEach(
+        (
+            block,
+            blockIndex
+        ) => {
+
+
+            const element =
+                createBlockElement(
+                    block.type
+                );
+
+
+            block.runs.forEach(
+                (
+                    run,
+                    runIndex
+                ) => {
+
+
+                    /*
+                        그대로 출력해야 하는 부분
+                    */
+
+                    if (
+                        block.type ===
+                        "title" ||
+
+                        block.type ===
+                        "subtitle" ||
+
+                        run.bold
+                    ) {
+
+
+                        const span =
+                            document
+                                .createElement(
+                                    "span"
+                                );
+
+
+                        span.textContent =
+                            run.text;
+
+
+                        if (
+                            run.bold
+                        ) {
+
+                            span.style
+                                .fontWeight =
+                                "800";
+
+                        }
+
+
+                        element
+                            .appendChild(
+                                span
+                            );
+
+
+                        return;
+
+                    }
+
+
+                    const tokens =
+                        tokenize(
+                            run.text
+                        );
+
+
+                    tokens.forEach(
+                        (
+                            token,
+                            tokenIndex
+                        ) => {
+
+
+                            const key =
+                                locationKey(
+
+                                    blockIndex,
+
+                                    runIndex,
+
+                                    tokenIndex
+
+                                );
+
+
+                            if (
+                                selected.has(
+                                    key
+                                ) &&
+
+                                isBlankCandidate(
+                                    token
+                                )
+                            ) {
+
+
+                                const parsed =
+                                    splitWordPunctuation(
+                                        token
+                                    );
+
+
+                                if (
+                                    parsed.before
+                                ) {
+
+                                    element.appendChild(
+
+                                        document
+                                            .createTextNode(
+                                                parsed.before
+                                            )
+
+                                    );
+
+                                }
+
+
+                                /*
+                                    input +
+                                    틀린 횟수를 감싸는 래퍼
+                                */
+
+                                const wrapper =
+                                    document
+                                        .createElement(
+                                            "span"
+                                        );
+
+
+                                wrapper.className =
+                                    "blank-wrap";
+
+
+                                const input =
+                                    document
+                                        .createElement(
+                                            "input"
+                                        );
+
+
+                                input.type =
+                                    "text";
+
+
+                                input.className =
+                                    "blank-input";
+
+
+                                input.dataset.blankId =
+                                    blankId;
+
+
+                                /*
+                                    몇 번 틀렸는지
+                                */
+
+                                input.dataset.wrongCount =
+                                    "0";
+
+
+                                /*
+                                    맞혀서 잠겼는지
+                                */
+
+                                input.dataset.solved =
+                                    "false";
+
+
+                                /*
+                                    정답확인으로
+                                    공개됐는지
+                                */
+
+                                input.dataset.revealed =
+                                    "false";
+
+
+                                input.autocomplete =
+                                    "off";
+
+
+                                input.spellcheck =
+                                    false;
+
+
+                                /*
+                                    길이에 따라
+                                    폭 조절
+                                */
+
+                                const width =
+                                    Math.max(
+
+                                        72,
+
+                                        Math.min(
+
+                                            165,
+
+                                            parsed.word.length *
+                                            11 +
+                                            28
+
+                                        )
+
+                                    );
+
+
+                                input.style.width =
+                                    width + "px";
+
+
+                                blankAnswers.push(
+                                    parsed.word
+                                );
+
+
+                                blankId++;
+
+
+                                wrapper.appendChild(
+                                    input
+                                );
+
+
+                                element.appendChild(
+                                    wrapper
+                                );
+
+
+                                if (
+                                    parsed.after
+                                ) {
+
+                                    element.appendChild(
+
+                                        document
+                                            .createTextNode(
+                                                parsed.after
+                                            )
+
+                                    );
+
+                                }
+
+                            }
+
+                            else {
+
+                                element.appendChild(
+
+                                    document
+                                        .createTextNode(
+                                            token
+                                        )
+
+                                );
+
+                            }
+
+                        }
+                    );
+
+                }
+            );
+
+
+            area.appendChild(
+                element
+            );
+
+        }
+    );
+
+
+    setupInputKeyboard();
+
+
+    /*
+        첫 문제 자동 선택
+    */
+
+    const first =
+        area.querySelector(
+            ".blank-input"
+        );
+
+
+    if (first) {
+
+        setTimeout(
+            () => {
+
+                first.focus();
+
+            },
+            80
+        );
+
+    }
+
+}
+
+
+
+/* =========================================================
+   키보드
+========================================================= */
+
+function setupInputKeyboard() {
+
+    const inputs =
+        [
+            ...document
+                .querySelectorAll(
+                    ".blank-input"
+                )
+        ];
+
+
+    inputs.forEach(
+        (
+            input,
+            index
+        ) => {
+
+
+            input.addEventListener(
+                "keydown",
+                event => {
+
+
+                    if (
+                        event.key !==
+                        "Enter"
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    event.preventDefault();
+
+
+                    /*
+                        잠기지 않은 다음 문제 찾기
+                    */
+
+                    const next =
+                        inputs
+                            .slice(
+                                index + 1
+                            )
+                            .find(
+                                el =>
+                                    !el.readOnly
+                            );
+
+
+                    if (
+                        next
+                    ) {
+
+                        next.focus();
+
+                    }
+
+                    else {
+
+                        gradeAnswers();
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =========================================================
+   채점
+========================================================= */
+
+function gradeAnswers() {
+
+    if (
+        answersShown
+    ) {
+
+        return;
+
+    }
+
+
+    const inputs =
+        [
+            ...document
+                .querySelectorAll(
+                    ".blank-input"
+                )
+        ];
+
+
+    let solvedCount = 0;
+
+    let newCorrectCount = 0;
+
+
+    inputs.forEach(
+        input => {
+
+
+            /*
+                이미 맞힌 것은
+                다시 채점하지 않음
+            */
+
+            if (
+                input.dataset.solved ===
+                "true"
+            ) {
+
+                solvedCount++;
+
+                return;
+
+            }
+
+
+            const id =
+                Number(
+                    input.dataset.blankId
+                );
+
+
+            const answer =
+                blankAnswers[id];
+
+
+            const userAnswer =
+                input.value.trim();
+
+
+            input.classList.remove(
+                "wrong"
+            );
+
+
+            /*
+                정답
+            */
+
+            if (
+                normalizeAnswer(
+                    userAnswer
+                ) ===
+
+                normalizeAnswer(
+                    answer
+                )
+            ) {
+
+
+                const wrongCount =
+                    Number(
+                        input.dataset
+                            .wrongCount
+                    );
+
+
+                input.dataset.solved =
+                    "true";
+
+
+                /*
+                    이전에 한번이라도
+                    틀린 적 있음
+                */
+
+                if (
+                    wrongCount > 0
+                ) {
+
+                    input.classList.add(
+                        "correct-after-wrong"
+                    );
+
+
+                    /*
+                        2회 이상 틀렸을 때만
+                        숫자 표시
+
+                        1회는 표시 안 함
+                    */
+
+                    if (
+                        wrongCount >= 2
+                    ) {
+
+                        showMistakeCount(
+                            input,
+                            wrongCount
+                        );
+
+                    }
+
+                }
+
+                else {
+
+                    /*
+                        한 번에 정답
+                    */
+
+                    input.classList.add(
+                        "correct"
+                    );
+
+                }
+
+
+                lockInput(
+                    input
+                );
+
+
+                solvedCount++;
+
+                newCorrectCount++;
+
+            }
+
+            /*
+                오답
+            */
+
+            else {
+
+
+                let wrongCount =
+                    Number(
+                        input.dataset
+                            .wrongCount
+                    );
+
+
+                wrongCount++;
+
+
+                input.dataset
+                    .wrongCount =
+                    String(
+                        wrongCount
+                    );
+
+
+                input.classList.add(
+                    "wrong"
+                );
+
+            }
+
+        }
+    );
+
+
+    hasGraded = true;
+
+
+    /*
+        최초 채점 이후부터
+        정답 확인 버튼 표시
+    */
+
+    if (
+        solvedCount <
+        inputs.length
+    ) {
+
+        document
+            .getElementById(
+                "showAnswerBtn"
+            )
+            .classList.remove(
+                "hidden"
+            );
+
+    }
+
+    else {
+
+        document
+            .getElementById(
+                "showAnswerBtn"
+            )
+            .classList.add(
+                "hidden"
+            );
+
+    }
+
+
+    updateScore();
+
+
+    /*
+        아직 풀 문제가 남아 있으면
+        첫 번째 틀린 문제로 이동
+    */
+
+    const nextWrong =
+        inputs.find(
+            input =>
+                input.dataset.solved !==
+                "true"
+        );
+
+
+    if (
+        nextWrong
+    ) {
+
+        nextWrong.focus();
+
+        nextWrong.select();
+
+    }
+
+}
+
+
+
+/* =========================================================
+   맞은 input 잠그기
+========================================================= */
+
+function lockInput(
+    input
+) {
+
+    input.readOnly = true;
+
+    input.tabIndex = -1;
+
+    input.classList.add(
+        "locked"
+    );
+
+}
+
+
+
+/* =========================================================
+   틀린 횟수 표시
+========================================================= */
+
+function showMistakeCount(
+    input,
+    count
+) {
+
+    const wrapper =
+        input.closest(
+            ".blank-wrap"
+        );
+
+
+    if (
+        !wrapper
+    ) {
+
+        return;
+
+    }
+
+
+    let badge =
+        wrapper.querySelector(
+            ".mistake-count"
+        );
+
+
+    if (
+        !badge
+    ) {
+
+        badge =
+            document.createElement(
+                "span"
+            );
+
+
+        badge.className =
+            "mistake-count";
+
+
+        wrapper.appendChild(
+            badge
+        );
+
+    }
+
+
+    badge.textContent =
+        count;
+
+}
+
+
+
+/* =========================================================
+   정답 확인
+========================================================= */
+
+function showAnswers() {
+
+    /*
+        채점을 한 번도 안 했다면
+        사용 불가능
+    */
+
+    if (
+        !hasGraded
+    ) {
+
+        return;
+
+    }
+
+
+    const inputs =
+        [
+            ...document
+                .querySelectorAll(
+                    ".blank-input"
+                )
+        ];
+
+
+    inputs.forEach(
+        input => {
+
+
+            /*
+                이미 맞힌 문제는
+                그대로 둠
+            */
+
+            if (
+                input.dataset.solved ===
+                "true"
+            ) {
+
+                return;
+
+            }
+
+
+            const id =
+                Number(
+                    input.dataset.blankId
+                );
+
+
+            const answer =
+                blankAnswers[id];
+
+
+            input.value =
+                answer;
+
+
+            input.dataset.revealed =
+                "true";
+
+
+            input.dataset.solved =
+                "true";
+
+
+            input.classList.remove(
+                "wrong"
+            );
+
+
+            input.classList.add(
+                "revealed"
+            );
+
+
+            const wrongCount =
+                Number(
+                    input.dataset
+                        .wrongCount
+                );
+
+
+            /*
+                2번 이상 틀린 경우에는
+                정답 공개 후에도 횟수 표시
+            */
+
+            if (
+                wrongCount >= 2
+            ) {
+
+                showMistakeCount(
+                    input,
+                    wrongCount
+                );
+
+            }
+
+
+            lockInput(
+                input
+            );
+
+        }
+    );
+
+
+    answersShown = true;
+
+
+    document
+        .getElementById(
+            "showAnswerBtn"
+        )
+        .classList.add(
+            "hidden"
+        );
+
+
+    /*
+        전부 잠겼기 때문에
+        채점버튼도 필요 없음
+    */
+
+    document
+        .getElementById(
+            "gradeBtn"
+        )
+        .classList.add(
+            "hidden"
+        );
+
+
+    updateScore();
+
+}
+
+
+
+/* =========================================================
+   진행 상황
+========================================================= */
+
+function updateScore() {
+
+    const inputs =
+        [
+            ...document
+                .querySelectorAll(
+                    ".blank-input"
+                )
+        ];
+
+
+    let firstTryCorrect = 0;
+
+    let retryCorrect = 0;
+
+    let revealed = 0;
+
+    let remaining = 0;
+
+
+    inputs.forEach(
+        input => {
+
+
+            if (
+                input.dataset.revealed ===
+                "true"
+            ) {
+
+                revealed++;
+
+                return;
+
+            }
+
+
+            if (
+                input.dataset.solved ===
+                "true"
+            ) {
+
+
+                const wrongCount =
+                    Number(
+                        input.dataset
+                            .wrongCount
+                    );
+
+
+                if (
+                    wrongCount === 0
+                ) {
+
+                    firstTryCorrect++;
+
+                }
+
+                else {
+
+                    retryCorrect++;
+
+                }
+
+
+                return;
+
+            }
+
+
+            remaining++;
+
+        }
+    );
+
+
+    const scoreBox =
+        document
+            .getElementById(
+                "scoreBox"
+            );
+
+
+    const realCorrect =
+        firstTryCorrect +
+        retryCorrect;
+
+
+    let html = `
+        맞힌 문제
+        <strong>
+            ${realCorrect} / ${inputs.length}
+        </strong>
+    `;
+
+
+    if (
+        retryCorrect > 0
+    ) {
+
+        html +=
+            ` · 재도전 성공 ${retryCorrect}`;
+
+    }
+
+
+    if (
+        revealed > 0
+    ) {
+
+        html +=
+            ` · 정답 확인 ${revealed}`;
+
+    }
+
+
+    if (
+        remaining > 0
+    ) {
+
+        html +=
+            ` · 남은 문제 ${remaining}`;
+
+    }
+
+
+    scoreBox.innerHTML =
+        html;
+
+
+    scoreBox
+        .classList
+        .remove(
+            "hidden"
+        );
+
+}
+
+
+
+/* =========================================================
+   문자열 토큰
+========================================================= */
+
+function tokenize(text) {
+
+    return text.split(
+        /(\s+)/
+    );
+
+}
+
+
+
+/* =========================================================
+   빈칸 후보인지
+========================================================= */
+
+function isBlankCandidate(
+    token
+) {
+
+    const parsed =
+        splitWordPunctuation(
+            token
+        );
+
+
+    const word =
+        parsed.word;
+
+
+    if (
+        !word
+    ) {
+
+        return false;
+
+    }
+
+
+    if (
+        word.length < 2
+    ) {
+
+        return false;
+
+    }
+
+
+    return (
+        /[A-Za-z]/
+        .test(
+            word
+        )
+    );
+
+}
+
+
+
+/* =========================================================
+   문장부호 분리
+========================================================= */
+
+function splitWordPunctuation(
+    token
+) {
+
+    const match =
+        token.match(
+            /^([^A-Za-z’'-]*)([A-Za-z][A-Za-z’'-]*)([^A-Za-z’'-]*)$/
+        );
+
+
+    if (
+        !match
+    ) {
+
+        return {
+
+            before: "",
+            word: "",
+            after: ""
+
+        };
+
+    }
+
+
+    return {
+
+        before: match[1],
+
+        word: match[2],
+
+        after: match[3]
+
+    };
+
+}
+
+
+
+/* =========================================================
+   정답 비교
+========================================================= */
+
+function normalizeAnswer(
+    text
+) {
+
+    return text
+        .trim()
+        .toLowerCase()
+        .replace(
+            /’/g,
+            "'"
+        );
+
+}
+
+
+
+/* =========================================================
+   랜덤 섞기
+========================================================= */
+
+function shuffleArray(
+    array
+) {
+
+    for (
+        let i =
+            array.length - 1;
+
+        i > 0;
+
+        i--
+    ) {
+
+
+        const j =
+            Math.floor(
+
+                Math.random() *
+
+                (i + 1)
+
+            );
+
+
+        [
+            array[i],
+            array[j]
+        ] =
+        [
+            array[j],
+            array[i]
+        ];
+
+    }
+
+}
+
+
+
+/* =========================================================
+   위치 ID
+========================================================= */
+
+function locationKey(
+    blockIndex,
+    runIndex,
+    tokenIndex
+) {
+
+    return (
+        blockIndex +
+        ":" +
+        runIndex +
+        ":" +
+        tokenIndex
+    );
+
+}
+
+</script>
+
+</body>
+</html>
