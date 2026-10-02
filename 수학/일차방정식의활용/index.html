@@ -375,10 +375,25 @@ select:disabled{opacity:.55}
   .final{color:#111}
   .frac>.num{border-color:#111}
 }
+
+/* 상위 메뉴로 이동 */
+.page-nav{display:flex;align-items:center;justify-content:flex-start;margin:0 0 14px}
+.parent-link{display:inline-flex;align-items:center;gap:7px;color:var(--ink);text-decoration:none;background:var(--panel2);border:1px solid var(--line);padding:9px 12px;border-radius:12px;font-size:.88rem;font-weight:900;transition:background .15s,transform .12s,border-color .15s}
+.parent-link:hover{background:var(--panel3);border-color:#3a4253}.parent-link:active{transform:scale(.97)}
+.parent-link:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.parent-link svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:620px){.page-nav{margin-bottom:10px}.parent-link{padding:8px 10px;font-size:.82rem}}
+
 </style>
 </head>
 <body>
 <div class="wrap">
+  <div class="page-nav">
+    <a class="parent-link" href="../../index.html" aria-label="상위 메뉴로 이동">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5"/><path d="m11 18-6-6 6-6"/></svg>
+      뒤로가기
+    </a>
+  </div>
   <div class="top">
     <div class="title">
       <h1>일차방정식 활용 문제</h1>
