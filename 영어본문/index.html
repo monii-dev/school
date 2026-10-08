@@ -541,6 +541,9 @@ button {
 }
 
 
+/* 대소문자만 다른 답은 연한 초록색으로 구분 */
+.blank-input.case-warning { border-color:#9cd9b5; background:#19372c; color:#c9f2d8; }
+.case-notice { display:inline-block; color:#a8e6be; font-size:12px; font-weight:750; margin:4px 5px; }
 .blank-input.correct-after-wrong {
     border-color: var(--orange);
 
@@ -979,10 +982,38 @@ button {
 .memo-input{width:100%;min-height:120px;resize:vertical;background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:16px;border-radius:12px;font-family:inherit;font-size:18px;line-height:1.5}
 .memo-input:focus{outline:2px solid var(--primary);outline-offset:1px}
 .memo-feedback{min-height:45px;padding:10px 0}.memo-ok{color:var(--green)}.memo-no{color:var(--red)}
+ .memo-case{color:#b4edca;font-weight:800;background:#1b392d;border:1px solid #6fae8c;border-radius:10px;padding:10px 12px;display:inline-block}
+.memo-input.case-warning{border-color:#9cd9b5;background:#19372c;color:#d6f7e1}
 .memo-actions{display:flex;gap:10px}.memo-actions button{flex:1}
 .memo-actions button:disabled{opacity:.35;cursor:not-allowed}
+.memo-success{display:inline-block;padding:9px 12px;border-radius:10px;background:#123d2a;color:#8af0ad;font-weight:800}
+.memo-retry{display:inline-block;padding:9px 12px;border-radius:10px;background:#50351c;border:1px solid #bb793c;color:#ffbe75;font-weight:800}
+/* 정답 판정 오버레이 */
+.memo-grade-overlay{position:fixed;inset:0;z-index:9999;display:flex;justify-content:center;align-items:center;pointer-events:none;background:rgba(6,12,22,.55);animation:memoAppear .13s ease-out}
+.memo-grade-card{width:min(85vw,420px);padding:35px 20px;text-align:center;border-radius:26px;background:#10231b;border:3px solid #4bd48a;box-shadow:0 16px 70px #0009;color:#aff8ca}
+.memo-grade-overlay.wrong .memo-grade-card{background:#301919;border-color:#ff7474;color:#ffaaaa}
+.memo-grade-icon{font-size:clamp(100px,19vw,175px);font-weight:900;line-height:1.1}
+.memo-grade-label{font-size:clamp(22px,5vw,34px);font-weight:900;margin-top:12px}
+.memo-grade-sub{font-size:16px;margin-top:8px;font-weight:750}
+.memo-grade-answer{margin-top:14px;padding:12px 14px;border-radius:12px;background:rgba(255,255,255,.09);font-size:clamp(15px,2.8vw,21px);line-height:1.55;font-weight:650;overflow-wrap:anywhere;max-height:34vh;overflow:auto}
+@keyframes memoAppear{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+@media(prefers-reduced-motion:reduce){.memo-grade-overlay{animation:none}}
+.memo-answer{margin-top:12px;padding:14px 16px;background:var(--card2);border-radius:11px;line-height:1.7;border:1px solid var(--line)}
+.memo-answer b{display:block;font-size:12px;color:var(--primary);margin-bottom:4px}
 @media(max-width:650px){.main-menu{grid-template-columns:1fr}.menu-card{min-height:120px}.memo-hints button{flex:1;min-width:0}.memo-actions{flex-wrap:wrap}}
 
+
+/* 전체보기의 과 구분은 일반 소제목과 다른 강조색 */
+.reading-lesson-divider {
+    margin: 32px 0 16px;
+    padding: 13px 17px;
+    border-left: 5px solid #edb552;
+    border-radius: 9px;
+    color: #ffd487;
+    background: rgba(237,181,82,.12);
+    font-size: 23px;
+    font-weight: 850;
+}
 </style>
 </head>
 
@@ -1116,7 +1147,7 @@ button {
         >
 
             <div class="lesson-number">
-                LESSON 4
+                4과
             </div>
 
             <h2>
@@ -1136,7 +1167,7 @@ button {
         >
 
             <div class="lesson-number">
-                LESSON 5
+                5과
             </div>
 
             <h2>
@@ -1268,7 +1299,7 @@ button {
 
 
 
-<script src="./content.js"></script>
+<script src="content.js"></script>
 
 
 <script>
@@ -1399,7 +1430,7 @@ function openLesson(lesson) {
             "lessonLabel"
         )
         .textContent =
-        lesson === 'all' ? 'LESSON 4 + 5' : 'LESSON ' + data.lesson;
+        lesson === 'all' ? '4과 + 5과' : data.lesson + '과';
 
 
     document
@@ -1429,7 +1460,7 @@ function openLesson(lesson) {
         if (lesson === 'all') {
             // 빈칸 문제는 단원별로 제공하며, 전체 모드는 연속 본문/암기에 활용한다.
             currentLesson = 4;
-            document.getElementById('lessonLabel').textContent = 'LESSON 4';
+            document.getElementById('lessonLabel').textContent = '4과';
             document.getElementById('unitTitle').textContent = ENGLISH_CONTENT[4].unitTitle;
         }
         generateBlankQuiz();
@@ -1505,9 +1536,9 @@ function renderReading() {
 
     const data = currentLesson === 'all'
         ? {blocks: [
-            {type:'subtitle',runs:[{text:'LESSON 4'}]},
+            {type:'lesson-divider',runs:[{text:'4과'}]},
             ...ENGLISH_CONTENT[4].blocks,
-            {type:'subtitle',runs:[{text:'LESSON 5'}]},
+            {type:'lesson-divider',runs:[{text:'5과'}]},
             ...ENGLISH_CONTENT[5].blocks
           ]}
         : ENGLISH_CONTENT[currentLesson];
@@ -1599,6 +1630,10 @@ function createBlockElement(type) {
 
     }
 
+    else if (type === "lesson-divider") {
+        element = document.createElement("h2");
+        element.className = "reading-lesson-divider";
+    }
     else if (
         type === "subtitle"
     ) {
@@ -2336,10 +2371,18 @@ function gradeAnswers() {
                 input.value.trim();
 
 
-            input.classList.remove(
-                "wrong"
-            );
+            input.classList.remove("wrong", "case-warning");
+            const oldCaseNotice = input.parentElement?.querySelector('[data-case-notice="'+input.dataset.blankId+'"]');
+            if (oldCaseNotice) oldCaseNotice.remove();
 
+
+            // 대소문자만 다르면 완전 정답이 아니며, 구분된 안내를 표시한다.
+            if (normalizeAnswer(userAnswer) === normalizeAnswer(answer)
+                && normalizeCaseSensitive(userAnswer) !== normalizeCaseSensitive(answer)) {
+                input.classList.add("case-warning");
+                input.insertAdjacentHTML('afterend', '<span class="case-notice" data-case-notice="'+id+'">대소문자 구분 주의!</span>');
+                return;
+            }
 
             /*
                 정답
@@ -2998,6 +3041,10 @@ function splitWordPunctuation(
    정답 비교
 ========================================================= */
 
+function normalizeCaseSensitive(text) {
+    return text.trim().replace(/’/g, "'");
+}
+
 function normalizeAnswer(
     text
 ) {
@@ -3079,9 +3126,10 @@ function locationKey(
 
 
 /* 문장별 본문 암기 모드 */
-const MEMO_TRANSLATIONS = {"4": ["많은 학생들이 학교에서 즐거운 시간을 보냅니다.", "하지만 가끔 위험한 사고가 일어납니다.", "그래서 우리는 흔한 사고에 대해 알아야 합니다.", "함께 알아봅시다!", "많은 학교 사고는 체육 시간(44%), 점심시간(17%), 또는 쉬는 시간(10%)에 일어납니다.", "학생들은 축구(19%), 농구(15%), 또는 피구(9%)를 할 때 다칩니다.", "학생들이 걷고 있을 때에도 사고가 일어납니다(12%)!", "학생들은 손가락(23%), 발목(22%), 그리고 무릎(6%)을 다칩니다.", "이제 우리는 흔한 학교 사고에 대해 알게 되었습니다.", "하지만 그런 사고는 어떻게 일어날까요?", "(오전 10시, 체육 시간) 진호는 농구를 했습니다.", "그는 점프했지만 잘못된 방식으로 착지했습니다.", "그는 발목을 다쳤습니다!", "(오후 12시 30분, 점심시간) 소라는 뜨거운 수프 한 그릇을 들었습니다.", "앗!", "그녀는 재민이와 부딪쳤습니다!", "소라는 뜨거운 수프를 팔에 쏟았습니다.", "(오후 2시, 쉬는 시간) 호민이는 복도를 걸어갔습니다.", "그는 스마트폰을 보았습니다.", "조심해, 호민아!", "아야!", "그는 벽에 부딪쳤습니다.", "(오후 3시 10분, 방과 후) 학교 수업이 끝났습니다.", "민지는 빨리 집에 가고 싶었습니다.", "그녀는 계단을 뛰어 내려가다가 미끄러졌습니다!", "우리는 학교에서 일어나는 사고의 몇 가지 예를 살펴봤습니다.", "이제 아래의 안전 약속을 적어 보세요.", "여러분은 그것들을 지켜야 합니다!", "하나: 나는 운동하기 전에 준비 운동을 할 것입니다.", "둘: 뜨거운 수프를 들고 있을 때 주변을 주의 깊게 살펴볼 것입니다.", "셋: 걸을 때 스마트폰을 사용하지 않을 것입니다.", "넷: 계단에서 뛰지 않을 것입니다."], "5": ["오늘날 사람들은 셀카 찍는 것을 즐깁니다.", "우리는 셀카로 특별한 순간들을 담을 수 있습니다.", "오래전 사람들은 다른 방법으로 자신의 모습을 담았습니다.", "그들은 자신의 그림을 그렸습니다.", "이 그림들은 자화상입니다.", "셀카와 자화상은 비슷합니다.", "둘 다 특정 시점의 우리 모습을 보여 줍니다.", "우리가 그것들을 보면 그때의 우리 자신을 기억할 수 있습니다.", "그것들은 일기와 같습니다.", "우리는 행복한 순간을 기억하기 위해 셀카를 찍습니다.", "셀카는 그때 우리 얼굴의 표정을 담습니다.", "우리는 그 즐거운 감정을 되살리기 위해 가족이나 친구와 함께 셀카를 자주 봅니다.", "마찬가지로 일부 화가들은 인생의 서로 다른 시기를 담기 위해 자화상을 그렸습니다.", "렘브란트는 거울을 보며 자기 자신을 여러 번 그렸습니다.", "그는 평생 약 90점의 자화상을 그렸습니다.", "그 그림들은 젊은 시절부터 노년까지 그의 얼굴을 보여 줍니다.", "셀카와 자화상에는 차이점도 있습니다.", "셀카를 찍는 것은 쉽습니다.", "우리는 언제든 카메라로 빠르게 찍을 수 있습니다.", "하지만 자화상을 그리는 데는 시간이 좀 걸립니다.", "또한 자화상에는 화가 개인의 그림 스타일이 나타납니다.", "사람을 그리기 위해 화가는 모델이 필요합니다.", "빈센트 반 고흐는 모델을 구할 돈이 충분하지 않았습니다.", "그래서 그는 자기 자신을 그렸습니다!", "그가 자화상을 그릴 때 밝은 색을 선택하고 물감을 많이 발랐습니다.", "이것이 그의 독특한 화풍이 되었습니다.", "우리는 그의 다른 그림에서도 그것을 볼 수 있습니다.", "우리는 셀카와 자화상으로 자신을 표현할 수 있습니다.", "여러분도 해보고 싶나요?"]};
 let memoItems = [], memoIndex = 0, memoCompleted = 0, memoTries = 0;
 let memoHints = [false, false, false];
+let memoMistakes = 0, memoRevealed = false, memoResults = [];
+let memoTransitioning=false, memoGradeTimer=null;
 function splitMemoSentences(text) {
     const protectedText = text.replace(/\b([ap])\.m\./gi, '$1~m~');
     return protectedText.split(/(?<=[.!?])\s+(?=[A-Z“])/)
@@ -3103,17 +3151,28 @@ function makeMemoItems(lesson) {
 }
 function startMemorize(){
     memoItems=(currentLesson==='all'?[...makeMemoItems(4),...makeMemoItems(5)]:makeMemoItems(currentLesson));
-    memoIndex=0; memoCompleted=0; memoTries=0;
+    if(memoGradeTimer)clearTimeout(memoGradeTimer);
+    document.getElementById('memoGradeOverlay')?.remove();memoTransitioning=false;
+    memoIndex=0; memoCompleted=0; memoTries=0; memoMistakes=0; memoRevealed=false; memoResults=[];
     renderMemo();
 }
-function normalizedSentence(t){return t.toLowerCase().replace(/[’‘]/g,"'").replace(/[^a-z0-9']/g,'').trim();}
+function normalizedSentence(t, ignoreCase=true){
+    const canonical=t.replace(/[’‘]/g,"'").replace(/[^a-zA-Z0-9']/g,'').trim();
+    return ignoreCase ? canonical.toLowerCase() : canonical;
+}
 function memoWords(t){return t.match(/[A-Za-z]+(?:[’'][A-Za-z]+)*/g)||[];}
-function toggleMemoHint(type){memoHints[type]=!memoHints[type];renderMemo(false);}
+function toggleMemoHint(type){
+    const input=document.getElementById('memoInput');
+    const value=input?.value||'';
+    memoHints[type]=!memoHints[type];renderMemo(false);
+    const newInput=document.getElementById('memoInput');
+    if(newInput)newInput.value=value;
+}
 function renderMemo(refocus=true){
     resetButtons();
     const area=document.getElementById('contentArea');
     if(memoIndex>=memoItems.length){
-        area.innerHTML='<div class="memo-panel"><h2>🎉 암기 완료!</h2><p>총 '+memoItems.length+'문장을 끝냈어요.</p><p>오답 시도 '+memoTries+'회</p><button class="action-btn primary-btn" onclick="startMemorize()">처음부터</button></div>';
+        area.innerHTML='<div class="memo-panel"><h2>🎉 암기 완료!</h2><p>총 '+memoItems.length+'문장을 끝냈어요.</p><p>오답 시도 '+memoTries+'회</p><div class="memo-final-results">'+memoResults.map((r,i)=>'<span class="'+(r.mistakes||r.revealed?'memo-retry':'memo-success')+'" title="'+escapeMemo(memoItems[i].english)+'">'+(i+1)+'번 '+(r.mistakes||r.revealed?'주황 '+(r.mistakes>=2?r.mistakes+'회':''):'✓')+'</span>').join(' ')+'</div><button class="action-btn primary-btn" onclick="startMemorize()">처음부터</button></div>';
         return;
     }
     const item=memoItems[memoIndex], words=memoWords(item.english);
@@ -3133,30 +3192,74 @@ function renderMemo(refocus=true){
         </div>
         <textarea class="memo-input" id="memoInput" rows="3" placeholder="영어 문장을 입력하세요" spellcheck="false" autocomplete="off"></textarea>
         <div class="memo-feedback" id="memoFeedback" aria-live="polite"></div>
-        <div class="memo-actions"><button class="action-btn primary-btn" onclick="checkMemo()">확인 ↵</button><button class="action-btn secondary-btn" onclick="memoNext()" id="memoNextBtn" disabled>다음 →</button></div>
+        <div class="memo-actions"><button class="action-btn primary-btn" onclick="checkMemo()" id="memoCheckNextBtn">정답 확인 및 다음 ↵</button><button class="action-btn secondary-btn" onclick="revealMemoAnswer()" id="memoRevealBtn">정답 보기</button></div>
     </div>`;
     const input=document.getElementById('memoInput');
-    input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();if(document.getElementById('memoNextBtn').disabled)checkMemo();else memoNext();}});
+    input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();checkMemo();}});
     if(refocus)input.focus();
 }
 function escapeMemo(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function showMemoGrade(ok, detail=''){
+    document.getElementById('memoGradeOverlay')?.remove();
+    const overlay=document.createElement('div');
+    overlay.id='memoGradeOverlay';overlay.className='memo-grade-overlay '+(ok?'correct':'wrong');
+    overlay.setAttribute('role','status');
+    overlay.innerHTML='<div class="memo-grade-card"><div class="memo-grade-icon">'+(ok?'✓':'✕')+'</div><div class="memo-grade-label">'+(ok?'정답!':'틀렸어요!')+'</div>'+(detail?'<div class="memo-grade-sub">'+escapeMemo(detail)+'</div>':'')+(ok?'<div class="memo-grade-answer">'+escapeMemo(memoItems[memoIndex].english)+'</div>':'')+'</div>';
+    document.body.appendChild(overlay);
+    if(memoGradeTimer)clearTimeout(memoGradeTimer);
+    memoGradeTimer=setTimeout(()=>{overlay.remove();memoGradeTimer=null;if(ok)memoNext();else document.getElementById('memoInput')?.focus();},1050);
+}
+function revealMemoAnswer(){
+    if(memoTransitioning)return;
+    const feedback=document.getElementById('memoFeedback');
+    if(!feedback||memoRevealed)return;
+    memoRevealed=true;
+    // 정답 보기를 누른 문장은 다음 버튼에서 재채점하지 않는다.
+    if(memoMistakes===0)memoMistakes=1;
+    feedback.innerHTML='<div class="memo-answer"><b>정답</b>'+escapeMemo(memoItems[memoIndex].english)+'</div>';
+    document.getElementById('memoRevealBtn').disabled=true;
+    document.getElementById('memoInput')?.focus();
+}
 function checkMemo(){
     const input=document.getElementById('memoInput'), feedback=document.getElementById('memoFeedback');
-    if(!input||!input.value.trim())return;
-    const correct=normalizedSentence(input.value)===normalizedSentence(memoItems[memoIndex].english);
-    if(correct){
-      feedback.innerHTML='<span class="memo-ok">✓ 정답!</span>';
-      input.disabled=true;document.getElementById('memoNextBtn').disabled=false;
-      document.getElementById('memoNextBtn').focus();
-    }else{
-      memoTries++;
-      feedback.innerHTML='<span class="memo-no">다시 써 보세요. (오답 '+memoTries+'회)</span>';
-      input.focus();
+    if(!input||input.disabled||memoTransitioning)return;
+    if(memoRevealed){
+        // 정답을 이미 확인했다면 입력 내용에 관계없이 다음 문장으로 넘어간다.
+        // 정답 보기 자체는 복습 문장(주황색)으로 기록하며, 오답 횟수는 늘리지 않는다.
+        memoResults[memoIndex]={mistakes:memoMistakes,revealed:true};
+        memoTransitioning=true;
+        memoNext();
+        return;
     }
+    if(!input.value.trim())return;
+    input.classList.remove('case-warning');
+    const expected=memoItems[memoIndex].english;
+    const correct=normalizedSentence(input.value,false)===normalizedSentence(expected,false);
+    const onlyCaseWrong=!correct && normalizedSentence(input.value)===normalizedSentence(expected);
+    if(onlyCaseWrong){
+        memoMistakes++;memoTries++;input.classList.add('case-warning');
+        const msg='대소문자 구분 주의!'+(memoMistakes>=2?' ('+memoMistakes+'회 틀림)':'');
+        feedback.innerHTML='<span class="memo-case">'+msg+'</span>';
+        showMemoGrade(false,'대소문자 구분 주의!');return;
+    }
+    if(!correct){
+        memoMistakes++;memoTries++;
+        feedback.innerHTML='<span class="memo-no">다시 써 보세요.'+(memoMistakes>=2?' ('+memoMistakes+'회 틀림)':'')+'</span>';
+        showMemoGrade(false);return;
+    }
+    memoTransitioning=true;
+    const missed=memoMistakes>0||memoRevealed;
+    const count=memoMistakes>=2?' ('+memoMistakes+'회 틀림)':'';
+    feedback.innerHTML=missed?'<span class="memo-retry">✓ 정답'+count+'</span>':'<span class="memo-success">✓ 한 번에 정답!</span>';
+    memoResults[memoIndex]={mistakes:memoMistakes,revealed:memoRevealed};
+    input.disabled=true;
+    document.getElementById('memoCheckNextBtn').disabled=true;
+    document.getElementById('memoRevealBtn').disabled=true;
+    showMemoGrade(true,missed?'정답 · 다시 맞힘':'한 번에 정답!');
 }
 function memoNext(){
-    if(document.getElementById('memoNextBtn')?.disabled)return;
-    memoIndex++;memoCompleted++;memoHints=[false,false,false];renderMemo();
+    memoIndex++;memoCompleted++;memoMistakes=0;memoRevealed=false;memoHints=[false,false,false];memoTransitioning=false;
+    renderMemo();
 }
 
 </script>
