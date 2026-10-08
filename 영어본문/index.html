@@ -959,6 +959,30 @@ button {
 
 }
 
+
+/* 간결한 선택 화면 · 문장 암기 */
+.main-menu{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.menu-card{min-height:165px;padding:24px 18px}
+.menu-card h2{font-size:19px}.menu-card p{font-size:13px}
+.memo-panel{padding:12px 0 25px}
+.memo-progress{color:var(--primary);font-size:14px;font-weight:800}
+.memo-meter{margin:13px 0 30px;height:7px;background:var(--line);border-radius:20px;overflow:hidden}
+.memo-meter>div{height:100%;background:var(--primary);transition:width .2s}
+.memo-instruction{font-size:18px;font-weight:700;margin:0 0 20px}
+.memo-hints{display:flex;gap:10px;flex-wrap:wrap}
+.memo-hints button{background:var(--card2);border:1px solid var(--line);border-radius:13px;color:var(--text);min-width:100px;min-height:70px;cursor:pointer;font-size:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.memo-hints button[aria-pressed=true]{border-color:var(--primary);background:#252b48}
+.memo-hints small{font-size:12px;font-weight:750}
+.memo-clues{min-height:40px;margin:14px 0 18px;color:var(--text)}
+.memo-clues p{background:var(--card2);border-radius:9px;padding:12px 15px;margin:7px 0;line-height:1.6}
+.memo-clues b{color:var(--primary);margin-right:9px}
+.memo-input{width:100%;min-height:120px;resize:vertical;background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:16px;border-radius:12px;font-family:inherit;font-size:18px;line-height:1.5}
+.memo-input:focus{outline:2px solid var(--primary);outline-offset:1px}
+.memo-feedback{min-height:45px;padding:10px 0}.memo-ok{color:var(--green)}.memo-no{color:var(--red)}
+.memo-actions{display:flex;gap:10px}.memo-actions button{flex:1}
+.memo-actions button:disabled{opacity:.35;cursor:not-allowed}
+@media(max-width:650px){.main-menu{grid-template-columns:1fr}.menu-card{min-height:120px}.memo-hints button{flex:1;min-width:0}.memo-actions{flex-wrap:wrap}}
+
 </style>
 </head>
 
@@ -1021,12 +1045,11 @@ button {
             </div>
 
             <h2>
-                영어 본문 보기
+                보기
             </h2>
 
             <p>
-                교과서 영어 본문을
-                그대로 읽어봅니다.
+                영어 본문 읽기
             </p>
 
         </div>
@@ -1042,16 +1065,16 @@ button {
             </div>
 
             <h2>
-                영어 본문 빈칸 채우기
+                빈칸 채우기
             </h2>
 
             <p>
-                랜덤으로 만들어진 빈칸을
-                채우며 본문을 암기합니다.
+                랜덤 빈칸 연습
             </p>
 
         </div>
 
+        <div class="menu-card" onclick="showLessonSelect('memorize')"><div class="menu-icon">🧠</div><h2>외우기</h2><p>앞에서부터 한 문장씩 암기</p></div>
     </div>
 
 </main>
@@ -1081,6 +1104,11 @@ button {
 
 
     <div class="lesson-grid">
+        <div id="allLessonCard" class="lesson-card" onclick="openLesson('all')">
+            <div class="lesson-number">ALL</div>
+            <h2>전체</h2>
+            <p>4과 · 5과 순서대로</p>
+        </div>
 
         <div
             class="lesson-card"
@@ -1308,6 +1336,7 @@ function showMain() {
 function showLessonSelect(mode) {
 
     currentMode = mode;
+    document.getElementById('allLessonCard').classList.toggle('hidden', mode === 'blank');
 
     hideAllPages();
 
@@ -1325,9 +1354,7 @@ function showLessonSelect(mode) {
             "lessonSelectTitle"
         )
         .textContent =
-        mode === "view"
-            ? "영어 본문 보기"
-            : "영어 본문 빈칸 채우기";
+        ({view: "보기", blank: "빈칸 채우기", memorize: "외우기"}[mode] || "과 선택");
 
 }
 
@@ -1364,9 +1391,7 @@ function openLesson(lesson) {
 
 
     const data =
-        ENGLISH_CONTENT[
-            lesson
-        ];
+        lesson === 'all' ? ENGLISH_CONTENT[4] : ENGLISH_CONTENT[lesson];
 
 
     document
@@ -1374,8 +1399,7 @@ function openLesson(lesson) {
             "lessonLabel"
         )
         .textContent =
-        "LESSON " +
-        data.lesson;
+        lesson === 'all' ? 'LESSON 4 + 5' : 'LESSON ' + data.lesson;
 
 
     document
@@ -1383,7 +1407,7 @@ function openLesson(lesson) {
             "unitTitle"
         )
         .textContent =
-        data.unitTitle;
+        lesson === 'all' ? '전체 본문' : data.unitTitle;
 
 
     resetButtons();
@@ -1398,10 +1422,17 @@ function openLesson(lesson) {
 
     }
 
+    else if (currentMode === 'memorize') {
+        startMemorize();
+    }
     else {
-
+        if (lesson === 'all') {
+            // 빈칸 문제는 단원별로 제공하며, 전체 모드는 연속 본문/암기에 활용한다.
+            currentLesson = 4;
+            document.getElementById('lessonLabel').textContent = 'LESSON 4';
+            document.getElementById('unitTitle').textContent = ENGLISH_CONTENT[4].unitTitle;
+        }
         generateBlankQuiz();
-
     }
 
 
@@ -1472,11 +1503,14 @@ function renderReading() {
     area.innerHTML = "";
 
 
-    const data =
-        ENGLISH_CONTENT[
-            currentLesson
-        ];
-
+    const data = currentLesson === 'all'
+        ? {blocks: [
+            {type:'subtitle',runs:[{text:'LESSON 4'}]},
+            ...ENGLISH_CONTENT[4].blocks,
+            {type:'subtitle',runs:[{text:'LESSON 5'}]},
+            ...ENGLISH_CONTENT[5].blocks
+          ]}
+        : ENGLISH_CONTENT[currentLesson];
 
     data.blocks.forEach(
         block => {
@@ -3041,6 +3075,88 @@ function locationKey(
         tokenIndex
     );
 
+}
+
+
+/* 문장별 본문 암기 모드 */
+const MEMO_TRANSLATIONS = {"4": ["많은 학생들이 학교에서 즐거운 시간을 보냅니다.", "하지만 가끔 위험한 사고가 일어납니다.", "그래서 우리는 흔한 사고에 대해 알아야 합니다.", "함께 알아봅시다!", "많은 학교 사고는 체육 시간(44%), 점심시간(17%), 또는 쉬는 시간(10%)에 일어납니다.", "학생들은 축구(19%), 농구(15%), 또는 피구(9%)를 할 때 다칩니다.", "학생들이 걷고 있을 때에도 사고가 일어납니다(12%)!", "학생들은 손가락(23%), 발목(22%), 그리고 무릎(6%)을 다칩니다.", "이제 우리는 흔한 학교 사고에 대해 알게 되었습니다.", "하지만 그런 사고는 어떻게 일어날까요?", "(오전 10시, 체육 시간) 진호는 농구를 했습니다.", "그는 점프했지만 잘못된 방식으로 착지했습니다.", "그는 발목을 다쳤습니다!", "(오후 12시 30분, 점심시간) 소라는 뜨거운 수프 한 그릇을 들었습니다.", "앗!", "그녀는 재민이와 부딪쳤습니다!", "소라는 뜨거운 수프를 팔에 쏟았습니다.", "(오후 2시, 쉬는 시간) 호민이는 복도를 걸어갔습니다.", "그는 스마트폰을 보았습니다.", "조심해, 호민아!", "아야!", "그는 벽에 부딪쳤습니다.", "(오후 3시 10분, 방과 후) 학교 수업이 끝났습니다.", "민지는 빨리 집에 가고 싶었습니다.", "그녀는 계단을 뛰어 내려가다가 미끄러졌습니다!", "우리는 학교에서 일어나는 사고의 몇 가지 예를 살펴봤습니다.", "이제 아래의 안전 약속을 적어 보세요.", "여러분은 그것들을 지켜야 합니다!", "하나: 나는 운동하기 전에 준비 운동을 할 것입니다.", "둘: 뜨거운 수프를 들고 있을 때 주변을 주의 깊게 살펴볼 것입니다.", "셋: 걸을 때 스마트폰을 사용하지 않을 것입니다.", "넷: 계단에서 뛰지 않을 것입니다."], "5": ["오늘날 사람들은 셀카 찍는 것을 즐깁니다.", "우리는 셀카로 특별한 순간들을 담을 수 있습니다.", "오래전 사람들은 다른 방법으로 자신의 모습을 담았습니다.", "그들은 자신의 그림을 그렸습니다.", "이 그림들은 자화상입니다.", "셀카와 자화상은 비슷합니다.", "둘 다 특정 시점의 우리 모습을 보여 줍니다.", "우리가 그것들을 보면 그때의 우리 자신을 기억할 수 있습니다.", "그것들은 일기와 같습니다.", "우리는 행복한 순간을 기억하기 위해 셀카를 찍습니다.", "셀카는 그때 우리 얼굴의 표정을 담습니다.", "우리는 그 즐거운 감정을 되살리기 위해 가족이나 친구와 함께 셀카를 자주 봅니다.", "마찬가지로 일부 화가들은 인생의 서로 다른 시기를 담기 위해 자화상을 그렸습니다.", "렘브란트는 거울을 보며 자기 자신을 여러 번 그렸습니다.", "그는 평생 약 90점의 자화상을 그렸습니다.", "그 그림들은 젊은 시절부터 노년까지 그의 얼굴을 보여 줍니다.", "셀카와 자화상에는 차이점도 있습니다.", "셀카를 찍는 것은 쉽습니다.", "우리는 언제든 카메라로 빠르게 찍을 수 있습니다.", "하지만 자화상을 그리는 데는 시간이 좀 걸립니다.", "또한 자화상에는 화가 개인의 그림 스타일이 나타납니다.", "사람을 그리기 위해 화가는 모델이 필요합니다.", "빈센트 반 고흐는 모델을 구할 돈이 충분하지 않았습니다.", "그래서 그는 자기 자신을 그렸습니다!", "그가 자화상을 그릴 때 밝은 색을 선택하고 물감을 많이 발랐습니다.", "이것이 그의 독특한 화풍이 되었습니다.", "우리는 그의 다른 그림에서도 그것을 볼 수 있습니다.", "우리는 셀카와 자화상으로 자신을 표현할 수 있습니다.", "여러분도 해보고 싶나요?"]};
+let memoItems = [], memoIndex = 0, memoCompleted = 0, memoTries = 0;
+let memoHints = [false, false, false];
+function splitMemoSentences(text) {
+    const protectedText = text.replace(/\b([ap])\.m\./gi, '$1~m~');
+    return protectedText.split(/(?<=[.!?])\s+(?=[A-Z“])/)
+        .map(x => x.replace(/([ap])~m~/gi, '$1.m.').trim()).filter(Boolean);
+}
+function makeMemoItems(lesson) {
+    const result=[]; let position=0;
+    for (const block of ENGLISH_CONTENT[lesson].blocks) {
+        if (block.type !== 'paragraph') continue;
+        // 제목과 소제목은 제외, 본문 문장은 모두 순서대로 학습
+        const text=block.runs.map(r=>r.text).join('').trim();
+        for (const sentence of splitMemoSentences(text)) {
+            const bodySentence = sentence.replace(/^\([^)]*\)\s*/, '').replace(/^(ONE|TWO|THREE|FOUR):\s*/i,'').trim();
+            result.push({english:bodySentence, korean:MEMO_TRANSLATIONS[lesson][position] || '뜻 정보 없음', lesson});
+            position++;
+        }
+    }
+    return result;
+}
+function startMemorize(){
+    memoItems=(currentLesson==='all'?[...makeMemoItems(4),...makeMemoItems(5)]:makeMemoItems(currentLesson));
+    memoIndex=0; memoCompleted=0; memoTries=0;
+    renderMemo();
+}
+function normalizedSentence(t){return t.toLowerCase().replace(/[’‘]/g,"'").replace(/[^a-z0-9']/g,'').trim();}
+function memoWords(t){return t.match(/[A-Za-z]+(?:[’'][A-Za-z]+)*/g)||[];}
+function toggleMemoHint(type){memoHints[type]=!memoHints[type];renderMemo(false);}
+function renderMemo(refocus=true){
+    resetButtons();
+    const area=document.getElementById('contentArea');
+    if(memoIndex>=memoItems.length){
+        area.innerHTML='<div class="memo-panel"><h2>🎉 암기 완료!</h2><p>총 '+memoItems.length+'문장을 끝냈어요.</p><p>오답 시도 '+memoTries+'회</p><button class="action-btn primary-btn" onclick="startMemorize()">처음부터</button></div>';
+        return;
+    }
+    const item=memoItems[memoIndex], words=memoWords(item.english);
+    area.innerHTML=`<div class="memo-panel">
+        <div class="memo-progress">${item.lesson}과 · ${memoIndex+1} / ${memoItems.length}</div>
+        <div class="memo-meter"><div style="width:${memoIndex/memoItems.length*100}%"></div></div>
+        <p class="memo-instruction">문장을 기억해서 영어로 입력하세요.</p>
+        <div class="memo-hints">
+          <button type="button" onclick="toggleMemoHint(0)" aria-pressed="${memoHints[0]}">💡<small>뜻</small></button>
+          <button type="button" onclick="toggleMemoHint(1)" aria-pressed="${memoHints[1]}">💡<small>첫 단어</small></button>
+          <button type="button" onclick="toggleMemoHint(2)" aria-pressed="${memoHints[2]}">💡<small>끝 단어</small></button>
+        </div>
+        <div class="memo-clues">
+          ${memoHints[0]?'<p><b>뜻</b> '+escapeMemo(item.korean)+'</p>':''}
+          ${memoHints[1]?'<p><b>첫 단어</b> '+escapeMemo(words[0]||'')+'</p>':''}
+          ${memoHints[2]?'<p><b>끝 단어</b> '+escapeMemo(words[words.length-1]||'')+'</p>':''}
+        </div>
+        <textarea class="memo-input" id="memoInput" rows="3" placeholder="영어 문장을 입력하세요" spellcheck="false" autocomplete="off"></textarea>
+        <div class="memo-feedback" id="memoFeedback" aria-live="polite"></div>
+        <div class="memo-actions"><button class="action-btn primary-btn" onclick="checkMemo()">확인 ↵</button><button class="action-btn secondary-btn" onclick="memoNext()" id="memoNextBtn" disabled>다음 →</button></div>
+    </div>`;
+    const input=document.getElementById('memoInput');
+    input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();if(document.getElementById('memoNextBtn').disabled)checkMemo();else memoNext();}});
+    if(refocus)input.focus();
+}
+function escapeMemo(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function checkMemo(){
+    const input=document.getElementById('memoInput'), feedback=document.getElementById('memoFeedback');
+    if(!input||!input.value.trim())return;
+    const correct=normalizedSentence(input.value)===normalizedSentence(memoItems[memoIndex].english);
+    if(correct){
+      feedback.innerHTML='<span class="memo-ok">✓ 정답!</span>';
+      input.disabled=true;document.getElementById('memoNextBtn').disabled=false;
+      document.getElementById('memoNextBtn').focus();
+    }else{
+      memoTries++;
+      feedback.innerHTML='<span class="memo-no">다시 써 보세요. (오답 '+memoTries+'회)</span>';
+      input.focus();
+    }
+}
+function memoNext(){
+    if(document.getElementById('memoNextBtn')?.disabled)return;
+    memoIndex++;memoCompleted++;memoHints=[false,false,false];renderMemo();
 }
 
 </script>
