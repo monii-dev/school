@@ -1776,16 +1776,6 @@ function renderNumberCards() {
             );
 
 
-    // ALL: 모든 듣기 대본을 하나의 빈칸 문제로 학습
-    if (currentMode === "blank") {
-        const allCard = document.createElement("div");
-        allCard.className = "number-card";
-        allCard.style.borderColor = "#93a9ff";
-        allCard.onclick = () => openScript("ALL");
-        allCard.innerHTML = '<div class="script-number" style="color:#afc0ff">ALL</div><h2>전체 빈칸 채우기</h2><p>모든 대본을 한 번에 연습</p>';
-        grid.appendChild(allCard);
-    }
-
     numbers.forEach(
         number => {
 
@@ -1852,21 +1842,6 @@ function backToNumbers() {
 
 
 
-/* ALL 데이터: content.js의 모든 듣기 대본을 번호순으로 결합.
-   번호 제목은 빈칸으로 변하지 않으며 대본별로 구분한다. */
-function buildAllListeningData() {
-    const numbers = Object.keys(ENGLISH_CONTENT).map(Number).sort((a,b) => a-b);
-    const blocks = [];
-    numbers.forEach(number => {
-        const script = ENGLISH_CONTENT[number];
-        blocks.push({type:"paragraph",runs:[{
-            text:`\n${number}번 대본 — ${script.title}\n`, bold:true, noBlank:true
-        }]});
-        blocks.push(...script.blocks);
-    });
-    return {number:"ALL",title:"전체 빈칸 채우기",blocks};
-}
-
 /* =========================================================
    선택한 듣기 대본 열기
 ========================================================= */
@@ -1892,7 +1867,10 @@ function openScript(
         );
 
 
-    const data = number === "ALL" ? buildAllListeningData() : ENGLISH_CONTENT[number];
+    const data =
+        ENGLISH_CONTENT[
+            number
+        ];
 
 
     /*
@@ -1904,7 +1882,7 @@ function openScript(
             "scriptLabel"
         )
         .textContent =
-        number === "ALL" ? "ALL · 전체 듣기 대본" : `${data.number}번 대본`;
+        `${data.number}번 대본`;
 
 
     /*
@@ -2016,7 +1994,9 @@ function renderScript() {
 
 
     const data =
-        (currentNumber === "ALL" ? buildAllListeningData() : ENGLISH_CONTENT[currentNumber]);
+        ENGLISH_CONTENT[
+            currentNumber
+        ];
 
 
     data.blocks.forEach(
@@ -2152,7 +2132,9 @@ function generateBlankQuiz() {
 
 
     const data =
-        (currentNumber === "ALL" ? buildAllListeningData() : ENGLISH_CONTENT[currentNumber]);
+        ENGLISH_CONTENT[
+            currentNumber
+        ];
 
 
     /*
@@ -2270,7 +2252,7 @@ function generateBlankQuiz() {
 
     blankCount =
         Math.min(
-            currentNumber === "ALL" ? MAX_BLANKS * Object.keys(ENGLISH_CONTENT).length : MAX_BLANKS,
+            MAX_BLANKS,
             blankCount,
             candidates.length
         );
@@ -2368,7 +2350,9 @@ function renderBlankScript(
 
 
     const data =
-        (currentNumber === "ALL" ? buildAllListeningData() : ENGLISH_CONTENT[currentNumber]);
+        ENGLISH_CONTENT[
+            currentNumber
+        ];
 
 
     let blankId = 0;
@@ -3630,10 +3614,10 @@ function normalizeAnswer(
     return text
         .trim()
         .toLowerCase()
-        .replace(/’/g, "'")
-        .replace(/%/g, '') // 퍼센트 기호 유무는 정답에 영향 없음
-        .replace(/\s+\(/g, '(') // break (10%)와 break(10%)를 같게 비교
-        .replace(/\s+/g, ' ');
+        .replace(
+            /’/g,
+            "'"
+        );
 
 }
 

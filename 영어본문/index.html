@@ -995,7 +995,6 @@ button {
 .memo-grade-icon{font-size:clamp(100px,19vw,175px);font-weight:900;line-height:1.1}
 .memo-grade-label{font-size:clamp(22px,5vw,34px);font-weight:900;margin-top:12px}
 .memo-grade-sub{font-size:16px;margin-top:8px;font-weight:750}
-.memo-grade-answer{margin-top:14px;padding:12px 14px;border-radius:12px;background:rgba(255,255,255,.09);font-size:clamp(15px,2.8vw,21px);line-height:1.55;font-weight:650;overflow-wrap:anywhere;max-height:34vh;overflow:auto}
 @keyframes memoAppear{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
 @media(prefers-reduced-motion:reduce){.memo-grade-overlay{animation:none}}
 .memo-answer{margin-top:12px;padding:14px 16px;background:var(--card2);border-radius:11px;line-height:1.7;border:1px solid var(--line)}
@@ -1300,6 +1299,7 @@ button {
 
 
 <script src="content.js"></script>
+<script src="question-generator.js"></script>
 
 
 <script>
@@ -3204,7 +3204,7 @@ function showMemoGrade(ok, detail=''){
     const overlay=document.createElement('div');
     overlay.id='memoGradeOverlay';overlay.className='memo-grade-overlay '+(ok?'correct':'wrong');
     overlay.setAttribute('role','status');
-    overlay.innerHTML='<div class="memo-grade-card"><div class="memo-grade-icon">'+(ok?'✓':'✕')+'</div><div class="memo-grade-label">'+(ok?'정답!':'틀렸어요!')+'</div>'+(detail?'<div class="memo-grade-sub">'+escapeMemo(detail)+'</div>':'')+(ok?'<div class="memo-grade-answer">'+escapeMemo(memoItems[memoIndex].english)+'</div>':'')+'</div>';
+    overlay.innerHTML='<div class="memo-grade-card"><div class="memo-grade-icon">'+(ok?'✓':'✕')+'</div><div class="memo-grade-label">'+(ok?'정답!':'틀렸어요!')+'</div>'+(detail?'<div class="memo-grade-sub">'+escapeMemo(detail)+'</div>':'')+'</div>';
     document.body.appendChild(overlay);
     if(memoGradeTimer)clearTimeout(memoGradeTimer);
     memoGradeTimer=setTimeout(()=>{overlay.remove();memoGradeTimer=null;if(ok)memoNext();else document.getElementById('memoInput')?.focus();},1050);
@@ -3214,7 +3214,7 @@ function revealMemoAnswer(){
     const feedback=document.getElementById('memoFeedback');
     if(!feedback||memoRevealed)return;
     memoRevealed=true;
-    // 정답 보기를 누른 문장은 다음 버튼에서 재채점하지 않는다.
+    // 정답을 본 경우에도 정확히 입력해야 다음 문장으로 이동한다.
     if(memoMistakes===0)memoMistakes=1;
     feedback.innerHTML='<div class="memo-answer"><b>정답</b>'+escapeMemo(memoItems[memoIndex].english)+'</div>';
     document.getElementById('memoRevealBtn').disabled=true;
@@ -3222,16 +3222,7 @@ function revealMemoAnswer(){
 }
 function checkMemo(){
     const input=document.getElementById('memoInput'), feedback=document.getElementById('memoFeedback');
-    if(!input||input.disabled||memoTransitioning)return;
-    if(memoRevealed){
-        // 정답을 이미 확인했다면 입력 내용에 관계없이 다음 문장으로 넘어간다.
-        // 정답 보기 자체는 복습 문장(주황색)으로 기록하며, 오답 횟수는 늘리지 않는다.
-        memoResults[memoIndex]={mistakes:memoMistakes,revealed:true};
-        memoTransitioning=true;
-        memoNext();
-        return;
-    }
-    if(!input.value.trim())return;
+    if(!input||input.disabled||memoTransitioning||!input.value.trim())return;
     input.classList.remove('case-warning');
     const expected=memoItems[memoIndex].english;
     const correct=normalizedSentence(input.value,false)===normalizedSentence(expected,false);
