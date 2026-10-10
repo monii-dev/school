@@ -521,8 +521,8 @@ if (!DATA || !Array.isArray(DATA.problems) || !NAMES.length) {
   return;
 }
 
-const DATA=window.PROBLEM_DATA; const NAMES=window.NAME_DATA?.names||[];
-const {randint,fmt,evalExpr,resolveToken,command,ensureNames,hasBatchim,hasRieul,josa,applyJosa,render,escapeHTML,fracHTML,mathHTML,build}=window.ApplicationEngine;
+// DATA and NAMES declared at script start
+const {randint,fmt,evalExpr,resolveToken,command,ensureNames,hasBatchim,hasRieul,josa,applyJosa,render,escapeHTML,fracHTML,mathHTML}=window.ApplicationEngine;
 function populateCategories(){
   categoryEl.innerHTML =
     '<option value="all">전체 랜덤</option>'+
