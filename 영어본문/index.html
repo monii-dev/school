@@ -1013,6 +1013,15 @@ button {
     font-size: 23px;
     font-weight: 850;
 }
+
+/* 빈칸 수 선택 */
+.blank-setup-shade.hidden{display:none}
+.blank-setup-shade{position:fixed;inset:0;z-index:1100;background:#000a;display:flex;align-items:center;justify-content:center;padding:20px}
+.blank-setup-box{width:min(440px,100%);max-height:90vh;overflow:auto;background:#1b2635;border:1px solid #52657a;border-radius:20px;padding:26px;box-shadow:0 24px 70px #0008;color:#f5f8ff}
+.blank-setup-box h2{margin:0 0 12px;font-size:23px}.blank-setup-box p{color:#bbcada;line-height:1.6}
+.blank-setup-box input{width:100%;box-sizing:border-box;padding:14px;font-size:23px;font-weight:700;border:2px solid #5c7595;border-radius:12px;background:#101a28;color:white}
+.blank-setup-actions{display:flex;gap:10px;margin-top:20px}.blank-setup-actions button{flex:1;padding:13px;border:0;border-radius:12px;font-weight:800;cursor:pointer}
+.blank-setup-actions button:first-child{background:#41536b;color:white}.blank-setup-actions button:last-child{background:#f4ca65;color:#192330}
 </style>
 </head>
 
@@ -1134,7 +1143,7 @@ button {
 
 
     <div class="lesson-grid">
-        <div id="allLessonCard" class="lesson-card" onclick="openLesson('all')">
+        <div id="allLessonCard" class="lesson-card" onclick="chooseLesson('all')">
             <div class="lesson-number">ALL</div>
             <h2>전체</h2>
             <p>4과 · 5과 순서대로</p>
@@ -1142,7 +1151,7 @@ button {
 
         <div
             class="lesson-card"
-            onclick="openLesson(4)"
+            onclick="chooseLesson(4)"
         >
 
             <div class="lesson-number">
@@ -1162,7 +1171,7 @@ button {
 
         <div
             class="lesson-card"
-            onclick="openLesson(5)"
+            onclick="chooseLesson(5)"
         >
 
             <div class="lesson-number">
@@ -1363,6 +1372,29 @@ function showMain() {
 }
 
 
+
+
+// 본문 빈칸 개수 선택
+let configuredBlankCount=10,blankSetupTarget=null;
+function countLessonCandidates(lesson){let n=0;for(const block of ENGLISH_CONTENT[lesson].blocks){
+ if(block.type==='title'||block.type==='subtitle')continue;
+ for(const run of block.runs){if(run.bold)continue;for(const token of tokenize(run.text))if(isBlankCandidate(token))n++;}
+}return n;}
+function chooseLesson(lesson){
+ if(currentMode!=='blank'){openLesson(lesson);return;}
+ blankSetupTarget=lesson;
+ const max=countLessonCandidates(lesson==='all'?4:lesson);
+ const input=document.getElementById('blankSetupInput');input.max=max;
+ input.value=Math.max(1,Math.min(configuredBlankCount,max));
+ document.getElementById('blankSetupDescription').textContent=lesson+'과 본문에 만들 빈칸 개수를 정하세요.';
+ document.getElementById('blankSetupMaximum').textContent='설정 가능: 1 ~ '+max+'개';
+ document.getElementById('blankSetupShade').classList.remove('hidden');input.focus();input.select();
+}
+function closeBlankSetup(){document.getElementById('blankSetupShade').classList.add('hidden')}
+function applyBlankSetup(){const input=document.getElementById('blankSetupInput');const max=Number(input.max),v=Number(input.value);
+ if(!Number.isInteger(v)||v<1||v>max){input.setCustomValidity('1~'+max+' 사이의 정수를 입력하세요.');input.reportValidity();input.setCustomValidity('');return;}
+ configuredBlankCount=v;closeBlankSetup();openLesson(blankSetupTarget);
+}
 
 function showLessonSelect(mode) {
 
@@ -1797,29 +1829,7 @@ function generateBlankQuiz() {
     );
 
 
-    let blankCount =
-        Math.round(
-
-            candidates.length *
-
-            BLANK_RATIO
-
-        );
-
-
-    blankCount =
-        Math.max(
-            MIN_BLANKS,
-            blankCount
-        );
-
-
-    blankCount =
-        Math.min(
-            MAX_BLANKS,
-            blankCount,
-            candidates.length
-        );
+    const blankCount = Math.min(Math.max(1, configuredBlankCount), candidates.length);
 
 
     const selected =
@@ -3255,5 +3265,9 @@ function memoNext(){
 
 </script>
 
+<div id="blankSetupShade" class="blank-setup-shade hidden" role="dialog" aria-modal="true" aria-labelledby="blankSetupHeading">
+ <div class="blank-setup-box"><h2 id="blankSetupHeading">빈칸 개수 설정</h2><p id="blankSetupDescription"></p>
+ <label for="blankSetupInput">지문당 빈칸 개수</label><input id="blankSetupInput" type="number" min="1" step="1" value="10" />
+ <p id="blankSetupMaximum"></p><div class="blank-setup-actions"><button type="button" onclick="closeBlankSetup()">취소</button><button type="button" onclick="applyBlankSetup()">시작 →</button></div></div></div>
 </body>
 </html>

@@ -1283,6 +1283,15 @@ button {
 
 }
 
+
+/* 빈칸 수 선택 */
+.blank-setup-shade.hidden{display:none}
+.blank-setup-shade{position:fixed;inset:0;z-index:1100;background:#000a;display:flex;align-items:center;justify-content:center;padding:20px}
+.blank-setup-box{width:min(440px,100%);max-height:90vh;overflow:auto;background:#1b2635;border:1px solid #52657a;border-radius:20px;padding:26px;box-shadow:0 24px 70px #0008;color:#f5f8ff}
+.blank-setup-box h2{margin:0 0 12px;font-size:23px}.blank-setup-box p{color:#bbcada;line-height:1.6}
+.blank-setup-box input{width:100%;box-sizing:border-box;padding:14px;font-size:23px;font-weight:700;border:2px solid #5c7595;border-radius:12px;background:#101a28;color:white}
+.blank-setup-actions{display:flex;gap:10px;margin-top:20px}.blank-setup-actions button{flex:1;padding:13px;border:0;border-radius:12px;font-weight:800;cursor:pointer}
+.blank-setup-actions button:first-child{background:#41536b;color:white}.blank-setup-actions button:last-child{background:#f4ca65;color:#192330}
 </style>
 
 </head>
@@ -1515,7 +1524,7 @@ button {
                     gradeAnswers()
                 "
             >
-                채점하기
+                확인
             </button>
 
 
@@ -1560,6 +1569,7 @@ button {
 
 
 
+            <button id="nextScriptBtn" class="action-btn secondary-btn hidden" onclick="nextScriptInAll()">다음 문제 →</button>
             <!--
                 듣기 번호 선택 화면으로 돌아가기
             -->
@@ -1699,9 +1709,51 @@ function showMain() {
    듣기 대본 번호 선택 화면
 ========================================================= */
 
+
+// 지문당 빈칸 개수 설정 및 10개 대본 연속 학습
+let configuredBlankCount=10, blankSetupTarget=null, allScriptQueue=null, allScriptIndex=0;
+function scriptNumbers(){return Object.keys(ENGLISH_CONTENT).map(Number).sort((a,b)=>a-b)}
+function countScriptCandidates(number){
+ let n=0;for(const block of ENGLISH_CONTENT[number].blocks)for(const run of block.runs){
+  if(run.bold||run.noBlank)continue;
+  for(const token of tokenize(run.text))if(isBlankCandidate(token))n++;
+ }return n;
+}
+function chooseScript(number){
+ if(currentMode!=='blank'){openScript(number);return;}
+ blankSetupTarget=number;
+ const nums=number==='all'?scriptNumbers():[number];
+ const limits=nums.map(countScriptCandidates);
+ const max=Math.min(...limits);
+ const box=document.getElementById('blankSetupShade');
+ const input=document.getElementById('blankSetupInput');
+ document.getElementById('blankSetupDescription').textContent=number==='all'?'10개 대본 각각에 뚫을 빈칸 수를 선택하세요.':'대본 '+number+'번에서 뚫을 빈칸 수를 선택하세요.';
+ document.getElementById('blankSetupMaximum').textContent='설정 가능: 1 ~ '+max+'개'+(number==='all'?' (가장 짧은 대본 기준)':'');
+ input.max=max;input.value=Math.max(1,Math.min(configuredBlankCount,max));
+ box.classList.remove('hidden');input.focus();input.select();
+}
+function closeBlankSetup(){document.getElementById('blankSetupShade').classList.add('hidden')}
+function applyBlankSetup(){
+ const input=document.getElementById('blankSetupInput');const max=Number(input.max),v=Number(input.value);
+ if(!Number.isInteger(v)||v<1||v>max){input.setCustomValidity('1~'+max+' 사이의 정수를 입력하세요.');input.reportValidity();input.setCustomValidity('');return;}
+ configuredBlankCount=v;const target=blankSetupTarget;closeBlankSetup();
+ allScriptQueue=target==='all'?scriptNumbers():null;allScriptIndex=0;
+ openScript(allScriptQueue?allScriptQueue[0]:target);syncScriptNext();
+}
+function syncScriptNext(){const btn=document.getElementById('nextScriptBtn');if(!btn)return;
+ btn.classList.toggle('hidden',currentMode!=='blank'||!allScriptQueue);
+ btn.textContent=allScriptQueue&&allScriptIndex===allScriptQueue.length-1?'처음부터 ↻':'다음 문제 →';
+}
+function nextScriptInAll(){
+ if(!allScriptQueue)return;
+ allScriptIndex=(allScriptIndex+1)%allScriptQueue.length;
+ openScript(allScriptQueue[allScriptIndex]);syncScriptNext();
+}
+
 function showNumberSelect(
     mode
 ) {
+    allScriptQueue=null;
 
     currentMode = mode;
 
@@ -1776,6 +1828,11 @@ function renderNumberCards() {
             );
 
 
+    if(currentMode === 'blank'){
+      const all=document.createElement('div');all.className='number-card';
+      all.innerHTML='<div class="script-number">ALL</div><h2>1번부터 순서대로</h2><p>10개 대본 연속 학습</p>';
+      all.onclick=()=>chooseScript('all');grid.appendChild(all);
+    }
     numbers.forEach(
         number => {
 
@@ -1799,9 +1856,7 @@ function renderNumberCards() {
 
             card.onclick =
                 () =>
-                    openScript(
-                        number
-                    );
+                    chooseScript(number);
 
 
             card.innerHTML = `
@@ -1921,6 +1976,7 @@ function openScript(
     }
 
 
+    syncScriptNext();
     window.scrollTo(
         0,
         0
@@ -2229,33 +2285,7 @@ function generateBlankQuiz() {
         전체 후보의 20%
     */
 
-    let blankCount =
-        Math.round(
-
-            candidates.length *
-
-            BLANK_RATIO
-
-        );
-
-
-    /*
-        최소 / 최대 빈칸 제한
-    */
-
-    blankCount =
-        Math.max(
-            MIN_BLANKS,
-            blankCount
-        );
-
-
-    blankCount =
-        Math.min(
-            MAX_BLANKS,
-            blankCount,
-            candidates.length
-        );
+    const blankCount = Math.min(Math.max(1, configuredBlankCount), candidates.length);
 
 
     const selected =
@@ -3699,6 +3729,10 @@ showMain();
 </script>
 
 
+<div id="blankSetupShade" class="blank-setup-shade hidden" role="dialog" aria-modal="true" aria-labelledby="blankSetupHeading">
+ <div class="blank-setup-box"><h2 id="blankSetupHeading">빈칸 개수 설정</h2><p id="blankSetupDescription"></p>
+ <label for="blankSetupInput">지문당 빈칸 개수</label><input id="blankSetupInput" type="number" min="1" step="1" value="10" />
+ <p id="blankSetupMaximum"></p><div class="blank-setup-actions"><button type="button" onclick="closeBlankSetup()">취소</button><button type="button" onclick="applyBlankSetup()">시작 →</button></div></div></div>
 </body>
 
 </html>
