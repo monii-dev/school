@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <script defer src="https://cloud.umami.is/script.js" data-website-id="9d9a9a0a-820e-4bdd-bf16-d315734c8c87"></script>
+<title>영어 듣기 대본 학습</title>
 
-<title>영어 본문 학습</title>
 
 <style>
+
 /* =========================================================
-   기본
+   기본 색상 / 다크 테마
 ========================================================= */
 
 :root {
+
     color-scheme: dark;
 
     --bg: #0d0f13;
@@ -27,34 +32,43 @@
     --subtext: #939bab;
 
     --primary: #7b8cff;
-    --primary2: #6475ef;
 
+    /* 처음부터 맞은 정답 */
     --green: #38d67a;
     --green-bg: rgba(56, 214, 122, 0.12);
 
+    /* 아직 틀린 답 */
     --red: #ff646d;
     --red-bg: rgba(255, 100, 109, 0.12);
 
+    /* 틀렸다가 다시 맞힌 답 */
     --orange: #ffad42;
     --orange-bg: rgba(255, 173, 66, 0.14);
 
+    /* 정답 확인으로 공개된 답 */
     --answer: #6da9ff;
     --answer-bg: rgba(109, 169, 255, 0.13);
 }
 
 
 * {
+
     box-sizing: border-box;
+
 }
 
 
 html {
+
     min-height: 100%;
+
     background: var(--bg);
+
 }
 
 
 body {
+
     margin: 0;
 
     min-height: 100vh;
@@ -75,22 +89,30 @@ body {
         );
 
     color: var(--text);
+
 }
 
 
 button,
 input {
+
     font-family: inherit;
+
 }
 
 
 button {
-    -webkit-tap-highlight-color: transparent;
+
+    -webkit-tap-highlight-color:
+        transparent;
+
 }
 
 
 .hidden {
+
     display: none !important;
+
 }
 
 
@@ -100,125 +122,197 @@ button {
 ========================================================= */
 
 .topbar {
+
     height: 64px;
 
     position: sticky;
+
     top: 0;
+
     z-index: 100;
 
     display: flex;
+
     align-items: center;
+
     justify-content: space-between;
 
-    padding:
-        0
-        max(16px, env(safe-area-inset-left));
+    padding-left:
+        max(
+            16px,
+            env(safe-area-inset-left)
+        );
 
     padding-right:
-        max(16px, env(safe-area-inset-right));
+        max(
+            16px,
+            env(safe-area-inset-right)
+        );
 
-    background: rgba(13, 15, 19, 0.92);
+    background:
+        rgba(
+            13,
+            15,
+            19,
+            0.92
+        );
 
-    border-bottom: 1px solid var(--line);
+    border-bottom:
+        1px solid var(--line);
 
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter:
+        blur(14px);
+
+    -webkit-backdrop-filter:
+        blur(14px);
+
 }
 
 
 .top-title {
+
     font-size: 18px;
+
     font-weight: 850;
 
     letter-spacing: -0.4px;
+
 }
 
 
 .home-btn {
+
     min-height: 42px;
 
-    border: 1px solid var(--line);
+    border:
+        1px solid var(--line);
+
     border-radius: 12px;
 
-    padding: 0 14px;
+    padding:
+        0 14px;
 
-    background: var(--card2);
-    color: var(--text);
+    background:
+        var(--card2);
+
+    color:
+        var(--text);
 
     cursor: pointer;
 
     font-size: 14px;
+
     font-weight: 750;
 
-    transition: 0.15s;
 }
 
 
 .home-btn:active {
-    transform: scale(0.96);
+
+    transform:
+        scale(0.96);
+
 }
 
 
 
 /* =========================================================
-   페이지
+   전체 페이지 영역
 ========================================================= */
 
 .page {
-    width: min(920px, 100%);
 
-    margin: 0 auto;
+    width:
+        min(
+            920px,
+            100%
+        );
 
-    padding: 42px 20px 90px;
+    margin:
+        0 auto;
+
+    padding:
+        42px
+        20px
+        90px;
+
 }
 
 
 
 /* =========================================================
-   메인
+   듣기 대본 메인 화면
 ========================================================= */
 
 .hero {
+
     text-align: center;
 
-    margin: 18px 0 40px;
+    margin:
+        18px
+        0
+        40px;
+
 }
 
 
 .hero h1 {
-    margin: 0 0 10px;
 
-    font-size: clamp(30px, 6vw, 40px);
+    margin:
+        0
+        0
+        10px;
+
+    font-size:
+        clamp(
+            30px,
+            6vw,
+            40px
+        );
 
     letter-spacing: -1px;
+
 }
 
 
 .hero p {
+
     margin: 0;
 
-    color: var(--subtext);
+    color:
+        var(--subtext);
 
     font-size: 15px;
+
 }
 
 
 .main-menu {
+
     display: grid;
 
     grid-template-columns:
-        repeat(2, minmax(0, 1fr));
+        repeat(
+            2,
+            minmax(0, 1fr)
+        );
 
     gap: 18px;
+
 }
 
 
 .menu-card {
+
     min-height: 210px;
 
-    padding: 30px 27px;
+    padding:
+        30px
+        27px;
 
-    border: 1px solid var(--line);
+    border:
+        1px solid var(--line);
+
     border-radius: 22px;
 
     background:
@@ -232,206 +326,262 @@ button {
 
     transition:
         transform 0.16s,
-        border-color 0.16s,
-        background 0.16s;
+        border-color 0.16s;
+
 }
 
 
 .menu-card:hover {
-    border-color: #3c465c;
 
-    transform: translateY(-3px);
+    border-color:
+        #3c465c;
+
+    transform:
+        translateY(-3px);
+
 }
 
 
 .menu-card:active {
-    transform: scale(0.985);
+
+    transform:
+        scale(0.985);
+
 }
 
 
 .menu-icon {
+
     font-size: 38px;
 
     margin-bottom: 18px;
+
 }
 
 
 .menu-card h2 {
-    margin: 0 0 8px;
+
+    margin:
+        0
+        0
+        8px;
 
     font-size: 22px;
 
     letter-spacing: -0.5px;
+
 }
 
 
 .menu-card p {
+
     margin: 0;
 
-    color: var(--subtext);
+    color:
+        var(--subtext);
 
     line-height: 1.6;
+
 }
 
 
 
 /* =========================================================
-   단원 선택
+   듣기 번호 선택 화면
 ========================================================= */
 
 .section-title {
+
     text-align: center;
 
-    margin: 12px 0 32px;
+    margin:
+        12px
+        0
+        32px;
+
 }
 
 
 .section-title h1 {
-    margin: 0 0 7px;
+
+    margin:
+        0
+        0
+        7px;
 
     font-size: 30px;
+
 }
 
 
 .section-title p {
+
     margin: 0;
 
-    color: var(--subtext);
+    color:
+        var(--subtext);
+
 }
 
 
-.lesson-grid {
+.number-grid {
+
     display: grid;
 
     grid-template-columns:
-        repeat(2, minmax(0, 1fr));
+        repeat(
+            2,
+            minmax(0, 1fr)
+        );
 
-    gap: 16px;
+    gap: 14px;
+
 }
 
 
-.lesson-card {
-    min-height: 160px;
+.number-card {
 
-    padding: 26px;
+    min-height: 120px;
 
-    border: 1px solid var(--line);
-    border-radius: 20px;
+    padding: 23px;
 
-    background: var(--card);
+    border:
+        1px solid var(--line);
+
+    border-radius: 18px;
+
+    background:
+        var(--card);
 
     cursor: pointer;
 
     transition:
         transform 0.15s,
         border-color 0.15s;
+
 }
 
 
-.lesson-card:hover {
-    border-color: #465171;
+.number-card:hover {
 
-    transform: translateY(-3px);
+    border-color:
+        #465171;
+
+    transform:
+        translateY(-3px);
+
 }
 
 
-.lesson-card:active {
-    transform: scale(0.985);
+.number-card:active {
+
+    transform:
+        scale(0.985);
+
 }
 
 
-.lesson-number {
+.script-number {
+
     margin-bottom: 8px;
 
-    color: var(--primary);
+    color:
+        var(--primary);
 
-    font-size: 13px;
-    font-weight: 850;
+    font-size: 14px;
+
+    font-weight: 900;
+
 }
 
 
-.lesson-card h2 {
-    margin: 0 0 7px;
+.number-card h2 {
 
-    font-size: 21px;
-}
-
-
-.lesson-card p {
     margin: 0;
 
-    color: var(--subtext);
+    font-size: 20px;
 
-    line-height: 1.5;
 }
 
 
 
 /* =========================================================
-   학습 카드
+   듣기 대본 학습 카드
 ========================================================= */
 
 .content-card {
+
     padding: 40px;
 
-    border: 1px solid var(--line);
+    border:
+        1px solid var(--line);
+
     border-radius: 22px;
 
-    background: rgba(23, 26, 33, 0.97);
+    background:
+        rgba(
+            23,
+            26,
+            33,
+            0.97
+        );
+
 }
 
 
-.lesson-header {
+.script-header {
+
     margin-bottom: 29px;
 
     padding-bottom: 21px;
 
-    border-bottom: 1px solid var(--line);
+    border-bottom:
+        1px solid var(--line);
+
 }
 
 
-.lesson-label {
+.script-label {
+
     margin-bottom: 6px;
 
-    color: var(--primary);
+    color:
+        var(--primary);
 
     font-size: 13px;
+
     font-weight: 850;
+
 }
 
 
-.lesson-header h1 {
+.script-header h1 {
+
     margin: 0;
 
-    font-size: clamp(23px, 5vw, 30px);
+    font-size:
+        clamp(
+            23px,
+            5vw,
+            30px
+        );
 
     line-height: 1.25;
+
 }
 
 
 
 /* =========================================================
-   본문
+   듣기 대본 문장
 ========================================================= */
 
-.reading-title {
-    margin: 7px 0 28px;
-
-    font-size: clamp(25px, 5vw, 30px);
-
-    line-height: 1.3;
-}
-
-
-.reading-subtitle {
-    margin: 35px 0 17px;
-
-    font-size: 21px;
-}
-
-
 .reading-paragraph {
-    margin: 0 0 21px;
+
+    margin:
+        0
+        0
+        17px;
 
     font-family:
         Georgia,
@@ -440,11 +590,13 @@ button {
 
     font-size: 20px;
 
-    line-height: 1.9;
+    line-height: 1.85;
 
     color: #e8ebf1;
 
-    overflow-wrap: break-word;
+    overflow-wrap:
+        break-word;
+
 }
 
 
@@ -454,28 +606,33 @@ button {
 ========================================================= */
 
 .blank-wrap {
+
     position: relative;
 
     display: inline-block;
 
-    vertical-align: baseline;
+    vertical-align:
+        baseline;
 
     margin:
         0
         3px
         1px;
+
 }
 
 
 
 /* =========================================================
-   빈칸 input
+   빈칸 입력창
 ========================================================= */
 
 .blank-input {
+
     height: 34px;
 
     min-width: 72px;
+
     max-width: 170px;
 
     padding:
@@ -483,20 +640,20 @@ button {
         8px;
 
     border:
-        1px solid
-        #424957;
+        1px solid #424957;
 
     border-bottom:
-        2px solid
-        #737c8c;
+        2px solid #737c8c;
 
     border-radius: 7px;
 
     outline: none;
 
-    background: #222731;
+    background:
+        #222731;
 
-    color: #f3f5fa;
+    color:
+        #f3f5fa;
 
     font-family:
         Georgia,
@@ -511,136 +668,191 @@ button {
         background 0.15s,
         border-color 0.15s,
         color 0.15s;
+
 }
 
 
 .blank-input:focus {
-    border-color: var(--primary);
 
-    background: #282e3b;
+    border-color:
+        var(--primary);
+
+    background:
+        #282e3b;
+
 }
 
+
+/* 현재 오답 */
 
 .blank-input.wrong {
-    border-color: var(--red);
 
-    background: var(--red-bg);
+    border-color:
+        var(--red);
 
-    color: #ff9399;
+    background:
+        var(--red-bg);
+
+    color:
+        #ff9399;
+
 }
 
+
+/* 첫 시도 정답 */
 
 .blank-input.correct {
-    border-color: var(--green);
 
-    background: var(--green-bg);
+    border-color:
+        var(--green);
 
-    color: #7aefa5;
+    background:
+        var(--green-bg);
+
+    color:
+        #7aefa5;
+
 }
 
 
-/* 대소문자만 다른 답은 연한 초록색으로 구분 */
-.blank-input.case-warning { border-color:#9cd9b5; background:#19372c; color:#c9f2d8; }
-.case-notice { display:inline-block; color:#a8e6be; font-size:12px; font-weight:750; margin:4px 5px; }
+/* 틀린 뒤 다시 맞힌 정답 */
+
 .blank-input.correct-after-wrong {
-    border-color: var(--orange);
 
-    background: var(--orange-bg);
+    border-color:
+        var(--orange);
 
-    color: #ffc16d;
+    background:
+        var(--orange-bg);
+
+    color:
+        #ffc16d;
+
 }
 
+
+/* 정답 확인으로 공개된 답 */
 
 .blank-input.revealed {
-    border-color: var(--answer);
 
-    background: var(--answer-bg);
+    border-color:
+        var(--answer);
 
-    color: #98c3ff;
+    background:
+        var(--answer-bg);
+
+    color:
+        #98c3ff;
+
 }
 
 
+/* 맞힌 문제는 수정 불가 */
+
 .blank-input.locked {
+
     cursor: default;
 
     opacity: 1;
 
     user-select: none;
+
 }
 
 
 
 /* =========================================================
-   틀린 횟수
+   틀린 횟수 표시
 ========================================================= */
 
 .mistake-count {
+
     position: absolute;
 
     top: -8px;
+
     right: -7px;
 
     min-width: 17px;
+
     height: 17px;
 
-    padding: 0 4px;
+    padding:
+        0 4px;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
     border-radius: 999px;
 
-    background: var(--orange);
+    background:
+        var(--orange);
 
-    color: #151515;
+    color:
+        #151515;
 
     font-family:
         Pretendard,
         sans-serif;
 
     font-size: 10px;
+
     font-weight: 900;
 
     line-height: 1;
 
     box-shadow:
-        0 0 0 2px
+        0
+        0
+        0
+        2px
         var(--card);
+
 }
 
 
 
 /* =========================================================
-   점수
+   채점 결과
 ========================================================= */
 
 .score-box {
+
     margin-top: 30px;
 
     padding: 17px;
 
-    border: 1px solid var(--line);
+    border:
+        1px solid var(--line);
+
     border-radius: 14px;
 
-    background: var(--card2);
+    background:
+        var(--card2);
 
     text-align: center;
 
     font-size: 16px;
+
     font-weight: 800;
 
     line-height: 1.6;
+
 }
 
 
 
 /* =========================================================
-   버튼
+   하단 버튼
 ========================================================= */
 
 .bottom-actions {
+
     display: flex;
+
     flex-wrap: wrap;
 
     justify-content: center;
@@ -648,94 +860,130 @@ button {
     gap: 10px;
 
     margin-top: 30px;
+
 }
 
 
 .action-btn {
+
     min-height: 46px;
 
-    padding: 0 19px;
+    padding:
+        0
+        19px;
 
     border: 0;
+
     border-radius: 13px;
 
     cursor: pointer;
 
     font-size: 15px;
+
     font-weight: 800;
 
-    transition:
-        transform 0.1s,
-        opacity 0.1s;
 }
 
 
 .action-btn:active {
-    transform: scale(0.97);
+
+    transform:
+        scale(0.97);
+
 }
 
 
 .primary-btn {
-    background: var(--primary);
+
+    background:
+        var(--primary);
 
     color: white;
+
 }
 
 
 .answer-btn {
-    background: #2e72dc;
+
+    background:
+        #2e72dc;
 
     color: white;
+
 }
 
 
 .secondary-btn {
-    border: 1px solid var(--line);
 
-    background: var(--card2);
+    border:
+        1px solid var(--line);
 
-    color: var(--text);
+    background:
+        var(--card2);
+
+    color:
+        var(--text);
+
 }
 
 
 
 /* =========================================================
-   모바일
+   모바일 최적화
 ========================================================= */
 
-@media (max-width: 680px) {
+@media (
+    max-width: 680px
+) {
 
     body {
-        background: var(--bg);
+
+        background:
+            var(--bg);
+
     }
 
 
     .topbar {
+
         height: 58px;
 
         padding-left:
-            max(12px, env(safe-area-inset-left));
+            max(
+                12px,
+                env(safe-area-inset-left)
+            );
 
         padding-right:
-            max(12px, env(safe-area-inset-right));
+            max(
+                12px,
+                env(safe-area-inset-right)
+            );
+
     }
 
 
     .top-title {
+
         font-size: 16px;
+
     }
 
 
     .home-btn {
+
         min-height: 38px;
 
-        padding: 0 11px;
+        padding:
+            0 11px;
 
         font-size: 13px;
+
     }
 
 
     .page {
+
         padding:
             24px
             12px
@@ -743,117 +991,163 @@ button {
                 105px +
                 env(safe-area-inset-bottom)
             );
+
     }
 
 
     .hero {
+
         margin:
             10px
             0
             27px;
+
     }
 
 
     .hero p {
+
         font-size: 14px;
-    }
 
-
-    .main-menu,
-    .lesson-grid {
-        grid-template-columns: 1fr;
     }
 
 
     .main-menu {
+
+        grid-template-columns:
+            1fr;
+
         gap: 12px;
+
     }
 
 
     .menu-card {
+
         min-height: 0;
 
-        padding: 23px 20px;
+        padding:
+            23px
+            20px;
 
         border-radius: 17px;
+
     }
 
 
     .menu-icon {
+
         margin-bottom: 11px;
 
         font-size: 31px;
+
     }
 
 
     .menu-card h2 {
+
         font-size: 20px;
+
     }
 
 
-    .lesson-card {
-        min-height: 0;
+    /* 모바일에서는 번호를 두 칸씩 표시 */
 
-        padding: 21px;
+    .number-grid {
 
-        border-radius: 17px;
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+
+        gap: 9px;
+
+    }
+
+
+    .number-card {
+
+        min-height: 92px;
+
+        padding: 17px;
+
+        border-radius: 15px;
+
+    }
+
+
+    .number-card h2 {
+
+        font-size: 17px;
+
     }
 
 
     .section-title {
+
         margin:
             4px
             0
             24px;
+
     }
 
 
     .section-title h1 {
+
         font-size: 26px;
+
     }
 
 
     .content-card {
+
         padding:
             24px
             17px
             25px;
 
         border-radius: 17px;
+
     }
 
 
-    .lesson-header {
+    .script-header {
+
         margin-bottom: 22px;
 
         padding-bottom: 17px;
-    }
 
-
-    .reading-title {
-        margin-bottom: 22px;
     }
 
 
     .reading-paragraph {
-        margin-bottom: 20px;
+
+        margin-bottom: 18px;
 
         font-size: 18px;
 
         line-height: 1.95;
+
     }
 
 
     .blank-wrap {
+
         margin-left: 2px;
+
         margin-right: 2px;
+
     }
 
 
     .blank-input {
+
         height: 37px;
 
         min-width: 68px;
+
         max-width: 145px;
 
         padding:
@@ -863,21 +1157,26 @@ button {
         font-size: 16px;
 
         border-radius: 7px;
+
     }
 
 
     /*
-       학습 페이지의 버튼은
-       화면 아래 고정
+       대본 학습 화면에서는
+       버튼을 모바일 화면 아래에 고정
     */
 
-    #studyPage .bottom-actions {
+    #studyPage
+    .bottom-actions {
+
         position: fixed;
 
         z-index: 90;
 
         left: 0;
+
         right: 0;
+
         bottom: 0;
 
         margin: 0;
@@ -895,7 +1194,10 @@ button {
         grid-template-columns:
             repeat(
                 auto-fit,
-                minmax(100px, 1fr)
+                minmax(
+                    90px,
+                    1fr
+                )
             );
 
         gap: 7px;
@@ -909,108 +1211,71 @@ button {
             );
 
         border-top:
-            1px solid
-            var(--line);
+            1px solid var(--line);
 
         backdrop-filter:
             blur(14px);
 
         -webkit-backdrop-filter:
             blur(14px);
+
     }
 
 
-    #studyPage .action-btn {
+    #studyPage
+    .action-btn {
+
         width: 100%;
 
         min-height: 46px;
 
-        padding: 0 9px;
+        padding:
+            0 8px;
 
         font-size: 13px;
 
         border-radius: 11px;
+
     }
 
 
     .score-box {
+
         margin-top: 24px;
 
         font-size: 14px;
+
     }
 
 }
 
 
 
-/* 아주 작은 폰 */
+/* =========================================================
+   아주 작은 모바일 화면
+========================================================= */
 
-@media (max-width: 390px) {
+@media (
+    max-width: 390px
+) {
 
     .reading-paragraph {
+
         font-size: 17px;
+
     }
 
 
     .blank-input {
+
         max-width: 130px;
 
         font-size: 15px;
+
     }
 
 }
 
-
-/* 간결한 선택 화면 · 문장 암기 */
-.main-menu{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-.menu-card{min-height:165px;padding:24px 18px}
-.menu-card h2{font-size:19px}.menu-card p{font-size:13px}
-.memo-panel{padding:12px 0 25px}
-.memo-progress{color:var(--primary);font-size:14px;font-weight:800}
-.memo-meter{margin:13px 0 30px;height:7px;background:var(--line);border-radius:20px;overflow:hidden}
-.memo-meter>div{height:100%;background:var(--primary);transition:width .2s}
-.memo-instruction{font-size:18px;font-weight:700;margin:0 0 20px}
-.memo-hints{display:flex;gap:10px;flex-wrap:wrap}
-.memo-hints button{background:var(--card2);border:1px solid var(--line);border-radius:13px;color:var(--text);min-width:100px;min-height:70px;cursor:pointer;font-size:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}
-.memo-hints button[aria-pressed=true]{border-color:var(--primary);background:#252b48}
-.memo-hints small{font-size:12px;font-weight:750}
-.memo-clues{min-height:40px;margin:14px 0 18px;color:var(--text)}
-.memo-clues p{background:var(--card2);border-radius:9px;padding:12px 15px;margin:7px 0;line-height:1.6}
-.memo-clues b{color:var(--primary);margin-right:9px}
-.memo-input{width:100%;min-height:120px;resize:vertical;background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:16px;border-radius:12px;font-family:inherit;font-size:18px;line-height:1.5}
-.memo-input:focus{outline:2px solid var(--primary);outline-offset:1px}
-.memo-feedback{min-height:45px;padding:10px 0}.memo-ok{color:var(--green)}.memo-no{color:var(--red)}
- .memo-case{color:#b4edca;font-weight:800;background:#1b392d;border:1px solid #6fae8c;border-radius:10px;padding:10px 12px;display:inline-block}
-.memo-input.case-warning{border-color:#9cd9b5;background:#19372c;color:#d6f7e1}
-.memo-actions{display:flex;gap:10px}.memo-actions button{flex:1}
-.memo-actions button:disabled{opacity:.35;cursor:not-allowed}
-.memo-success{display:inline-block;padding:9px 12px;border-radius:10px;background:#123d2a;color:#8af0ad;font-weight:800}
-.memo-retry{display:inline-block;padding:9px 12px;border-radius:10px;background:#50351c;border:1px solid #bb793c;color:#ffbe75;font-weight:800}
-/* 정답 판정 오버레이 */
-.memo-grade-overlay{position:fixed;inset:0;z-index:9999;display:flex;justify-content:center;align-items:center;pointer-events:none;background:rgba(6,12,22,.55);animation:memoAppear .13s ease-out}
-.memo-grade-card{width:min(85vw,420px);padding:35px 20px;text-align:center;border-radius:26px;background:#10231b;border:3px solid #4bd48a;box-shadow:0 16px 70px #0009;color:#aff8ca}
-.memo-grade-overlay.wrong .memo-grade-card{background:#301919;border-color:#ff7474;color:#ffaaaa}
-.memo-grade-icon{font-size:clamp(100px,19vw,175px);font-weight:900;line-height:1.1}
-.memo-grade-label{font-size:clamp(22px,5vw,34px);font-weight:900;margin-top:12px}
-.memo-grade-sub{font-size:16px;margin-top:8px;font-weight:750}
-@keyframes memoAppear{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
-@media(prefers-reduced-motion:reduce){.memo-grade-overlay{animation:none}}
-.memo-answer{margin-top:12px;padding:14px 16px;background:var(--card2);border-radius:11px;line-height:1.7;border:1px solid var(--line)}
-.memo-answer b{display:block;font-size:12px;color:var(--primary);margin-bottom:4px}
-@media(max-width:650px){.main-menu{grid-template-columns:1fr}.menu-card{min-height:120px}.memo-hints button{flex:1;min-width:0}.memo-actions{flex-wrap:wrap}}
-
-
-/* 전체보기의 과 구분은 일반 소제목과 다른 강조색 */
-.reading-lesson-divider {
-    margin: 32px 0 16px;
-    padding: 13px 17px;
-    border-left: 5px solid #edb552;
-    border-radius: 9px;
-    color: #ffd487;
-    background: rgba(237,181,82,.12);
-    font-size: 23px;
-    font-weight: 850;
-}
 
 /* 빈칸 수 선택 */
 .blank-setup-shade.hidden{display:none}
@@ -1021,6 +1286,7 @@ button {
 .blank-setup-actions{display:flex;gap:10px;margin-top:20px}.blank-setup-actions button{flex:1;padding:13px;border:0;border-radius:12px;font-weight:800;cursor:pointer}
 .blank-setup-actions button:first-child{background:#41536b;color:white}.blank-setup-actions button:last-child{background:#f4ca65;color:#192330}
 </style>
+
 </head>
 
 
@@ -1028,20 +1294,21 @@ button {
 
 
 <!-- =====================================================
-     상단
+     영어 듣기 대본 상단바
 ===================================================== -->
 
 <header class="topbar">
 
     <div class="top-title">
-        영어 본문 학습
+        영어 듣기 대본
     </div>
+
 
     <button
         class="home-btn"
-        onclick="location.href='../index.html'"
+        onclick="handleTopBack()"
     >
-        🏠 홈
+        ← 뒤로가기
     </button>
 
 </header>
@@ -1049,8 +1316,20 @@ button {
 
 
 <!-- =====================================================
-     메인
+     영어 듣기 대본 메인 화면
 ===================================================== -->
+
+<main id="examPage" class="page">
+  <div class="hero"><h1>영어 듣기 대본 학습</h1><p>시험 대본을 선택하세요.</p></div>
+  <div class="main-menu">
+    <div class="menu-card" role="button" tabindex="0" onclick="selectExam('odd')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectExam('odd')}">
+      <div class="menu-icon">📘</div><h2>홀수 · 중간고사 스크립트</h2><p>1, 3, 5, …, 19번 대본 (10개)</p>
+    </div>
+    <div class="menu-card" role="button" tabindex="0" onclick="selectExam('even')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectExam('even')}">
+      <div class="menu-icon">📗</div><h2>짝수 · 기말고사 스크립트</h2><p>2, 4, 6, …, 20번 대본 (10개)</p>
+    </div>
+  </div>
+</main>
 
 <main
     id="mainPage"
@@ -1060,7 +1339,7 @@ button {
     <div class="hero">
 
         <h1>
-            영어 본문 학습
+            영어 듣기 대본 학습
         </h1>
 
         <p>
@@ -1072,9 +1351,14 @@ button {
 
     <div class="main-menu">
 
+
+        <!-- 대본 그대로 보기 -->
+
         <div
             class="menu-card"
-            onclick="showLessonSelect('view')"
+            onclick="
+                showNumberSelect('view')
+            "
         >
 
             <div class="menu-icon">
@@ -1082,19 +1366,25 @@ button {
             </div>
 
             <h2>
-                보기
+                영어 대본 보기
             </h2>
 
             <p>
-                영어 본문 읽기
+                영어 듣기평가 대본을
+                그대로 읽어봅니다.
             </p>
 
         </div>
 
 
+
+        <!-- 대본 랜덤 빈칸 채우기 -->
+
         <div
             class="menu-card"
-            onclick="showLessonSelect('blank')"
+            onclick="
+                showNumberSelect('blank')
+            "
         >
 
             <div class="menu-icon">
@@ -1102,16 +1392,17 @@ button {
             </div>
 
             <h2>
-                빈칸 채우기
+                영어 대본 빈칸 채우기
             </h2>
 
             <p>
-                랜덤 빈칸 연습
+                듣기평가 대본의 단어를
+                랜덤 빈칸으로 연습합니다.
             </p>
 
         </div>
 
-        <div class="menu-card" onclick="showLessonSelect('memorize')"><div class="menu-icon">🧠</div><h2>외우기</h2><p>앞에서부터 한 문장씩 암기</p></div>
+
     </div>
 
 </main>
@@ -1119,82 +1410,48 @@ button {
 
 
 <!-- =====================================================
-     과 선택
+     듣기 대본 번호 선택 화면
 ===================================================== -->
 
 <main
-    id="lessonPage"
+    id="numberPage"
     class="page hidden"
 >
 
     <div class="section-title">
 
-        <h1 id="lessonSelectTitle">
-            과 선택
+        <h1 id="numberSelectTitle">
+            대본 번호 선택
         </h1>
 
         <p>
-            학습할 단원을 선택하세요.
+            학습할 대본을 선택하세요.
         </p>
 
     </div>
 
 
-    <div class="lesson-grid">
-        <div id="allLessonCard" class="lesson-card" onclick="chooseLesson('all')">
-            <div class="lesson-number">ALL</div>
-            <h2>전체</h2>
-            <p>4과 · 5과 순서대로</p>
-        </div>
+    <!--
+        content.js에 들어 있는
+        홀수 번호를 자동으로 생성
+    -->
 
-        <div
-            class="lesson-card"
-            onclick="chooseLesson(4)"
-        >
-
-            <div class="lesson-number">
-                4과
-            </div>
-
-            <h2>
-                Be Safe Everywhere
-            </h2>
-
-            <p>
-                Stay Safe at School
-            </p>
-
-        </div>
-
-
-        <div
-            class="lesson-card"
-            onclick="chooseLesson(5)"
-        >
-
-            <div class="lesson-number">
-                5과
-            </div>
-
-            <h2>
-                Enjoying Art
-            </h2>
-
-            <p>
-                From the Self-Portrait
-                to the Selfie
-            </p>
-
-        </div>
-
-    </div>
+    <div
+        id="numberGrid"
+        class="number-grid"
+    ></div>
 
 
     <div class="bottom-actions">
 
         <button
-            class="action-btn secondary-btn"
-            onclick="showMain()"
+            class="
+                action-btn
+                secondary-btn
+            "
+            onclick="
+                showExamSelect()
+            "
         >
             ← 뒤로
         </button>
@@ -1206,7 +1463,7 @@ button {
 
 
 <!-- =====================================================
-     학습 화면
+     듣기 대본 학습 화면
 ===================================================== -->
 
 <main
@@ -1217,31 +1474,47 @@ button {
     <div class="content-card">
 
 
-        <div class="lesson-header">
+        <!-- 현재 듣기 번호 -->
+
+        <div class="script-header">
 
             <div
-                id="lessonLabel"
-                class="lesson-label"
+                id="scriptLabel"
+                class="script-label"
             ></div>
 
-            <h1 id="unitTitle"></h1>
+            <h1 id="scriptTitle"></h1>
 
         </div>
 
 
+
+        <!-- 대본 또는 빈칸 대본 -->
+
         <div id="contentArea"></div>
 
 
+
+        <!-- 채점 결과 -->
+
         <div
             id="scoreBox"
-            class="score-box hidden"
+            class="
+                score-box
+                hidden
+            "
         ></div>
 
+
+
+        <!-- 학습 조작 버튼 -->
 
         <div class="bottom-actions">
 
 
-            <!-- 처음부터 존재하는 채점 버튼 -->
+            <!--
+                빈칸 모드에서만 표시
+            -->
 
             <button
                 id="gradeBtn"
@@ -1250,14 +1523,17 @@ button {
                     primary-btn
                     hidden
                 "
-                onclick="gradeAnswers()"
+                onclick="
+                    gradeAnswers()
+                "
             >
-                채점하기
+                확인
             </button>
 
 
+
             <!--
-                최초 채점 후 나타남
+                한 번 채점한 뒤부터 표시
             -->
 
             <button
@@ -1267,11 +1543,18 @@ button {
                     answer-btn
                     hidden
                 "
-                onclick="showAnswers()"
+                onclick="
+                    showAnswers()
+                "
             >
                 정답 확인
             </button>
 
+
+
+            <!--
+                새로운 랜덤 빈칸 생성
+            -->
 
             <button
                 id="retryBtn"
@@ -1280,20 +1563,30 @@ button {
                     secondary-btn
                     hidden
                 "
-                onclick="generateBlankQuiz()"
+                onclick="
+                    generateBlankQuiz()
+                "
             >
                 🎲 새 문제
             </button>
 
+
+
+            <button id="nextScriptBtn" class="action-btn secondary-btn hidden" onclick="nextScriptInAll()">다음 문제 →</button>
+            <!--
+                듣기 번호 선택 화면으로 돌아가기
+            -->
 
             <button
                 class="
                     action-btn
                     secondary-btn
                 "
-                onclick="backToLessons()"
+                onclick="
+                    backToNumbers()
+                "
             >
-                ← 과 선택
+                ← 번호 선택
             </button>
 
 
@@ -1305,196 +1598,122 @@ button {
 
 
 
-<script src="content.js"></script>
-<script src="question-generator.js"></script>
+<!-- =====================================================
+     듣기 대본 데이터
+===================================================== -->
+
+<script src="./content.js"></script>
+
 
 
 <script>
 
 /* =========================================================
-   현재 상태
+   현재 학습 상태
 ========================================================= */
 
+let currentExam = null;
 let currentMode = null;
-let currentLesson = null;
+
+let currentNumber = null;
 
 let blankAnswers = [];
 
 let hasGraded = false;
+
 let answersShown = false;
 
 
+
+/*
+    전체 단어 중
+    빈칸으로 만드는 비율
+*/
+
 const BLANK_RATIO = 0.20;
 
-const MIN_BLANKS = 8;
 
-const MAX_BLANKS = 30;
+/*
+    짧은 대본도 있으므로
+    최소 빈칸 개수를 본문보다 조금 낮춤
+*/
+
+const MIN_BLANKS = 4;
+
+
+/*
+    한 대본에서
+    최대 생성할 빈칸 개수
+*/
+
+const MAX_BLANKS = 20;
 
 
 
 /* =========================================================
-   화면 이동
+   페이지 숨기기
 ========================================================= */
 
 function hideAllPages() {
 
     document
-        .querySelectorAll(".page")
-        .forEach(page => {
-
-            page.classList.add(
-                "hidden"
-            );
-
-        });
-
-}
-
-
-
-function showMain() {
-
-    currentMode = null;
-    currentLesson = null;
-
-    hideAllPages();
-
-    document
-        .getElementById(
-            "mainPage"
+        .querySelectorAll(
+            ".page"
         )
-        .classList.remove(
-            "hidden"
+        .forEach(
+            page => {
+
+                page
+                    .classList
+                    .add(
+                        "hidden"
+                    );
+
+            }
         );
-
-}
-
-
-
-
-// 본문 빈칸 개수 선택
-let configuredBlankCount=10,blankSetupTarget=null;
-function countLessonCandidates(lesson){let n=0;for(const block of ENGLISH_CONTENT[lesson].blocks){
- if(block.type==='title'||block.type==='subtitle')continue;
- for(const run of block.runs){if(run.bold)continue;for(const token of tokenize(run.text))if(isBlankCandidate(token))n++;}
-}return n;}
-function chooseLesson(lesson){
- if(currentMode!=='blank'){openLesson(lesson);return;}
- blankSetupTarget=lesson;
- const max=countLessonCandidates(lesson==='all'?4:lesson);
- const input=document.getElementById('blankSetupInput');input.max=max;
- input.value=Math.max(1,Math.min(configuredBlankCount,max));
- document.getElementById('blankSetupDescription').textContent=lesson+'과 본문에 만들 빈칸 개수를 정하세요.';
- document.getElementById('blankSetupMaximum').textContent='설정 가능: 1 ~ '+max+'개';
- document.getElementById('blankSetupShade').classList.remove('hidden');input.focus();input.select();
-}
-function closeBlankSetup(){document.getElementById('blankSetupShade').classList.add('hidden')}
-function applyBlankSetup(){const input=document.getElementById('blankSetupInput');const max=Number(input.max),v=Number(input.value);
- if(!Number.isInteger(v)||v<1||v>max){input.setCustomValidity('1~'+max+' 사이의 정수를 입력하세요.');input.reportValidity();input.setCustomValidity('');return;}
- configuredBlankCount=v;closeBlankSetup();openLesson(blankSetupTarget);
-}
-
-function showLessonSelect(mode) {
-
-    currentMode = mode;
-    document.getElementById('allLessonCard').classList.toggle('hidden', mode === 'blank');
-
-    hideAllPages();
-
-    document
-        .getElementById(
-            "lessonPage"
-        )
-        .classList.remove(
-            "hidden"
-        );
-
-
-    document
-        .getElementById(
-            "lessonSelectTitle"
-        )
-        .textContent =
-        ({view: "보기", blank: "빈칸 채우기", memorize: "외우기"}[mode] || "과 선택");
-
-}
-
-
-
-function backToLessons() {
-
-    showLessonSelect(
-        currentMode
-    );
 
 }
 
 
 
 /* =========================================================
-   단원 열기
+   영어 듣기 대본 메인 화면
 ========================================================= */
 
-function openLesson(lesson) {
+function handleTopBack(){
+    // 시험 선택 화면에서는 상위 홈으로, 그 외 화면에서는 시험 선택으로 이동
+    if (!document.getElementById('examPage').classList.contains('hidden')) {
+        location.href = '../index.html';
+    } else {
+        showExamSelect();
+    }
+}
+function showExamSelect(){
+    currentExam=null;currentMode=null;currentNumber=null;allScriptQueue=null;
+    hideAllPages();document.getElementById('examPage').classList.remove('hidden');
+    window.scrollTo(0,0);
+}
+function selectExam(exam){
+    currentExam=exam;showMain();
+}
+function showMain() {
 
-    currentLesson = lesson;
+    currentMode = null;
+
+    currentNumber = null;
+
 
     hideAllPages();
 
 
     document
         .getElementById(
-            "studyPage"
+            "mainPage"
         )
-        .classList.remove(
+        .classList
+        .remove(
             "hidden"
         );
-
-
-    const data =
-        lesson === 'all' ? ENGLISH_CONTENT[4] : ENGLISH_CONTENT[lesson];
-
-
-    document
-        .getElementById(
-            "lessonLabel"
-        )
-        .textContent =
-        lesson === 'all' ? '4과 + 5과' : data.lesson + '과';
-
-
-    document
-        .getElementById(
-            "unitTitle"
-        )
-        .textContent =
-        lesson === 'all' ? '전체 본문' : data.unitTitle;
-
-
-    resetButtons();
-
-
-    if (
-        currentMode ===
-        "view"
-    ) {
-
-        renderReading();
-
-    }
-
-    else if (currentMode === 'memorize') {
-        startMemorize();
-    }
-    else {
-        if (lesson === 'all') {
-            // 빈칸 문제는 단원별로 제공하며, 전체 모드는 연속 본문/암기에 활용한다.
-            currentLesson = 4;
-            document.getElementById('lessonLabel').textContent = '4과';
-            document.getElementById('unitTitle').textContent = ENGLISH_CONTENT[4].unitTitle;
-        }
-        generateBlankQuiz();
-    }
 
 
     window.scrollTo(
@@ -1507,7 +1726,277 @@ function openLesson(lesson) {
 
 
 /* =========================================================
-   버튼 초기화
+   듣기 대본 번호 선택 화면
+========================================================= */
+
+
+// 지문당 빈칸 개수 설정 및 10개 대본 연속 학습
+let configuredBlankCount=10, blankSetupTarget=null, allScriptQueue=null, allScriptIndex=0;
+function scriptNumbers(){return Object.keys(ENGLISH_CONTENT).map(Number).filter(n=>currentExam==='odd'?n%2===1:n%2===0).sort((a,b)=>a-b)}
+function countScriptCandidates(number){
+ let n=0;for(const block of ENGLISH_CONTENT[number].blocks)for(const run of block.runs){
+  if(run.bold||run.noBlank)continue;
+  for(const token of tokenize(run.text))if(isBlankCandidate(token))n++;
+ }return n;
+}
+function chooseScript(number){
+ if(currentMode!=='blank'){openScript(number);return;}
+ blankSetupTarget=number;
+ const nums=number==='all'?scriptNumbers():[number];
+ const limits=nums.map(countScriptCandidates);
+ const max=Math.min(...limits);
+ const box=document.getElementById('blankSetupShade');
+ const input=document.getElementById('blankSetupInput');
+ document.getElementById('blankSetupDescription').textContent=number==='all'?'10개 대본 각각에 뚫을 빈칸 수를 선택하세요.':'대본 '+number+'번에서 뚫을 빈칸 수를 선택하세요.';
+ document.getElementById('blankSetupMaximum').textContent='설정 가능: 1 ~ '+max+'개'+(number==='all'?' (가장 짧은 대본 기준)':'');
+ input.max=max;input.value=Math.max(1,Math.min(configuredBlankCount,max));
+ box.classList.remove('hidden');input.focus();input.select();
+}
+function closeBlankSetup(){document.getElementById('blankSetupShade').classList.add('hidden')}
+function applyBlankSetup(){
+ const input=document.getElementById('blankSetupInput');const max=Number(input.max),v=Number(input.value);
+ if(!Number.isInteger(v)||v<1||v>max){input.setCustomValidity('1~'+max+' 사이의 정수를 입력하세요.');input.reportValidity();input.setCustomValidity('');return;}
+ configuredBlankCount=v;const target=blankSetupTarget;closeBlankSetup();
+ allScriptQueue=target==='all'?scriptNumbers():null;allScriptIndex=0;
+ openScript(allScriptQueue?allScriptQueue[0]:target);syncScriptNext();
+}
+function syncScriptNext(){const btn=document.getElementById('nextScriptBtn');if(!btn)return;
+ btn.classList.toggle('hidden',currentMode!=='blank'||!allScriptQueue);
+ btn.textContent=allScriptQueue&&allScriptIndex===allScriptQueue.length-1?'처음부터 ↻':'다음 문제 →';
+}
+function nextScriptInAll(){
+ if(!allScriptQueue)return;
+ allScriptIndex=(allScriptIndex+1)%allScriptQueue.length;
+ openScript(allScriptQueue[allScriptIndex]);syncScriptNext();
+}
+
+function showNumberSelect(
+    mode
+) {
+    allScriptQueue=null;
+
+    currentMode = mode;
+
+
+    hideAllPages();
+
+
+    document
+        .getElementById(
+            "numberPage"
+        )
+        .classList
+        .remove(
+            "hidden"
+        );
+
+
+    document
+        .getElementById(
+            "numberSelectTitle"
+        )
+        .textContent =
+        mode === "view"
+            ? "영어 대본 보기"
+            : "영어 대본 빈칸 채우기";
+
+
+    renderNumberCards();
+
+
+    window.scrollTo(
+        0,
+        0
+    );
+
+}
+
+
+
+/* =========================================================
+   content.js에 있는 대본 번호 자동 생성
+========================================================= */
+
+function renderNumberCards() {
+
+    const grid =
+        document
+            .getElementById(
+                "numberGrid"
+            );
+
+
+    grid.innerHTML = "";
+
+
+    /*
+        객체 키를 숫자로 변환 후
+        오름차순 정렬
+    */
+
+    const numbers = scriptNumbers();
+
+
+    if(currentMode === 'blank'){
+      const all=document.createElement('div');all.className='number-card';
+      all.innerHTML='<div class="script-number">ALL</div><h2>전체 순서대로</h2><p>10개 대본 연속 학습</p>';
+      all.onclick=()=>chooseScript('all');grid.appendChild(all);
+    }
+    numbers.forEach(
+        number => {
+
+
+            const data =
+                ENGLISH_CONTENT[
+                    number
+                ];
+
+
+            const card =
+                document
+                    .createElement(
+                        "div"
+                    );
+
+
+            card.className =
+                "number-card";
+
+
+            card.onclick =
+                () =>
+                    chooseScript(number);
+
+
+            card.innerHTML = `
+                <div
+                    class="script-number"
+                >
+                    ${number}번
+                </div>
+
+                <h2>
+                    ${data.title}
+                </h2>
+            `;
+
+
+            grid.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =========================================================
+   번호 선택 화면으로 돌아가기
+========================================================= */
+
+function backToNumbers() {
+
+    showNumberSelect(
+        currentMode
+    );
+
+}
+
+
+
+/* =========================================================
+   선택한 듣기 대본 열기
+========================================================= */
+
+function openScript(
+    number
+) {
+
+    currentNumber =
+        number;
+
+
+    hideAllPages();
+
+
+    document
+        .getElementById(
+            "studyPage"
+        )
+        .classList
+        .remove(
+            "hidden"
+        );
+
+
+    const data =
+        ENGLISH_CONTENT[
+            number
+        ];
+
+
+    /*
+        상단의 현재 번호
+    */
+
+    document
+        .getElementById(
+            "scriptLabel"
+        )
+        .textContent =
+        `${data.number}번 대본`;
+
+
+    /*
+        대본 제목
+    */
+
+    document
+        .getElementById(
+            "scriptTitle"
+        )
+        .textContent =
+        data.title;
+
+
+    resetButtons();
+
+
+    /*
+        일반 대본 보기 /
+        빈칸 채우기 분기
+    */
+
+    if (
+        currentMode ===
+        "view"
+    ) {
+
+        renderScript();
+
+    }
+
+    else {
+
+        generateBlankQuiz();
+
+    }
+
+
+    syncScriptNext();
+    window.scrollTo(
+        0,
+        0
+    );
+
+}
+
+
+
+/* =========================================================
+   학습 버튼 상태 초기화
 ========================================================= */
 
 function resetButtons() {
@@ -1517,15 +2006,20 @@ function resetButtons() {
         "showAnswerBtn",
         "retryBtn"
     ]
-    .forEach(id => {
+    .forEach(
+        id => {
 
-        document
-            .getElementById(id)
-            .classList.add(
-                "hidden"
-            );
+            document
+                .getElementById(
+                    id
+                )
+                .classList
+                .add(
+                    "hidden"
+                );
 
-    });
+        }
+    );
 
 
     const scoreBox =
@@ -1549,10 +2043,10 @@ function resetButtons() {
 
 
 /* =========================================================
-   본문 보기
+   영어 듣기 대본 그대로 보기
 ========================================================= */
 
-function renderReading() {
+function renderScript() {
 
     const area =
         document
@@ -1564,26 +2058,23 @@ function renderReading() {
     area.innerHTML = "";
 
 
-    const data = currentLesson === 'all'
-        ? {blocks: [
-            {type:'lesson-divider',runs:[{text:'4과'}]},
-            ...ENGLISH_CONTENT[4].blocks,
-            {type:'lesson-divider',runs:[{text:'5과'}]},
-            ...ENGLISH_CONTENT[5].blocks
-          ]}
-        : ENGLISH_CONTENT[currentLesson];
+    const data =
+        ENGLISH_CONTENT[
+            currentNumber
+        ];
+
 
     data.blocks.forEach(
         block => {
 
+
             const element =
-                createBlockElement(
-                    block.type
-                );
+                createBlockElement();
 
 
             block.runs.forEach(
                 run => {
+
 
                     const span =
                         document
@@ -1596,12 +2087,27 @@ function renderReading() {
                         run.text;
 
 
+                    /*
+                        M:
+                        W:
+                        같은 화자 표시
+                    */
+
                     if (
                         run.bold
                     ) {
 
-                        span.style.fontWeight =
-                            "800";
+                        span.style
+                            .fontWeight =
+                            "900";
+
+                        span.style
+                            .color =
+                            "#9daaff";
+
+                        span.style
+                            .fontFamily =
+                            "Pretendard, sans-serif";
 
                     }
 
@@ -1610,7 +2116,8 @@ function renderReading() {
                         run.italic
                     ) {
 
-                        span.style.fontStyle =
+                        span.style
+                            .fontStyle =
                             "italic";
 
                     }
@@ -1637,60 +2144,20 @@ function renderReading() {
 
 
 /* =========================================================
-   block 생성
+   대본 한 줄 생성
 ========================================================= */
 
-function createBlockElement(type) {
+function createBlockElement() {
 
-    let element;
+    const element =
+        document
+            .createElement(
+                "p"
+            );
 
 
-    if (
-        type === "title"
-    ) {
-
-        element =
-            document
-                .createElement(
-                    "h2"
-                );
-
-        element.className =
-            "reading-title";
-
-    }
-
-    else if (type === "lesson-divider") {
-        element = document.createElement("h2");
-        element.className = "reading-lesson-divider";
-    }
-    else if (
-        type === "subtitle"
-    ) {
-
-        element =
-            document
-                .createElement(
-                    "h3"
-                );
-
-        element.className =
-            "reading-subtitle";
-
-    }
-
-    else {
-
-        element =
-            document
-                .createElement(
-                    "p"
-                );
-
-        element.className =
-            "reading-paragraph";
-
-    }
+    element.className =
+        "reading-paragraph";
 
 
     return element;
@@ -1700,7 +2167,7 @@ function createBlockElement(type) {
 
 
 /* =========================================================
-   새 랜덤 빈칸 생성
+   새로운 랜덤 빈칸 문제 생성
 ========================================================= */
 
 function generateBlankQuiz() {
@@ -1731,9 +2198,14 @@ function generateBlankQuiz() {
 
     const data =
         ENGLISH_CONTENT[
-            currentLesson
+            currentNumber
         ];
 
+
+    /*
+        빈칸으로 만들 수 있는
+        모든 단어 위치 저장
+    */
 
     const candidates = [];
 
@@ -1745,23 +2217,6 @@ function generateBlankQuiz() {
         ) => {
 
 
-            /*
-                제목은 빈칸 제외
-            */
-
-            if (
-                block.type ===
-                "title" ||
-
-                block.type ===
-                "subtitle"
-            ) {
-
-                return;
-
-            }
-
-
             block.runs.forEach(
                 (
                     run,
@@ -1770,11 +2225,15 @@ function generateBlankQuiz() {
 
 
                     /*
-                        볼드 부분 제외
+                        M:
+                        W:
+                        등 굵은 화자 표시는
+                        빈칸으로 만들지 않음
                     */
 
                     if (
-                        run.bold
+                        run.bold ||
+                        run.noBlank
                     ) {
 
                         return;
@@ -1822,10 +2281,18 @@ function generateBlankQuiz() {
     );
 
 
+    /*
+        빈칸 후보 랜덤 섞기
+    */
+
     shuffleArray(
         candidates
     );
 
+
+    /*
+        전체 후보의 20%
+    */
 
     const blankCount = Math.min(Math.max(1, configuredBlankCount), candidates.length);
 
@@ -1860,16 +2327,22 @@ function generateBlankQuiz() {
         );
 
 
-    renderBlankContent(
+    renderBlankScript(
         selected
     );
 
+
+    /*
+        빈칸 모드에서
+        채점 / 새 문제 버튼 표시
+    */
 
     document
         .getElementById(
             "gradeBtn"
         )
-        .classList.remove(
+        .classList
+        .remove(
             "hidden"
         );
 
@@ -1878,7 +2351,8 @@ function generateBlankQuiz() {
         .getElementById(
             "showAnswerBtn"
         )
-        .classList.add(
+        .classList
+        .add(
             "hidden"
         );
 
@@ -1887,7 +2361,8 @@ function generateBlankQuiz() {
         .getElementById(
             "retryBtn"
         )
-        .classList.remove(
+        .classList
+        .remove(
             "hidden"
         );
 
@@ -1896,10 +2371,10 @@ function generateBlankQuiz() {
 
 
 /* =========================================================
-   빈칸 본문 그리기
+   랜덤 빈칸이 적용된 듣기 대본 출력
 ========================================================= */
 
-function renderBlankContent(
+function renderBlankScript(
     selected
 ) {
 
@@ -1915,7 +2390,7 @@ function renderBlankContent(
 
     const data =
         ENGLISH_CONTENT[
-            currentLesson
+            currentNumber
         ];
 
 
@@ -1930,9 +2405,7 @@ function renderBlankContent(
 
 
             const element =
-                createBlockElement(
-                    block.type
-                );
+                createBlockElement();
 
 
             block.runs.forEach(
@@ -1943,17 +2416,13 @@ function renderBlankContent(
 
 
                     /*
-                        그대로 출력해야 하는 부분
+                        화자 표시 또는
+                        빈칸 제외 영역
                     */
 
                     if (
-                        block.type ===
-                        "title" ||
-
-                        block.type ===
-                        "subtitle" ||
-
-                        run.bold
+                        run.bold ||
+                        run.noBlank
                     ) {
 
 
@@ -1974,7 +2443,26 @@ function renderBlankContent(
 
                             span.style
                                 .fontWeight =
-                                "800";
+                                "900";
+
+                            span.style
+                                .color =
+                                "#9daaff";
+
+                            span.style
+                                .fontFamily =
+                                "Pretendard, sans-serif";
+
+                        }
+
+
+                        if (
+                            run.italic
+                        ) {
+
+                            span.style
+                                .fontStyle =
+                                "italic";
 
                         }
 
@@ -2015,11 +2503,15 @@ function renderBlankContent(
                                 );
 
 
+                            /*
+                                이번 랜덤 문제에서
+                                선택된 단어
+                            */
+
                             if (
                                 selected.has(
                                     key
                                 ) &&
-
                                 isBlankCandidate(
                                     token
                                 )
@@ -2032,25 +2524,30 @@ function renderBlankContent(
                                     );
 
 
+                                /*
+                                    단어 앞 문장부호
+                                */
+
                                 if (
                                     parsed.before
                                 ) {
 
-                                    element.appendChild(
+                                    element
+                                        .appendChild(
 
-                                        document
-                                            .createTextNode(
-                                                parsed.before
-                                            )
+                                            document
+                                                .createTextNode(
+                                                    parsed.before
+                                                )
 
-                                    );
+                                        );
 
                                 }
 
 
                                 /*
-                                    input +
-                                    틀린 횟수를 감싸는 래퍼
+                                    빈칸 + 틀린 횟수 숫자를
+                                    함께 감싸는 영역
                                 */
 
                                 const wrapper =
@@ -2084,7 +2581,8 @@ function renderBlankContent(
 
 
                                 /*
-                                    몇 번 틀렸는지
+                                    지금까지
+                                    틀린 횟수
                                 */
 
                                 input.dataset.wrongCount =
@@ -2092,7 +2590,8 @@ function renderBlankContent(
 
 
                                 /*
-                                    맞혀서 잠겼는지
+                                    스스로 맞혔거나
+                                    정답 공개로 완료됐는지
                                 */
 
                                 input.dataset.solved =
@@ -2100,8 +2599,8 @@ function renderBlankContent(
 
 
                                 /*
-                                    정답확인으로
-                                    공개됐는지
+                                    정답 확인 버튼으로
+                                    공개된 문제인지
                                 */
 
                                 input.dataset.revealed =
@@ -2117,8 +2616,8 @@ function renderBlankContent(
 
 
                                 /*
-                                    길이에 따라
-                                    폭 조절
+                                    정답 글자 수에 따라
+                                    입력칸 폭 조절
                                 */
 
                                 const width =
@@ -2143,6 +2642,10 @@ function renderBlankContent(
                                     width + "px";
 
 
+                                /*
+                                    해당 빈칸의 정답 저장
+                                */
+
                                 blankAnswers.push(
                                     parsed.word
                                 );
@@ -2151,28 +2654,35 @@ function renderBlankContent(
                                 blankId++;
 
 
-                                wrapper.appendChild(
-                                    input
-                                );
+                                wrapper
+                                    .appendChild(
+                                        input
+                                    );
 
 
-                                element.appendChild(
-                                    wrapper
-                                );
+                                element
+                                    .appendChild(
+                                        wrapper
+                                    );
 
+
+                                /*
+                                    단어 뒤 문장부호
+                                */
 
                                 if (
                                     parsed.after
                                 ) {
 
-                                    element.appendChild(
+                                    element
+                                        .appendChild(
 
-                                        document
-                                            .createTextNode(
-                                                parsed.after
-                                            )
+                                            document
+                                                .createTextNode(
+                                                    parsed.after
+                                                )
 
-                                    );
+                                        );
 
                                 }
 
@@ -2180,14 +2690,20 @@ function renderBlankContent(
 
                             else {
 
-                                element.appendChild(
+                                /*
+                                    빈칸으로 선택되지 않은
+                                    원래 단어
+                                */
 
-                                    document
-                                        .createTextNode(
-                                            token
-                                        )
+                                element
+                                    .appendChild(
 
-                                );
+                                        document
+                                            .createTextNode(
+                                                token
+                                            )
+
+                                    );
 
                             }
 
@@ -2210,7 +2726,8 @@ function renderBlankContent(
 
 
     /*
-        첫 문제 자동 선택
+        첫 번째 빈칸에
+        자동 포커스
     */
 
     const first =
@@ -2219,7 +2736,9 @@ function renderBlankContent(
         );
 
 
-    if (first) {
+    if (
+        first
+    ) {
 
         setTimeout(
             () => {
@@ -2237,7 +2756,7 @@ function renderBlankContent(
 
 
 /* =========================================================
-   키보드
+   빈칸에서 Enter 키 동작
 ========================================================= */
 
 function setupInputKeyboard() {
@@ -2277,7 +2796,8 @@ function setupInputKeyboard() {
 
 
                     /*
-                        잠기지 않은 다음 문제 찾기
+                        아직 맞히지 않은
+                        다음 빈칸 찾기
                     */
 
                     const next =
@@ -2286,8 +2806,8 @@ function setupInputKeyboard() {
                                 index + 1
                             )
                             .find(
-                                el =>
-                                    !el.readOnly
+                                item =>
+                                    !item.readOnly
                             );
 
 
@@ -2300,6 +2820,11 @@ function setupInputKeyboard() {
                     }
 
                     else {
+
+                        /*
+                            마지막 빈칸이면
+                            바로 채점
+                        */
 
                         gradeAnswers();
 
@@ -2316,10 +2841,15 @@ function setupInputKeyboard() {
 
 
 /* =========================================================
-   채점
+   빈칸 채점
 ========================================================= */
 
 function gradeAnswers() {
+
+    /*
+        이미 정답 전체를 공개했다면
+        다시 채점하지 않음
+    */
 
     if (
         answersShown
@@ -2341,15 +2871,13 @@ function gradeAnswers() {
 
     let solvedCount = 0;
 
-    let newCorrectCount = 0;
-
 
     inputs.forEach(
         input => {
 
 
             /*
-                이미 맞힌 것은
+                이미 맞혀서 잠긴 문제는
                 다시 채점하지 않음
             */
 
@@ -2367,40 +2895,38 @@ function gradeAnswers() {
 
             const id =
                 Number(
-                    input.dataset.blankId
+                    input.dataset
+                        .blankId
                 );
 
 
             const answer =
-                blankAnswers[id];
+                blankAnswers[
+                    id
+                ];
 
 
             const userAnswer =
-                input.value.trim();
+                input
+                    .value
+                    .trim();
 
 
-            input.classList.remove("wrong", "case-warning");
-            const oldCaseNotice = input.parentElement?.querySelector('[data-case-notice="'+input.dataset.blankId+'"]');
-            if (oldCaseNotice) oldCaseNotice.remove();
+            input
+                .classList
+                .remove(
+                    "wrong"
+                );
 
-
-            // 대소문자만 다르면 완전 정답이 아니며, 구분된 안내를 표시한다.
-            if (normalizeAnswer(userAnswer) === normalizeAnswer(answer)
-                && normalizeCaseSensitive(userAnswer) !== normalizeCaseSensitive(answer)) {
-                input.classList.add("case-warning");
-                input.insertAdjacentHTML('afterend', '<span class="case-notice" data-case-notice="'+id+'">대소문자 구분 주의!</span>');
-                return;
-            }
 
             /*
-                정답
+                정답인 경우
             */
 
             if (
                 normalizeAnswer(
                     userAnswer
                 ) ===
-
                 normalizeAnswer(
                     answer
                 )
@@ -2419,24 +2945,27 @@ function gradeAnswers() {
 
 
                 /*
-                    이전에 한번이라도
-                    틀린 적 있음
+                    이전에 틀린 적이 있으면
+                    주황색 정답
                 */
 
                 if (
                     wrongCount > 0
                 ) {
 
-                    input.classList.add(
-                        "correct-after-wrong"
-                    );
+                    input
+                        .classList
+                        .add(
+                            "correct-after-wrong"
+                        );
 
 
                     /*
-                        2회 이상 틀렸을 때만
-                        숫자 표시
+                        2번 이상 틀렸을 때만
+                        작은 숫자를 표시
 
-                        1회는 표시 안 함
+                        1번 틀린 경우에는
+                        숫자 표시하지 않음
                     */
 
                     if (
@@ -2455,15 +2984,23 @@ function gradeAnswers() {
                 else {
 
                     /*
-                        한 번에 정답
+                        첫 시도에 맞으면
+                        초록색 정답
                     */
 
-                    input.classList.add(
-                        "correct"
-                    );
+                    input
+                        .classList
+                        .add(
+                            "correct"
+                        );
 
                 }
 
+
+                /*
+                    이미 맞은 빈칸은
+                    수정할 수 없게 잠금
+                */
 
                 lockInput(
                     input
@@ -2472,16 +3009,13 @@ function gradeAnswers() {
 
                 solvedCount++;
 
-                newCorrectCount++;
-
             }
-
-            /*
-                오답
-            */
 
             else {
 
+                /*
+                    아직 오답인 경우
+                */
 
                 let wrongCount =
                     Number(
@@ -2493,16 +3027,17 @@ function gradeAnswers() {
                 wrongCount++;
 
 
-                input.dataset
-                    .wrongCount =
+                input.dataset.wrongCount =
                     String(
                         wrongCount
                     );
 
 
-                input.classList.add(
-                    "wrong"
-                );
+                input
+                    .classList
+                    .add(
+                        "wrong"
+                    );
 
             }
 
@@ -2514,7 +3049,8 @@ function gradeAnswers() {
 
 
     /*
-        최초 채점 이후부터
+        최초 채점 후,
+        아직 틀린 문제가 남아 있으면
         정답 확인 버튼 표시
     */
 
@@ -2527,7 +3063,8 @@ function gradeAnswers() {
             .getElementById(
                 "showAnswerBtn"
             )
-            .classList.remove(
+            .classList
+            .remove(
                 "hidden"
             );
 
@@ -2535,11 +3072,17 @@ function gradeAnswers() {
 
     else {
 
+        /*
+            전부 맞혔다면
+            정답 확인 버튼 필요 없음
+        */
+
         document
             .getElementById(
                 "showAnswerBtn"
             )
-            .classList.add(
+            .classList
+            .add(
                 "hidden"
             );
 
@@ -2550,8 +3093,8 @@ function gradeAnswers() {
 
 
     /*
-        아직 풀 문제가 남아 있으면
-        첫 번째 틀린 문제로 이동
+        아직 틀린 빈칸으로
+        자동 이동
     */
 
     const nextWrong =
@@ -2577,7 +3120,7 @@ function gradeAnswers() {
 
 
 /* =========================================================
-   맞은 input 잠그기
+   맞힌 빈칸 잠금
 ========================================================= */
 
 function lockInput(
@@ -2588,16 +3131,18 @@ function lockInput(
 
     input.tabIndex = -1;
 
-    input.classList.add(
-        "locked"
-    );
+    input
+        .classList
+        .add(
+            "locked"
+        );
 
 }
 
 
 
 /* =========================================================
-   틀린 횟수 표시
+   2번 이상 틀린 횟수 표시
 ========================================================= */
 
 function showMistakeCount(
@@ -2631,9 +3176,10 @@ function showMistakeCount(
     ) {
 
         badge =
-            document.createElement(
-                "span"
-            );
+            document
+                .createElement(
+                    "span"
+                );
 
 
         badge.className =
@@ -2655,14 +3201,14 @@ function showMistakeCount(
 
 
 /* =========================================================
-   정답 확인
+   남은 빈칸 정답 확인
 ========================================================= */
 
 function showAnswers() {
 
     /*
-        채점을 한 번도 안 했다면
-        사용 불가능
+        최소 한 번 채점한 뒤에만
+        정답을 확인할 수 있음
     */
 
     if (
@@ -2688,8 +3234,8 @@ function showAnswers() {
 
 
             /*
-                이미 맞힌 문제는
-                그대로 둠
+                이미 스스로 맞힌 문제는
+                그대로 유지
             */
 
             if (
@@ -2704,13 +3250,20 @@ function showAnswers() {
 
             const id =
                 Number(
-                    input.dataset.blankId
+                    input.dataset
+                        .blankId
                 );
 
 
             const answer =
-                blankAnswers[id];
+                blankAnswers[
+                    id
+                ];
 
+
+            /*
+                실제 정답 표시
+            */
 
             input.value =
                 answer;
@@ -2724,14 +3277,18 @@ function showAnswers() {
                 "true";
 
 
-            input.classList.remove(
-                "wrong"
-            );
+            input
+                .classList
+                .remove(
+                    "wrong"
+                );
 
 
-            input.classList.add(
-                "revealed"
-            );
+            input
+                .classList
+                .add(
+                    "revealed"
+                );
 
 
             const wrongCount =
@@ -2742,8 +3299,9 @@ function showAnswers() {
 
 
             /*
-                2번 이상 틀린 경우에는
-                정답 공개 후에도 횟수 표시
+                정답 확인한 경우에도
+                2번 이상 틀렸다면
+                횟수 표시
             */
 
             if (
@@ -2769,25 +3327,27 @@ function showAnswers() {
     answersShown = true;
 
 
+    /*
+        정답 확인이 끝났으므로
+        채점/정답 확인 버튼 숨김
+    */
+
     document
         .getElementById(
             "showAnswerBtn"
         )
-        .classList.add(
+        .classList
+        .add(
             "hidden"
         );
 
-
-    /*
-        전부 잠겼기 때문에
-        채점버튼도 필요 없음
-    */
 
     document
         .getElementById(
             "gradeBtn"
         )
-        .classList.add(
+        .classList
+        .add(
             "hidden"
         );
 
@@ -2799,7 +3359,7 @@ function showAnswers() {
 
 
 /* =========================================================
-   진행 상황
+   현재 학습 결과 표시
 ========================================================= */
 
 function updateScore() {
@@ -2826,6 +3386,10 @@ function updateScore() {
         input => {
 
 
+            /*
+                정답 확인으로 본 문제
+            */
+
             if (
                 input.dataset.revealed ===
                 "true"
@@ -2837,6 +3401,10 @@ function updateScore() {
 
             }
 
+
+            /*
+                스스로 맞힌 문제
+            */
 
             if (
                 input.dataset.solved ===
@@ -2870,6 +3438,10 @@ function updateScore() {
 
             }
 
+
+            /*
+                아직 못 맞힌 문제
+            */
 
             remaining++;
 
@@ -2942,10 +3514,15 @@ function updateScore() {
 
 
 /* =========================================================
-   문자열 토큰
+   대본 문자열을 공백 단위로 분리
+
+   공백 자체도 유지해서
+   원래 문장 띄어쓰기를 보존
 ========================================================= */
 
-function tokenize(text) {
+function tokenize(
+    text
+) {
 
     return text.split(
         /(\s+)/
@@ -2956,7 +3533,7 @@ function tokenize(text) {
 
 
 /* =========================================================
-   빈칸 후보인지
+   랜덤 빈칸으로 만들 수 있는 단어인지 검사
 ========================================================= */
 
 function isBlankCandidate(
@@ -2982,6 +3559,11 @@ function isBlankCandidate(
     }
 
 
+    /*
+        한 글짜 단어는
+        빈칸에서 제외
+    */
+
     if (
         word.length < 2
     ) {
@@ -2993,9 +3575,9 @@ function isBlankCandidate(
 
     return (
         /[A-Za-z]/
-        .test(
-            word
-        )
+            .test(
+                word
+            )
     );
 
 }
@@ -3003,7 +3585,14 @@ function isBlankCandidate(
 
 
 /* =========================================================
-   문장부호 분리
+   단어 앞/뒤의 문장부호 분리
+
+   예:
+   "sports."
+      → sports / .
+
+   "(Hello,"
+      → ( / Hello / ,
 ========================================================= */
 
 function splitWordPunctuation(
@@ -3023,7 +3612,9 @@ function splitWordPunctuation(
         return {
 
             before: "",
+
             word: "",
+
             after: ""
 
         };
@@ -3033,11 +3624,14 @@ function splitWordPunctuation(
 
     return {
 
-        before: match[1],
+        before:
+            match[1],
 
-        word: match[2],
+        word:
+            match[2],
 
-        after: match[3]
+        after:
+            match[3]
 
     };
 
@@ -3046,12 +3640,11 @@ function splitWordPunctuation(
 
 
 /* =========================================================
-   정답 비교
-========================================================= */
+   정답 비교용 문자열 정리
 
-function normalizeCaseSensitive(text) {
-    return text.trim().replace(/’/g, "'");
-}
+   대소문자는 구분하지 않고
+   곡선형 apostrophe도 일반 '로 통일
+========================================================= */
 
 function normalizeAnswer(
     text
@@ -3070,7 +3663,7 @@ function normalizeAnswer(
 
 
 /* =========================================================
-   랜덤 섞기
+   빈칸 후보 랜덤 섞기
 ========================================================= */
 
 function shuffleArray(
@@ -3113,7 +3706,8 @@ function shuffleArray(
 
 
 /* =========================================================
-   위치 ID
+   content.js 안에서
+   각 단어의 고유 위치 생성
 ========================================================= */
 
 function locationKey(
@@ -3133,139 +3727,21 @@ function locationKey(
 }
 
 
-/* 문장별 본문 암기 모드 */
-let memoItems = [], memoIndex = 0, memoCompleted = 0, memoTries = 0;
-let memoHints = [false, false, false];
-let memoMistakes = 0, memoRevealed = false, memoResults = [];
-let memoTransitioning=false, memoGradeTimer=null;
-function splitMemoSentences(text) {
-    const protectedText = text.replace(/\b([ap])\.m\./gi, '$1~m~');
-    return protectedText.split(/(?<=[.!?])\s+(?=[A-Z“])/)
-        .map(x => x.replace(/([ap])~m~/gi, '$1.m.').trim()).filter(Boolean);
-}
-function makeMemoItems(lesson) {
-    const result=[]; let position=0;
-    for (const block of ENGLISH_CONTENT[lesson].blocks) {
-        if (block.type !== 'paragraph') continue;
-        // 제목과 소제목은 제외, 본문 문장은 모두 순서대로 학습
-        const text=block.runs.map(r=>r.text).join('').trim();
-        for (const sentence of splitMemoSentences(text)) {
-            const bodySentence = sentence.replace(/^\([^)]*\)\s*/, '').replace(/^(ONE|TWO|THREE|FOUR):\s*/i,'').trim();
-            result.push({english:bodySentence, korean:MEMO_TRANSLATIONS[lesson][position] || '뜻 정보 없음', lesson});
-            position++;
-        }
-    }
-    return result;
-}
-function startMemorize(){
-    memoItems=(currentLesson==='all'?[...makeMemoItems(4),...makeMemoItems(5)]:makeMemoItems(currentLesson));
-    if(memoGradeTimer)clearTimeout(memoGradeTimer);
-    document.getElementById('memoGradeOverlay')?.remove();memoTransitioning=false;
-    memoIndex=0; memoCompleted=0; memoTries=0; memoMistakes=0; memoRevealed=false; memoResults=[];
-    renderMemo();
-}
-function normalizedSentence(t, ignoreCase=true){
-    const canonical=t.replace(/[’‘]/g,"'").replace(/[^a-zA-Z0-9']/g,'').trim();
-    return ignoreCase ? canonical.toLowerCase() : canonical;
-}
-function memoWords(t){return t.match(/[A-Za-z]+(?:[’'][A-Za-z]+)*/g)||[];}
-function toggleMemoHint(type){
-    const input=document.getElementById('memoInput');
-    const value=input?.value||'';
-    memoHints[type]=!memoHints[type];renderMemo(false);
-    const newInput=document.getElementById('memoInput');
-    if(newInput)newInput.value=value;
-}
-function renderMemo(refocus=true){
-    resetButtons();
-    const area=document.getElementById('contentArea');
-    if(memoIndex>=memoItems.length){
-        area.innerHTML='<div class="memo-panel"><h2>🎉 암기 완료!</h2><p>총 '+memoItems.length+'문장을 끝냈어요.</p><p>오답 시도 '+memoTries+'회</p><div class="memo-final-results">'+memoResults.map((r,i)=>'<span class="'+(r.mistakes||r.revealed?'memo-retry':'memo-success')+'" title="'+escapeMemo(memoItems[i].english)+'">'+(i+1)+'번 '+(r.mistakes||r.revealed?'주황 '+(r.mistakes>=2?r.mistakes+'회':''):'✓')+'</span>').join(' ')+'</div><button class="action-btn primary-btn" onclick="startMemorize()">처음부터</button></div>';
-        return;
-    }
-    const item=memoItems[memoIndex], words=memoWords(item.english);
-    area.innerHTML=`<div class="memo-panel">
-        <div class="memo-progress">${item.lesson}과 · ${memoIndex+1} / ${memoItems.length}</div>
-        <div class="memo-meter"><div style="width:${memoIndex/memoItems.length*100}%"></div></div>
-        <p class="memo-instruction">문장을 기억해서 영어로 입력하세요.</p>
-        <div class="memo-hints">
-          <button type="button" onclick="toggleMemoHint(0)" aria-pressed="${memoHints[0]}">💡<small>뜻</small></button>
-          <button type="button" onclick="toggleMemoHint(1)" aria-pressed="${memoHints[1]}">💡<small>첫 단어</small></button>
-          <button type="button" onclick="toggleMemoHint(2)" aria-pressed="${memoHints[2]}">💡<small>끝 단어</small></button>
-        </div>
-        <div class="memo-clues">
-          ${memoHints[0]?'<p><b>뜻</b> '+escapeMemo(item.korean)+'</p>':''}
-          ${memoHints[1]?'<p><b>첫 단어</b> '+escapeMemo(words[0]||'')+'</p>':''}
-          ${memoHints[2]?'<p><b>끝 단어</b> '+escapeMemo(words[words.length-1]||'')+'</p>':''}
-        </div>
-        <textarea class="memo-input" id="memoInput" rows="3" placeholder="영어 문장을 입력하세요" spellcheck="false" autocomplete="off"></textarea>
-        <div class="memo-feedback" id="memoFeedback" aria-live="polite"></div>
-        <div class="memo-actions"><button class="action-btn primary-btn" onclick="checkMemo()" id="memoCheckNextBtn">정답 확인 및 다음 ↵</button><button class="action-btn secondary-btn" onclick="revealMemoAnswer()" id="memoRevealBtn">정답 보기</button></div>
-    </div>`;
-    const input=document.getElementById('memoInput');
-    input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();checkMemo();}});
-    if(refocus)input.focus();
-}
-function escapeMemo(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function showMemoGrade(ok, detail=''){
-    document.getElementById('memoGradeOverlay')?.remove();
-    const overlay=document.createElement('div');
-    overlay.id='memoGradeOverlay';overlay.className='memo-grade-overlay '+(ok?'correct':'wrong');
-    overlay.setAttribute('role','status');
-    overlay.innerHTML='<div class="memo-grade-card"><div class="memo-grade-icon">'+(ok?'✓':'✕')+'</div><div class="memo-grade-label">'+(ok?'정답!':'틀렸어요!')+'</div>'+(detail?'<div class="memo-grade-sub">'+escapeMemo(detail)+'</div>':'')+'</div>';
-    document.body.appendChild(overlay);
-    if(memoGradeTimer)clearTimeout(memoGradeTimer);
-    memoGradeTimer=setTimeout(()=>{overlay.remove();memoGradeTimer=null;if(ok)memoNext();else document.getElementById('memoInput')?.focus();},1050);
-}
-function revealMemoAnswer(){
-    if(memoTransitioning)return;
-    const feedback=document.getElementById('memoFeedback');
-    if(!feedback||memoRevealed)return;
-    memoRevealed=true;
-    // 정답을 본 경우에도 정확히 입력해야 다음 문장으로 이동한다.
-    if(memoMistakes===0)memoMistakes=1;
-    feedback.innerHTML='<div class="memo-answer"><b>정답</b>'+escapeMemo(memoItems[memoIndex].english)+'</div>';
-    document.getElementById('memoRevealBtn').disabled=true;
-    document.getElementById('memoInput')?.focus();
-}
-function checkMemo(){
-    const input=document.getElementById('memoInput'), feedback=document.getElementById('memoFeedback');
-    if(!input||input.disabled||memoTransitioning||!input.value.trim())return;
-    input.classList.remove('case-warning');
-    const expected=memoItems[memoIndex].english;
-    const correct=normalizedSentence(input.value,false)===normalizedSentence(expected,false);
-    const onlyCaseWrong=!correct && normalizedSentence(input.value)===normalizedSentence(expected);
-    if(onlyCaseWrong){
-        memoMistakes++;memoTries++;input.classList.add('case-warning');
-        const msg='대소문자 구분 주의!'+(memoMistakes>=2?' ('+memoMistakes+'회 틀림)':'');
-        feedback.innerHTML='<span class="memo-case">'+msg+'</span>';
-        showMemoGrade(false,'대소문자 구분 주의!');return;
-    }
-    if(!correct){
-        memoMistakes++;memoTries++;
-        feedback.innerHTML='<span class="memo-no">다시 써 보세요.'+(memoMistakes>=2?' ('+memoMistakes+'회 틀림)':'')+'</span>';
-        showMemoGrade(false);return;
-    }
-    memoTransitioning=true;
-    const missed=memoMistakes>0||memoRevealed;
-    const count=memoMistakes>=2?' ('+memoMistakes+'회 틀림)':'';
-    feedback.innerHTML=missed?'<span class="memo-retry">✓ 정답'+count+'</span>':'<span class="memo-success">✓ 한 번에 정답!</span>';
-    memoResults[memoIndex]={mistakes:memoMistakes,revealed:memoRevealed};
-    input.disabled=true;
-    document.getElementById('memoCheckNextBtn').disabled=true;
-    document.getElementById('memoRevealBtn').disabled=true;
-    showMemoGrade(true,missed?'정답 · 다시 맞힘':'한 번에 정답!');
-}
-function memoNext(){
-    memoIndex++;memoCompleted++;memoMistakes=0;memoRevealed=false;memoHints=[false,false,false];memoTransitioning=false;
-    renderMemo();
-}
+
+/* =========================================================
+   처음 페이지를 열었을 때
+   듣기 대본 메인 화면 표시
+========================================================= */
+
+showExamSelect();
 
 </script>
+
 
 <div id="blankSetupShade" class="blank-setup-shade hidden" role="dialog" aria-modal="true" aria-labelledby="blankSetupHeading">
  <div class="blank-setup-box"><h2 id="blankSetupHeading">빈칸 개수 설정</h2><p id="blankSetupDescription"></p>
  <label for="blankSetupInput">지문당 빈칸 개수</label><input id="blankSetupInput" type="number" min="1" step="1" value="10" />
  <p id="blankSetupMaximum"></p><div class="blank-setup-actions"><button type="button" onclick="closeBlankSetup()">취소</button><button type="button" onclick="applyBlankSetup()">시작 →</button></div></div></div>
 </body>
+
 </html>

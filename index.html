@@ -36,6 +36,27 @@
       padding:40px 18px;
     }
 
+    .back-btn{
+      position:fixed;
+      top:20px;
+      left:20px;
+      z-index:20;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:11px 16px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:#161c26;
+      color:var(--text);
+      font:inherit;
+      font-weight:700;
+      text-decoration:none;
+      transition:background .16s ease,border-color .16s ease;
+    }
+    .back-btn:hover{background:#202a37;border-color:var(--accent2)}
+    .back-btn[hidden]{display:none}
+
     .wrap{
       width:min(760px,100%);
     }
@@ -145,13 +166,15 @@
     }
 
     @media(max-width:540px){
-      body{padding:20px 12px}
+      body{padding:72px 12px 20px}
+      .back-btn{top:14px;left:12px;padding:9px 12px}
       .panel{padding:15px}
       .menu-btn{padding:16px}
     }
   </style>
 </head>
 <body>
+  <a id="backButton" class="back-btn" href="../index.html" hidden aria-label="상위 메뉴로 뒤로가기">← 뒤로가기</a>
   <main class="wrap">
     <header class="header">
       <h1>.</h1>
@@ -170,6 +193,7 @@
   <script src="./plan.js" onerror="window.__PLAN_LOAD_ERROR__ = true"></script>
   <script>
     const menuEl = document.getElementById("menu");
+    const backButton = document.getElementById("backButton");
 
     function normalizePlan(data) {
       // 1) 객체형:
@@ -178,7 +202,7 @@
       //   "일차방정식 연습": "./일차방정식/index.html"
       // }
       if (data && !Array.isArray(data) && typeof data === "object") {
-        return Object.entries(data).map(([name, url]) => ({
+        return Object.entries(data).filter(([name]) => name !== "is_backbutton").map(([name, url]) => ({
           name,
           url
         }));
@@ -279,6 +303,10 @@
         if (window.__PLAN_LOAD_ERROR__) {
           throw new Error("plan.js 파일을 불러오지 못했습니다.");
         }
+
+        // 설정이 없는 경우 기본값은 true (버튼 표시)
+        const showBack = !(rawPlan && typeof rawPlan === "object" && !Array.isArray(rawPlan) && rawPlan.is_backbutton === false);
+        backButton.hidden = !showBack;
 
         const normalized = normalizePlan(rawPlan);
         renderMenu(normalized);

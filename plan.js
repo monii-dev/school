@@ -1,8 +1,7 @@
 const plan = {
-  "음악 수행평가 대비": "./음악수행평가대비/index.html",
-  "일차방정식 연습": "./수학/일차방정식풀이반복/index.html",
-  "일차방정식 활용": "./수학/일차방정식의활용/index.html",
-  "영어 본문": "./영어본문/index.html",
-  "영어 듣기 스크립트": "./영어듣기스크립트/index.html",
-  "PDF 다운로드 및 인쇄": "./인쇄/index.html"
+  "이전 내용": "./이전내용/index.html",
+  "수학": "./수학/index.html",
+  "영어": "./영어/index.html",
+  "수행평가 대비": "./수행평가대비/index.html",
+  "is_backbutton": false
 };
