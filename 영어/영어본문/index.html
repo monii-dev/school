@@ -1063,9 +1063,9 @@ button {
 
     <button
         class="home-btn"
-        onclick="location.href='../index.html'"
+        onclick="goBack()"
     >
-        🏠 홈
+        ← 뒤로가기
     </button>
 
 </header>
@@ -1379,6 +1379,22 @@ function hideAllPages() {
 }
 
 
+
+// 상단 뒤로가기: 학습 → 과 선택 → 학습 방법 → 사이트 홈
+function goBack() {
+    const setup = document.getElementById('blankSetupShade');
+    if (setup && !setup.classList.contains('hidden')) {
+        closeBlankSetup();
+        return;
+    }
+    if (!document.getElementById('studyPage').classList.contains('hidden')) {
+        backToLessons();
+    } else if (!document.getElementById('lessonPage').classList.contains('hidden')) {
+        showMain();
+    } else {
+        location.href = '../index.html';
+    }
+}
 
 function showMain() {
 
