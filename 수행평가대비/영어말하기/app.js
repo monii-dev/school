@@ -15,7 +15,7 @@ function speak(sentence){
  if(voice)u.voice=voice;window.speechSynthesis.speak(u);
 }
 function stopSpeaking(){if('speechSynthesis' in window)window.speechSynthesis.cancel()}
-function viewAll(){stopSpeaking();$('viewList').innerHTML=window.WORD_LIST.map(q=>`<article class="view-item"><div class="view-head"><span class="tag">${q.id}번 문장</span><button class="speaker" type="button" data-speak-id="${q.id}" aria-label="${q.id}번 영어 발음 듣기" title="발음 듣기">🔊</button></div><div class="en">${escapeHTML(q.en)}</div><div class="korean">${escapeHTML(q.ko)}</div></article>`).join('');display(viewer)}
+function viewAll(){stopSpeaking();$('viewList').innerHTML=window.WORD_LIST.map(q=>`<article class="view-item"><div class="view-head"><span class="tag">${q.id}번 문장</span><div class="view-tools"><button class="ghost" type="button" data-practice-id="${q.id}">🎙 말해보기</button><button class="speaker" type="button" data-speak-id="${q.id}" aria-label="${q.id}번 영어 발음 듣기" title="발음 듣기">🔊</button></div></div><div class="en">${escapeHTML(q.en)}</div><div class="korean">${escapeHTML(q.ko)}</div></article>`).join('');display(viewer)}
 let questions=[],idx=0,errors=0,records=[],mode='six',startAt=0,questionAt=0,interval=null,answerShown=false;
 function display(page){['speechExam','speechResults','speechModal'].forEach(id=>$(id)?.classList.add('hidden'));[home,exam,results,viewer].forEach(x=>x.classList.add('hidden'));page.classList.remove('hidden')}
 function current(){return questions[idx]}
