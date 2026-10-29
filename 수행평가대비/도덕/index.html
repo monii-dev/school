@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="ko"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>다문화 사회 · 도덕 정리</title><style>
 :root{color-scheme:dark;--ink:#e8edf7;--sub:#a3afc5;--line:#35435d;--blue:#7299ff;--bg:#0c1220}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);font-family:system-ui,'Malgun Gothic','Apple SD Gothic Neo',sans-serif;color:var(--ink)}header{background:linear-gradient(125deg,#141e38,#233a72);color:white;padding:43px max(22px,calc((100vw - 1040px)/2)) 37px}header h1{margin:0 0 9px;font-size:clamp(27px,4vw,39px)}header p{opacity:.85;margin:0}main{max-width:1080px;margin:25px auto 70px;padding:0 18px;display:grid;grid-template-columns:minmax(0,1fr) 310px;align-items:start;gap:19px}.stack{display:grid;gap:17px}.panel,.image-panel{background:#182235;border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 26px #00000030;padding:23px}.section-label{font-size:19px;font-weight:800;letter-spacing:-.04em;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--line)}.original{white-space:pre-wrap;overflow-wrap:anywhere;font-size:15px;line-height:1.95;tab-size:2}.image-panel{position:sticky;top:16px}.image-panel h2{font-size:18px;margin:0 0 11px}.image-panel p{font-size:12px;color:var(--sub);margin:0 0 12px}.note{display:block;width:100%;aspect-ratio:3/4;object-fit:contain;border-radius:10px;background:#10192a;cursor:zoom-in;border:1px solid var(--line)}button{border:0;background:#4267cf;color:white;border-radius:10px;padding:10px 14px;font:inherit;cursor:pointer;font-size:13px}.control{display:flex;gap:7px;margin-top:12px;flex-wrap:wrap}.control button:last-child{background:#2b3a58;color:#d8e5ff}.hide-answers #s6{display:none}.shade{position:fixed;inset:0;background:#081024dc;display:none;align-items:center;justify-content:center;z-index:30;padding:15px}.shade.open{display:flex}.shade img{width:auto;height:auto;max-width:95vw;max-height:87vh;object-fit:contain;touch-action:none;cursor:grab;transform-origin:center}.shade button{position:absolute;top:16px;right:18px;background:#263651;color:#f3f6ff;font-weight:700}.tip{margin-top:11px;color:var(--sub);font-size:12px}@media(max-width:750px){main{grid-template-columns:1fr}.image-panel{position:static;order:-1}.panel,.image-panel{padding:19px}.original{font-size:14px}}@media print{header{color:black;background:white;padding:15px}main{display:block;margin:0}.image-panel{position:static;page-break-inside:avoid}.panel{box-shadow:none;break-inside:avoid}button,.tip{display:none!important}}
 
@@ -22,28 +23,40 @@
 .shade img{cursor:grab}
 .shade img.dragging{cursor:grabbing}
 @media print{.answer-outer{grid-template-rows:1fr!important}}
-</style></head><body><header><h1>다문화 사회 · 도덕 정리</h1><p>원문 그대로 보기 · 확인 퀴즈 · 첨부 이미지</p></header><main><div class="stack"><section class="panel" id="s0"><div class="section-label">개념 정리</div><div class="original">다문화 사회: 다양한 인종과 문화가 공존하는 사회
+
+/* 정답 개념 위치 확인 및 형광펜 효과 */
+.answer-line{display:flex;align-items:center;flex-wrap:wrap;gap:7px;margin:11px 0;line-height:1.65}
+.answer-number{font-weight:800;color:#b8caff}
+.check-reference{padding:6px 11px;background:#273d69;border:1px solid #5976b4;color:#dce8ff;border-radius:9px;font-size:12px;transition:background .18s,transform .18s}
+.check-reference:hover{background:#36558b;transform:translateY(-1px)}
+.reference-highlight{border-radius:3px;box-decoration-break:clone;-webkit-box-decoration-break:clone;background-image:linear-gradient(transparent 26%,rgba(252,213,74,.67) 26%,rgba(252,213,74,.67) 90%,transparent 90%);background-repeat:no-repeat;background-size:0% 100%;transition:background-size 0s;color:inherit;scroll-margin-top:85px}
+.reference-highlight.is-highlighting{background-size:100% 100%;transition:background-size 1.1s cubic-bezier(.16,.7,.3,1)}
+.return-to-answer{position:fixed;bottom:25px;left:50%;transform:translate(-50%,15px);z-index:25;padding:13px 20px;border:1px solid #829af0;background:#3359a0;box-shadow:0 7px 25px #0009;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .25s,visibility .25s,transform .25s;font-size:14px;font-weight:750}
+.return-to-answer.visible{opacity:1;visibility:visible;pointer-events:auto;transform:translate(-50%,0)}
+@media(prefers-reduced-motion:reduce){.reference-highlight.is-highlighting{transition-duration:.01s}.return-to-answer{transition-duration:.01s}}
+@media print{.return-to-answer,.check-reference{display:none!important}}
+</style></head><body><header><h1>다문화 사회 · 도덕 정리</h1><p>원문 그대로 보기 · 확인 퀴즈 · 첨부 이미지</p></header><main><div class="stack"><section class="panel" id="s0"><div class="section-label">개념 정리</div><div class="original"><span class="reference-highlight" id="ref-definition">다문화 사회: 다양한 인종과 문화가 공존하는 사회</span>
 다문화: 다양한 문화라는 의미, 특정한 대상을 뜻하지 않음
 
 헷갈림 주의!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-다문화 용어 사용시 유의점: 다문화는 다양한 문화라는 의미로 특정한 대상을 가리키는 게 아니므로 사용할 때 편견을 지니지 않도록 주의를 기울여야 함
+<span class="reference-highlight" id="ref-term">다문화 용어 사용시 유의점: 다문화는 다양한 문화라는 의미로 특정한 대상을 가리키는 게 아니므로 사용할 때 편견을 지니지 않도록 주의를 기울여야 함</span>
 간단히:  다문화 = 다양한 문화, 다문화 ≠ 특정한 개인 또는 집단 따라서 편견 주의
 
-내집단: 자신이 속해 있으면서 ‘우리’라는 공동체의식(소속감)을 느끼는 집단
+<span class="reference-highlight" id="ref-ingroup">내집단: 자신이 속해 있으면서 ‘우리’라는 공동체의식(소속감)을 느끼는 집단</span>
 외집단: 자신이 속해 있지 않으면서 낯선 감정을 느끼는 집단</div></section><section class="panel" id="s1"><div class="section-label">외집단에 대한 편견과 차별의 원인</div><div class="original">외집단에 대한 편견과 차별의 원인:
-  1) 내집단 의식이 지나치게 강해 우리와 문화·인종·종교를 바탕으로 우리와 다른 문화를 지닌 사람들에게 편견을 지니고 이들을 차별하는 경우
-  2) 암묵적으로 내집단의 문화를 우선하는 사회 분위기로 인해 우리가 인지하지 못하는 사이 외집단의 구성원에 대해 편견을 지니게 되는 경우</div></section><section class="panel" id="s2"><div class="section-label">문화에 대한 태도</div><div class="original">자문화 중심주의
+  <span class="reference-highlight" id="ref-cause1">1) 내집단 의식이 지나치게 강해 우리와 문화·인종·종교를 바탕으로 우리와 다른 문화를 지닌 사람들에게 편견을 지니고 이들을 차별하는 경우</span>
+  <span class="reference-highlight" id="ref-cause2">2) 암묵적으로 내집단의 문화를 우선하는 사회 분위기로 인해 우리가 인지하지 못하는 사이 외집단의 구성원에 대해 편견을 지니게 되는 경우</span></div></section><section class="panel" id="s2"><div class="section-label">문화에 대한 태도</div><div class="original"><span class="reference-highlight" id="ref-ethno">자문화 중심주의
 - 의미: 자기 문화를 기준으로 다른 문화를 열등하다고 평가하는 태도
-- 문제점: 다른 문화를 열등하게 평가하여 편견과 차별로 이어져 갈등을 유발함
+- 문제점: 다른 문화를 열등하게 평가하여 편견과 차별로 이어져 갈등을 유발함</span>
 
-문화 사대주의
+<span class="reference-highlight" id="ref-worship">문화 사대주의
 - 의미: 자기 문화를 낮추어 보면서 다른 문화를 더 우수하다고 평가하는 태도
-- 문제점: 자기 문화의 가치를 무시하여 문화적 정체성과 주체성을 잃을 수 있음
+- 문제점: 자기 문화의 가치를 무시하여 문화적 정체성과 주체성을 잃을 수 있음</span>
 
-문화 상대주의
+<span class="reference-highlight" id="ref-relative">문화 상대주의
 - 의미: 문화가 생겨나는 환경이나 역사적·사회적 상황을 고려해 문화를 이해하는 태도
-- 유의점: 다른 문화가 보편적 도덕규범에 어긋나지 않는지 살펴봐야 함(문제가 아니라 유의점임)[왜냐하면 살인 등도 문화라고 존중할 수 없기 때문에]</div></section><section class="panel" id="s3"><div class="section-label">다문화 사회에서의 갈등의 원인</div><div class="original">다문화 사회에서의 갈등의 원인:
+- 유의점: 다른 문화가 보편적 도덕규범에 어긋나지 않는지 살펴봐야 함(문제가 아니라 유의점임)[왜냐하면 살인 등도 문화라고 존중할 수 없기 때문에]</span></div></section><section class="panel" id="s3"><div class="section-label">다문화 사회에서의 갈등의 원인</div><div class="original">다문화 사회에서의 갈등의 원인:
 1: 다른 문화에 대한 고정관념과 편견
 ex: 중국인은 더럽다 등과 같은 고정관념으로 인해 중국인을 기피 -&gt; 중국인 빡쳐서 갈등 생김
 
@@ -63,17 +76,38 @@ ex: 이민왔는 데 말이 안통함 -&gt; 돈이 없음 -&gt; 절도로 갈등
 4. 외집단에 대한 편견과 차별의 원인 2개는?
 5. 다음 자료에서 나타나는 문화 태도의 명칭? 의미는? 문제점은?
 자료: 역시 영어가 멋있어 한글 구려
-6. 다양한 문화를 존중하는 태도를 의미하는 용어? 유의점은?</div></section><section class="panel" id="s6"><button aria-controls="answerContent" aria-expanded="false" class="answer-head" id="answerDropdown" type="button">정답 <span aria-hidden="true" class="chevron"></span></button><div class="answer-outer" id="answerContent"><div class="answer-inner"><div class="original">정답:
-1: 다문화사회, 다양한 인종과 문화가 공존하는 사회
-2: 다문화는 다양한 문화라는 의미로 특정한 대상을 가리키는 게 아니므로 사용할 때 편견을 지니지 않도록 주의를 기울여야 함
-3: 내집단, 자신이 속해 있으면서 ‘우리’라는 공동체의식(소속감)을 느끼는 집단
-4: 1) 내집단 의식이 지나치게 강해 우리와 문화·인종·종교를 바탕으로 우리와 다른 문화를 지닌 사람들에게 편견을 지니고 이들을 차별하는 경우 2) 암묵적으로 내집단의 문화를 우선하는 사회 분위기로 인해 우리가 인지하지 못하는 사이 외집단의 구성원에 대해 편견을 지니게 되는 경우
-5: 문화 사대주의/자문화 중심주의, 각각 위에 있는 문제점
-6: 문화 상대주의, 다른 문화가 보편적 도덕규범에 어긋나지 않는지 살펴봐야 함</div></div></div></section></div><aside class="image-panel"><h2>첨부 이미지</h2><p>같은 폴더의 ./note.png 파일을 표시합니다.</p><img alt="도덕 정리 이미지 (note.png)" class="note" draggable="false" id="note" src="./note.png"/><div class="control"><button id="showImage">이미지 크게 보기</button><a class="download-link" href="./note.png" download="note.png" aria-label="이미지 다운로드"><svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg><span>다운로드</span></a></div><div class="tip">이미지 확대 화면에서 휠 또는 터치로 확대·축소할 수 있습니다.</div></aside></main><div aria-label="이미지 확대" aria-modal="true" class="shade" id="viewer" role="dialog"><button id="close">닫기 ×</button><a class="viewer-download" href="./note.png" download="note.png" aria-label="원본 이미지 다운로드" title="원본 이미지 다운로드"><svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg></a><img alt="도덕 정리 이미지 확대" draggable="false" id="zoomImg" src="./note.png"/></div><script>const answerButton=document.getElementById('answerDropdown');answerButton.addEventListener('click',()=>{const expanded=document.getElementById('s6').classList.toggle('expanded');answerButton.setAttribute('aria-expanded',String(expanded))});
+6. 다양한 문화를 존중하는 태도를 의미하는 용어? 유의점은?</div></section><section class="panel" id="s6"><button aria-controls="answerContent" aria-expanded="false" class="answer-head" id="answerDropdown" type="button">정답 <span aria-hidden="true" class="chevron"></span></button><div class="answer-outer" id="answerContent"><div class="answer-inner"><div class="original">정답:<div class="answer-line"><span class="answer-number">1:</span><span>다문화사회, </span><button class="check-reference" data-target="ref-definition" type="button">다문화 사회의 의미 확인하기</button></div><div class="answer-line"><span class="answer-number">2:</span><button class="check-reference" data-target="ref-term" type="button">다문화 용어 사용 시 유의점 확인하기</button></div><div class="answer-line"><span class="answer-number">3:</span><span>내집단, </span><button class="check-reference" data-target="ref-ingroup" type="button">내집단의 의미 확인하기</button></div><div class="answer-line"><span class="answer-number">4:</span><button class="check-reference" data-target="ref-cause1" type="button">원인 1 확인하기</button><button class="check-reference" data-target="ref-cause2" type="button">원인 2 확인하기</button></div><div class="answer-line"><span class="answer-number">5:</span><span>문화 사대주의/자문화 중심주의, </span><button class="check-reference" data-target="ref-worship" type="button">문화 사대주의의 의미·문제점 확인하기</button><button class="check-reference" data-target="ref-ethno" type="button">자문화 중심주의의 의미·문제점 확인하기</button></div><div class="answer-line"><span class="answer-number">6:</span><span>문화 상대주의, </span><button class="check-reference" data-target="ref-relative" type="button">문화 상대주의의 의미·유의점 확인하기</button></div></div></div></div></section></div><aside class="image-panel"><h2>첨부 이미지</h2><p>같은 폴더의 ./note.png 파일을 표시합니다.</p><img alt="도덕 정리 이미지 (note.png)" class="note" draggable="false" id="note" src="./note.png"/><div class="control"><button id="showImage">이미지 크게 보기</button><a aria-label="이미지 다운로드" class="download-link" download="note.png" href="./note.png"><svg aria-hidden="true" fill="none" height="19" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="m7 10 5 5 5-5"></path><path d="M12 15V3"></path></svg><span>다운로드</span></a></div><div class="tip">이미지 확대 화면에서 휠 또는 터치로 확대·축소할 수 있습니다.</div></aside></main><div aria-label="이미지 확대" aria-modal="true" class="shade" id="viewer" role="dialog"><button id="close">닫기 ×</button><a aria-label="원본 이미지 다운로드" class="viewer-download" download="note.png" href="./note.png" title="원본 이미지 다운로드"><svg aria-hidden="true" fill="none" height="19" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="19" xmlns="http://www.w3.org/2000/svg"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="m7 10 5 5 5-5"></path><path d="M12 15V3"></path></svg></a><img alt="도덕 정리 이미지 확대" draggable="false" id="zoomImg" src="./note.png"/></div><script>const answerButton=document.getElementById('answerDropdown');answerButton.addEventListener('click',()=>{const expanded=document.getElementById('s6').classList.toggle('expanded');answerButton.setAttribute('aria-expanded',String(expanded))});
 const viewer=document.getElementById('viewer'),im=document.getElementById('zoomImg');let zoom=1,dx=0,dy=0;function render(){im.style.transform=`translate(${dx}px,${dy}px) scale(${zoom})`}function open(){viewer.classList.add('open');zoom=1;dx=dy=0;render()}function close(){viewer.classList.remove('open')}document.getElementById('showImage').onclick=open;document.getElementById('note').onclick=open;document.getElementById('close').onclick=close;viewer.addEventListener('click',e=>{if(e.target===viewer)close()});document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});im.addEventListener('wheel',e=>{e.preventDefault();zoom=Math.min(6,Math.max(1,zoom*(e.deltaY<0?1.15:1/1.15)));if(zoom===1)dx=dy=0;render()},{passive:false});let pointers=new Map(),lastDist=0,lastX=0,lastY=0;im.addEventListener('pointerdown',e=>{im.setPointerCapture(e.pointerId);pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});lastX=e.clientX;lastY=e.clientY;lastDist=0});im.addEventListener('pointermove',e=>{if(!pointers.has(e.pointerId))return;pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});const ps=[...pointers.values()];if(ps.length===2){let d=Math.hypot(ps[0].x-ps[1].x,ps[0].y-ps[1].y);if(lastDist)zoom=Math.min(6,Math.max(1,zoom*d/lastDist));lastDist=d}else if(ps.length===1&&zoom>1){dx+=e.clientX-lastX;dy+=e.clientY-lastY}lastX=e.clientX;lastY=e.clientY;render()});['pointerup','pointercancel'].forEach(x=>im.addEventListener(x,e=>{pointers.delete(e.pointerId);lastDist=0}));
 
 // Chrome 및 다른 브라우저의 기본 이미지 드래그(고스트 이미지) 방지
 for(const img of document.querySelectorAll('img')){img.addEventListener('dragstart',e=>e.preventDefault())}
 im.addEventListener('pointerdown',()=>im.classList.add('dragging'));
 ['pointerup','pointercancel','lostpointercapture'].forEach(name=>im.addEventListener(name,()=>{if(pointers.size===0)im.classList.remove('dragging')}));
+</script><button class="return-to-answer" id="returnToAnswer" type="button">↩ 정답으로 돌아가기</button><script>
+// 각 정답의 확인하기 버튼: 원문 해당 위치로 이동 후 형광펜을 왼쪽에서 오른쪽으로 그린다.
+const returnButton=document.getElementById('returnToAnswer');
+let activeReference=null;
+function clearReference(){
+ if(activeReference){activeReference.classList.remove('is-highlighting');activeReference=null;}
+ returnButton.classList.remove('visible');
+}
+document.querySelectorAll('.check-reference').forEach(button=>{
+ button.addEventListener('click',event=>{
+  event.stopPropagation();clearReference();
+  const target=document.getElementById(button.dataset.target);if(!target)return;
+  activeReference=target;
+  target.scrollIntoView({behavior:'smooth',block:'center'});
+  // 애니메이션이 다시 시작되도록 렌더링 갱신
+  void target.offsetWidth;
+  target.classList.add('is-highlighting');
+  returnButton.classList.add('visible');
+ });
+});
+returnButton.addEventListener('click',event=>{
+ event.stopPropagation();
+ document.getElementById('s6').scrollIntoView({behavior:'smooth',block:'center'});
+ clearReference();
+});
+// 한 번 다른 곳을 클릭하면 형광펜 및 복귀 버튼이 사라진다.
+document.addEventListener('click',()=>{if(activeReference)clearReference()});
 </script></body></html>
