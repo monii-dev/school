@@ -20,6 +20,7 @@
     .download-image svg{width:15px;height:15px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
     .modal-bottom{position:relative}.modal-note{flex:1;text-align:center}
     @media(max-width:600px){.modal-note{display:none}.download-image{padding:8px 10px}}
+    .content-link{color:#91caff;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere;cursor:pointer}.content-link:hover{color:#c3e3ff}.content-link:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:2px}
   </style>
 </head>
 <body>
@@ -192,6 +193,30 @@
         if(weekOffset===1)return {label:`다음 주 ${weekdays[target.getDay()]}요일`,state:''};
         return {label:`${days}일 후`,state:''};
       }
+      // 내용 문자열에서 URL만 안전하게 링크로 변환합니다. HTML은 실행하지 않습니다.
+      function appendLinkedText(container, value) {
+        const pattern = /https?:\/\/[^\s<>"'`]+/gi;
+        let last = 0;
+        for (const match of value.matchAll(pattern)) {
+          const start = match.index;
+          container.append(document.createTextNode(value.slice(last, start)));
+          const raw = match[0];
+          const url = raw.replace(/[.,!?;:)}\]。，！？；：]+$/u, '');
+          const trailing = raw.slice(url.length);
+          if (url) {
+            const a = document.createElement('a');
+            a.href = url;
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+            a.className = 'content-link';
+            a.textContent = url;
+            container.append(a);
+          }
+          if (trailing) container.append(document.createTextNode(trailing));
+          last = start + raw.length;
+        }
+        container.append(document.createTextNode(value.slice(last)));
+      }
       function renderItem(data, index) {
         const card=document.createElement('article');card.className='card';
         const inner=document.createElement('div');inner.className='card-inner';
@@ -203,7 +228,7 @@
         date.textContent=dateValue===false || dateValue==null || String(dateValue).trim()==='' ? '일정 미정' : '◷  '+String(dateValue);
         const badge=relativeBadge(dateValue);
         if(badge){const el=document.createElement('span');el.className='date-badge '+badge.state;el.textContent=badge.label;titleRow.append(el);if(badge.state==='tomorrow')card.classList.add('tomorrow-card');}
-        const content=document.createElement('div');content.className='content';content.textContent=String(get(data,['내용','content']) ?? '');
+        const content=document.createElement('div');content.className='content';appendLinkedText(content, String(get(data,['내용','content']) ?? ''));
         const actions=document.createElement('div');actions.className='actions';
         addAction('평가 계획 보기',imageList(get(data,['계획표 이미지 url','계획표 이미지 URL','계획표 이미지','평가계획','evaluation_img','evaluation_image','plan_img'])),false,actions);
         const extraLabel=get(data,['assets']);const extras=imageList(get(data,['assets_imgs']));
