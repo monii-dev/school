@@ -15,7 +15,7 @@ const plan = {
     {
       "제목": "가정 수행평가",
       "날짜": "날짜 11월 4일",
-      "내용": "영양소 타이포그래피 제작하기\n\n노래 URL:\n  탄수화물: https://m.site.naver.com/2hIgv\n  단백질: https://m.site.naver.com/2hIfp\n  지방: https://m.site.naver.com/2hIeU\n  비타민: https://m.site.naver.com/2hIeA\n  무기질: https://m.site.naver.com/2hIeh",
+      "내용": "영양소 타이포그래피 제작하기\n\n노래 URL:\n  탄수화물: https://m.site.naver.com/2hIgv\n  단백질: https://m.site.naver.com/2hIfp\n  지방: https://m.site.naver.com/2hIeU\n  비타민: https://m.site.naver.com/2hIeA\n  무기질&물: https://m.site.naver.com/2hIeh",
       "계획표 이미지 url": "./assets/가정.jpg",
       "assets": "내용 정리(선생님이 주심)",
       "assets_imgs": ["./assets/가정수행ZIP앞.jpg", "./assets/가정수행ZIP뒤.jpg"]
