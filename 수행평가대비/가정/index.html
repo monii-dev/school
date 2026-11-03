@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
+<meta content="#f7f8fc" name="theme-color"/>
+<title>중1 가정 | 5대 영양소 한눈에 이해하기</title>
+<style>
+:root{--ink:#20283c;--muted:#64718a;--line:#e6eaf2;--bg:#f6f8fc;--paper:#fff;--accent:#7358d7;--accent-bg:#f0ecff;--shadow:0 12px 36px rgba(29,44,85,.06);--r:22px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);background:var(--bg);font-family:Pretendard,'Noto Sans KR','Apple SD Gothic Neo',system-ui,-apple-system,sans-serif;line-height:1.65;letter-spacing:-.025em}button,a{font:inherit}a{text-decoration:none}button{cursor:pointer}button:focus-visible,a:focus-visible{outline:3px solid #9a86ee;outline-offset:3px}.shell{max-width:1150px;margin:auto;padding:26px 24px 80px}.masthead{position:relative;overflow:hidden;border-radius:30px;padding:33px 38px 27px;color:white;background:linear-gradient(112deg,#29234f,#5942a5 65%,#8c7ae1)}.masthead:after{content:'';position:absolute;right:5%;top:-98px;font-size:310px;line-height:1;color:#ffffff13;transform:rotate(16deg);pointer-events:none}.eyebrow{display:inline-flex;align-items:center;gap:8px;border-radius:100px;background:#ffffff24;border:1px solid #ffffff30;padding:6px 12px;font-size:12px;font-weight:800;letter-spacing:.04em}.masthead h1{font-size:clamp(28px,4vw,43px);line-height:1.22;letter-spacing:-.05em;margin:17px 0 11px;position:relative}.masthead p{max-width:680px;color:#e8e1ff;margin:0;font-size:15px;position:relative}.header-bottom{display:flex;gap:9px;margin-top:26px;flex-wrap:wrap;position:relative}.header-bottom span{padding:7px 11px;background:#ffffff1b;border:1px solid #ffffff2b;border-radius:10px;color:#f4efff;font-size:12px;font-weight:600}
+.toolnav{position:sticky;z-index:30;top:0;margin-top:17px;padding:10px;background:rgba(246,248,252,.94);backdrop-filter:blur(14px);border-radius:20px;border:1px solid #e9ebf3}.tablist{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}.tab{border:1px solid transparent;background:transparent;padding:12px 7px;border-radius:13px;color:#636e81;display:flex;justify-content:center;align-items:center;gap:8px;font-weight:800;white-space:nowrap;font-size:14px;transition:.15s}.tab:hover{background:#e9edf6}.tab[aria-selected=true]{background:white;color:var(--accent);box-shadow:0 3px 13px #21294a12;border-color:#e6e8f0}.tab .ico{font-size:18px}
+.lesson{display:none;animation:rise .25s ease}.lesson.active{display:block}@keyframes rise{from{opacity:.5;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}.lesson-header{display:flex;gap:20px;justify-content:space-between;align-items:center;margin:30px 0 19px}.lesson-title-wrap{display:flex;align-items:center;gap:15px}.lesson-icon{font-size:31px;display:grid;place-items:center;width:66px;height:66px;border-radius:19px;flex:none;background:var(--soft)}.lesson-kicker{color:var(--accent);font-weight:800;font-size:12px;letter-spacing:.06em}.lesson-title{font-size:clamp(27px,3vw,34px);margin:1px 0;line-height:1.25;letter-spacing:-.05em}.lesson-sub{color:var(--muted);font-size:14px;margin:3px 0 0}.song{flex:none;display:inline-flex;align-items:center;justify-content:center;gap:9px;border-radius:14px;padding:12px 16px;background:var(--accent);color:white;font-size:14px;font-weight:800;box-shadow:0 8px 16px color-mix(in srgb,var(--accent) 17%,transparent)}.song:hover{filter:brightness(1.08)}.song svg{width:17px;height:17px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:17px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}.span2{grid-column:span 2}.panel{background:var(--paper);border:1px solid #e7eaf1;border-radius:var(--r);padding:23px 24px;box-shadow:var(--shadow);min-width:0}.panel h3{margin:0 0 13px;font-size:18px;letter-spacing:-.035em}.section-label{font-size:12px;color:var(--accent);font-weight:900;letter-spacing:.035em;margin:0 0 8px}.lead{font-size:16px;color:#344158;margin:0}.big-number{font-size:40px;font-weight:900;letter-spacing:-.06em;line-height:1.2}.unit{font-size:17px;font-weight:700;color:#8c93a3}.muted{color:var(--muted);font-size:13px}.bold{font-weight:850}.highlight{background:var(--soft);padding:1px 5px;border-radius:5px;color:var(--accent);font-weight:800}.foodrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.food{display:inline-flex;gap:6px;align-items:center;border-radius:11px;background:#f4f6fa;padding:8px 12px;font-size:14px;font-weight:750}.factline{display:flex;align-items:flex-start;gap:10px;margin:11px 0;font-size:14px}.factline:last-child{margin-bottom:0}.dot{width:8px;height:8px;flex:none;border-radius:50%;background:var(--accent);margin-top:8px}.tiny{font-size:12px;color:var(--muted)}.compare{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.compare > div{border:1px solid #ebeef5;border-radius:14px;padding:16px 10px;text-align:center;background:#fcfcfe}.bubble-line{height:45px;display:flex;justify-content:center;align-items:center;gap:3px;margin:10px auto}.bubble{width:24px;height:24px;border-radius:50%;background:#f8bf5a;border:2px solid #f3a937;flex:none}.bubble.small{width:15px;height:15px}.bubble-line.poly{gap:1px;flex-wrap:wrap;max-width:160px}.compare strong{display:block;font-size:16px}.compare small{display:block;color:var(--muted);font-size:12px}.structure-note{border-radius:12px;background:var(--soft);color:var(--accent);padding:9px 12px;font-weight:750;font-size:13px;margin-top:12px}.flow{display:flex;align-items:stretch;gap:7px;margin:14px 0 6px}.step{flex:1;min-width:0;border:1px solid #e9ecf3;border-radius:13px;padding:12px;text-align:center;background:#fafbfe}.step strong{display:block;font-size:14px;line-height:1.35}.step small{display:block;color:var(--muted);line-height:1.45;font-size:12px;margin-top:5px}.arrow{display:grid;place-items:center;color:#97a3b5;font-weight:900;flex:none}.subpanel{border:1px solid #e6eaf3;background:#fbfcff;border-radius:15px;padding:16px}.subpanel strong{font-size:15px}.subpanel p{margin:6px 0 0;font-size:14px}.callout{background:var(--soft);border-left:4px solid var(--accent);border-radius:12px;padding:13px 15px;font-size:14px;margin-top:13px}.callout strong{color:var(--accent)}.kcal-bars{margin:13px 0}.bar-row{display:grid;grid-template-columns:86px 1fr 58px;gap:10px;align-items:center;font-size:13px;font-weight:800;margin:10px 0}.track{height:12px;border-radius:20px;background:#edf0f6;overflow:hidden}.fill{height:100%;border-radius:20px}.vitagroups{display:grid;grid-template-columns:1fr 1fr;gap:12px}.vitagroups div{padding:14px;border-radius:13px;background:#f6f8fc}.vitagroups strong{display:block;margin-bottom:5px}.vitagroups span{font-size:20px;font-weight:900;color:var(--accent);letter-spacing:.12em}.entry-list{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:16px}.entry{border:1px solid #e8eaf2;border-radius:18px;padding:19px 20px;background:white;box-shadow:var(--shadow)}.entry .entry-title{font-size:15px;font-weight:900;margin:0 0 9px;display:flex;align-items:center;gap:8px}.entry .entry-title .marker{width:8px;height:8px;border-radius:50%;background:var(--accent)}.entry p{margin:6px 0;font-size:14px;color:#3e4960}.entry p b{color:#26334b}.entry.wide{grid-column:span 2}.fat-diagram{display:flex;align-items:center;gap:8px;justify-content:center;margin:18px 0;overflow:hidden}.glycerol{border-radius:14px;background:#dceff8;padding:14px 10px;font-size:13px;font-weight:900;text-align:center;color:#2d6890}.bonds{font-size:16px;color:#8ba0b0;line-height:1.3}.chains{display:flex;flex-direction:column;gap:8px}.chains div{border:1px solid #fac58c;border-radius:30px;background:#ffead2;padding:5px 14px;font-size:12px;font-weight:750;text-align:center}.note{color:#728095;font-size:13px;margin-top:13px}.quizwrap{margin-top:18px}.quiz-head{display:flex;align-items:center;justify-content:space-between;gap:10px}.quiz-head h3{margin-bottom:3px}.quiz-label{font-size:12px;color:var(--muted)}.quiz-option{border:1px solid #e2e6ef;background:#fff;border-radius:10px;padding:9px 11px;text-align:left;color:#354158;font-size:13px;line-height:1.45;transition:.15s}.quiz-option:hover{background:#f5f3ff;border-color:#b9aae8}.quiz-option.correct{background:#eaf9ef;border-color:#4fa477;color:#17663e}.quiz-option.wrong{background:#fff1f0;border-color:#df817a;color:#a03b34}.quiz-option:disabled{cursor:default}.questions{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}.qcard{border:1px solid #e8eaf2;border-radius:15px;padding:14px;background:#fcfdff}.qnum{font-weight:900;color:var(--accent);font-size:12px}.qtext{font-size:14px;font-weight:800;margin:5px 0 11px;min-height:45px;line-height:1.4}.options{display:grid;gap:7px}.feedback{font-size:12px;margin-top:9px;min-height:17px;font-weight:800}.feedback.good{color:#26865b}.feedback.bad{color:#c14e45}.restart{padding:8px 12px;border-radius:9px;background:#f0edfd;color:#6b4bc2;border:0;font-size:13px;font-weight:850}.footer{padding:28px 8px 0;text-align:center;font-size:12px;color:#8893a5}.songrow{background:linear-gradient(120deg,var(--soft),#fff);border:1px solid color-mix(in srgb,var(--accent) 20%,#fff);border-radius:17px;padding:15px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:17px}.songrow strong{font-size:14px}.songrow span{font-size:12px;color:#5f6b80}.songrow a{font-weight:850;font-size:13px;color:var(--accent);white-space:nowrap}.footerlink{color:#6b4ac8;text-decoration:underline;text-underline-offset:2px}.svg-icon{width:17px;height:17px;vertical-align:middle}
+[data-unit=carb]{--accent:#c17816;--soft:#fff3db}[data-unit=protein]{--accent:#1c8b83;--soft:#def7f2}[data-unit=fat]{--accent:#b06b3c;--soft:#fff0e5}[data-unit=vitamin]{--accent:#8c5acf;--soft:#f1e9ff}[data-unit=mineral]{--accent:#347abb;--soft:#e6f2ff}
+@media(max-width:800px){.shell{padding:12px 13px 50px}.masthead{padding:26px 22px 25px;border-radius:22px}.masthead h1{font-size:29px}.toolnav{margin-top:9px;padding:7px;border-radius:15px;overflow-x:auto;scrollbar-width:none}.toolnav::-webkit-scrollbar{display:none}.tablist{display:flex;min-width:max-content;gap:5px}.tab{padding:9px 14px;font-size:13px}.lesson-header{margin:25px 0 15px}.lesson-icon{width:54px;height:54px;font-size:27px;border-radius:16px}.lesson-title{font-size:27px}.lesson-sub{font-size:12px}.song{padding:10px 11px;font-size:12px}.panel{padding:18px;border-radius:17px}.grid2,.grid3{grid-template-columns:1fr}.span2{grid-column:auto}.questions{grid-template-columns:1fr}.qtext{min-height:0}.entry-list{grid-template-columns:1fr}.entry.wide{grid-column:auto}.flow{flex-direction:column}.arrow{transform:rotate(90deg)}.compare{gap:6px}.compare>div{padding:13px 3px}.bubble{width:18px;height:18px}.bubble.small{width:12px;height:12px}}
+@media(max-width:420px){.lesson-header{align-items:flex-start;flex-wrap:wrap}.song{margin-left:69px}.header-bottom{gap:5px}.header-bottom span{font-size:11px;padding:5px 8px}.vitagroups{gap:8px}.vitagroups div{padding:12px 9px}.vitagroups span{font-size:17px}.songrow{align-items:flex-start;flex-direction:column}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.lesson{animation:none}*{transition:none!important}}
+
+/* Food-source free-response quiz */
+.fq-hint[hidden],.fq-result[hidden],.fq-answers[hidden]{display:none!important}
+.masthead{padding-top:29px;padding-bottom:29px}
+.masthead:after{display:none}
+.eyebrow{font-size:12px}
+.tab .ico{display:grid;place-items:center;min-width:28px;height:24px;padding:0 5px;border-radius:7px;background:#e8ebf4;color:#7b8296;font-size:11px;font-weight:900;letter-spacing:0}
+.tab[aria-selected=true] .ico{background:var(--soft);color:var(--accent)}
+.lesson-icon{color:var(--accent);font-size:20px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-.03em}
+.foodquiz{margin-top:17px}
+.foodquiz .fq-head{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;margin-bottom:16px}
+.foodquiz .fq-head h3{margin:0;font-size:21px}
+.foodquiz .fq-kicker{color:var(--accent);font-size:12px;font-weight:900;letter-spacing:.05em}
+.foodquiz .fq-help{font-size:13px;color:var(--muted);margin:4px 0 0}
+.fq-progressbox{display:flex;flex-direction:column;gap:6px;align-items:flex-end;min-width:116px}
+.fq-counter{font-size:12px;font-weight:800;color:var(--accent)}
+.fq-track{width:116px;height:6px;border-radius:99px;background:#e8ebf3;overflow:hidden}
+.fq-track>div{height:100%;background:var(--accent);border-radius:99px;transition:width .15s}
+.fq-card{border:1px solid #e8eaf2;border-radius:17px;padding:19px;background:#fcfdff}
+.fq-question{font-weight:900;font-size:18px;letter-spacing:-.02em;line-height:1.42;margin:0 0 9px}
+.fq-input-label{font-size:13px;color:#48536b;display:block;margin-bottom:8px;font-weight:700}
+.fq-answer{display:block;box-sizing:border-box;width:100%;min-height:92px;padding:13px 14px;border:1.5px solid #ccd5e4;border-radius:11px;background:#fff;color:var(--ink);font:inherit;font-size:15px;line-height:1.5;resize:vertical;overflow-wrap:anywhere}
+.fq-answer:focus{outline:3px solid color-mix(in srgb,var(--accent) 22%,transparent);border-color:var(--accent)}
+.fq-buttons{display:flex;flex-wrap:wrap;gap:9px;margin-top:12px}
+.fq-btn{border:1px solid #dae1ec;background:#fff;border-radius:11px;padding:10px 14px;font-size:13px;font-weight:850;color:#39455d;min-height:42px;transition:.15s}
+.fq-btn:hover{border-color:var(--accent);color:var(--accent)}
+.fq-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.fq-btn.primary:hover{filter:brightness(1.07)}
+.fq-btn:disabled{cursor:not-allowed;opacity:.45}
+.fq-btn:focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 30%,transparent);outline-offset:2px}
+.fq-hint,.fq-result,.fq-answers{border-radius:12px;padding:11px 14px;margin-top:12px;font-size:13px;overflow-wrap:anywhere}
+.fq-hint{background:#f6f3ff;border:1px solid #e5dbfa;color:#4d3f75}
+.fq-result{background:#eff6ff;border:1px solid #d4e5ff;color:#2d527b}
+.fq-result.good{background:#e9f8ee;border-color:#c8ecd5;color:#256541}
+.fq-answers{background:#f5f7fb;border:1px solid #e5e9f1;color:#354157}
+.fq-answers strong{display:block;margin-bottom:3px}
+.fq-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px}
+.fq-nextinfo{font-size:12px;color:var(--muted)}
+.fq-complete{text-align:center;padding:17px 6px 5px}
+.fq-complete strong{font-size:20px}
+.fq-complete p{color:var(--muted);font-size:14px}
+@media(max-width:800px){
+ .toolnav{overflow:visible}
+ .tablist{display:grid;min-width:0;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
+ .tab{grid-column:span 2;padding:9px 5px;font-size:13px;white-space:normal}
+ .tab:nth-child(4),.tab:nth-child(5){grid-column:span 3}
+ .fq-question{font-size:17px}
+}
+@media(max-width:520px){
+ .lesson-header{flex-wrap:wrap;align-items:flex-start}
+ .song{margin-left:0;width:100%;justify-content:center;min-height:43px}
+ .lesson-title-wrap{min-width:0}
+ .fq-card{padding:13px}
+ .foodquiz .fq-head h3{font-size:19px}
+ .fq-progressbox{align-items:flex-start}
+ .fq-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+ .fq-btn{padding:9px 8px;font-size:13px}
+ .fq-foot{align-items:stretch;flex-direction:column}
+ .fq-foot .fq-btn{width:100%}
+ .foodquiz{padding:16px}
+}
+@media(max-width:360px){.tab{font-size:11px;gap:3px}.tab .ico{min-width:21px;padding:0 2px}.lesson-title{font-size:25px}.fq-buttons{grid-template-columns:1fr 1fr}}
+/* Back navigation to parent index */
+.back-row{display:flex;align-items:center;margin-bottom:13px}
+.back-link{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:8px 13px;border:1px solid #e2e6ef;border-radius:11px;background:#fff;color:#3b4662;font-size:14px;font-weight:800;box-shadow:0 3px 10px rgba(29,44,85,.035);min-height:40px;transition:background .15s,border-color .15s}
+.back-link:hover{background:#f0edfd;border-color:#d2c7f2;color:#5942a5}
+@media(max-width:520px){.back-row{margin-bottom:11px}.back-link{min-height:42px;padding:9px 12px}}
+</style>
+</head>
+<body>
+<main class="shell">
+<div class="back-row"><a class="back-link" href="../index.html" aria-label="상위 페이지로 돌아가기"><span aria-hidden="true">←</span> 뒤로가기</a></div>
+<header class="masthead"><span class="eyebrow"> 중학교 1학년 · 기술가정</span><h1>5대 영양소, <br/>이해하면서 외우기</h1></header>
+<nav aria-label="영양소 선택" class="toolnav"><div class="tablist" role="tablist">
+<button aria-controls="view-carb" aria-selected="true" class="tab" data-open="carb" id="tab-carb" role="tab"><span class="ico">01</span>탄수화물</button>
+<button aria-controls="view-protein" aria-selected="false" class="tab" data-open="protein" id="tab-protein" role="tab"><span class="ico">02</span>단백질</button>
+<button aria-controls="view-fat" aria-selected="false" class="tab" data-open="fat" id="tab-fat" role="tab"><span class="ico">03</span>지방</button>
+<button aria-controls="view-vitamin" aria-selected="false" class="tab" data-open="vitamin" id="tab-vitamin" role="tab"><span class="ico">04</span>비타민</button>
+<button aria-controls="view-mineral" aria-selected="false" class="tab" data-open="mineral" id="tab-mineral" role="tab"><span class="ico">05</span>무기질·물</button>
+</div></nav>
+<section aria-labelledby="tab-carb" class="lesson active" data-unit="carb" id="view-carb" role="tabpanel">
+<div class="lesson-header"><div class="lesson-title-wrap"><div class="lesson-icon">01</div><div><div class="lesson-kicker">01 · ENERGY</div><h2 class="lesson-title">탄수화물</h2><p class="lesson-sub">우리 몸이 에너지를 얻는 주요 급원</p></div></div><a class="song" href="https://m.site.naver.com/2hIgv" rel="noopener noreferrer" target="_blank">♫ 탄수화물 노래 듣기 <span aria-hidden="true"></span></a></div>
+<div class="grid2">
+<article class="panel"><p class="section-label">먼저 기억하기</p><h3>탄수화물 = 주요 에너지원</h3><div class="big-number">4 <span class="unit">kcal / 1g</span></div><div aria-label="탄수화물 급원 식품" class="foodrow"><span class="food"> 곡류</span><span class="food"> 국수</span><span class="food"> 빵</span><span class="food"> 감자</span><span class="food"> 고구마</span><span class="food"> 설탕</span><span class="food"> 사탕</span><span class="food"> 초콜릿</span><span class="food"> 꿀</span></div><p class="note">가장 작은 기본 단위는 <b>단당류</b>. 그중 포도당이 중요해!</p></article>
+<article class="panel"><p class="section-label">당의 개수로 나누기</p><h3>단당류 → 이당류 → 다당류</h3><div class="compare"><div><div class="bubble-line"><span class="bubble"></span></div><strong>단당류</strong><small>당 1개</small></div><div><div class="bubble-line"><span class="bubble"></span><span class="bubble"></span></div><strong>이당류</strong><small>당 2개</small></div><div><div class="bubble-line poly"><span class="bubble small"></span><span class="bubble small"></span><span class="bubble small"></span><span class="bubble small"></span><span class="bubble small"></span><span class="bubble small"></span></div><strong>다당류</strong><small>당 3개 이상 연결됨</small></div></div><div class="factline"><span class="dot"></span><span><b>단당류:</b> 포도당, 과당, 갈락토오스</span></div><div class="factline"><span class="dot"></span><span><b>이당류:</b> 설탕, 젖당, 엿당</span></div><div class="factline"><span class="dot"></span><span><b>다당류:</b> 전분, 글리코겐, 셀룰로오스</span></div><div class="structure-note">당이 많이 연결되면 분해 과정이 복잡해질 수 있음 (항상 더 오래 걸리는 것은 아님)</div></article>
+<article class="panel span2"><p class="section-label">몸속에서 일어나는 일</p><h3>탄수화물을 먹으면?</h3><div class="flow"><div class="step"><strong> 탄수화물 섭취</strong><small>곡류·국수·빵 등</small></div><div class="arrow">➜</div><div class="step"><strong> 소화·분해</strong><small>포도당 등 단당류로 분해</small></div><div class="arrow">➜</div><div class="step"><strong> 에너지 사용</strong><small>포도당은 뇌의 주요 에너지원</small></div><div class="arrow">➜</div><div class="step"><strong> 남으면 저장</strong><small>글리코겐으로 간·근육에 저장</small></div></div><div class="grid2" style="margin-top:13px"><div class="subpanel"><strong>저장한 글리코겐까지 부족하면?</strong><p>저장된 지방도 에너지원으로 사용함. 지방의 일부 성분은 포도당 생성에 쓰일 수 있음.</p></div><div class="subpanel"><strong>혈당이 높아지면?</strong><p><b>인슐린 분비</b> → 혈당을 낮추고 일정하게 유지하도록 도움.</p></div></div><div class="callout"><strong>단백질 절약 작용:</strong> 단백질 대신 탄수화물이 에너지원이 되어 단백질이 몸을 만드는 일에 쓰이도록 도움.</div></article>
+<article class="panel span2"><p class="section-label">꼭 비교해서 외우기</p><h3>식이섬유 = 소화되지 않는 탄수화물</h3><div class="grid2"><div class="subpanel"><strong> 불용성 식이섬유</strong><p>배변량 증가 → 배변시간 단축 → <b>변비 예방</b></p></div><div class="subpanel"><strong> 수용성 식이섬유</strong><p>젤을 만들어 <b>포만감</b>을 주고 포도당 흡수 억제 → <b>혈당 상승 억제</b></p></div></div></article>
+</div><div class="quizwrap panel" data-quiz="carb"></div><section aria-label="급원 식품 주관식 문제" class="foodquiz panel" data-foodquiz="carb"></section><div class="songrow"><div><strong> 노래로 한 번 더 복습!</strong><div><span>탄수화물 핵심 개념을 들으며 외워 봐.</span></div></div><a href="https://m.site.naver.com/2hIgv" rel="noopener noreferrer" target="_blank">탄수화물 노래 열기 </a></div>
+</section>
+<section aria-labelledby="tab-protein" class="lesson" data-unit="protein" hidden="" id="view-protein" role="tabpanel">
+<div class="lesson-header"><div class="lesson-title-wrap"><div class="lesson-icon">02</div><div><div class="lesson-kicker">02 · GROWTH</div><h2 class="lesson-title">단백질</h2><p class="lesson-sub">몸을 만들고 성장하게 하는 영양소</p></div></div><a class="song" href="https://m.site.naver.com/2hIfp" rel="noopener noreferrer" target="_blank">♫ 단백질 노래 듣기 </a></div>
+<div class="grid2">
+<article class="panel"><p class="section-label">구조 이해하기</p><h3>아미노산이 모이면 단백질</h3><div class="flow"><div class="step"><strong> 아미노산</strong><small>작은 조각</small></div><div class="arrow">➜</div><div class="step"><strong> 단백질</strong><small>여러 개 연결</small></div><div class="arrow">➜</div><div class="step"><strong> 우리 몸</strong><small>구성·성장</small></div></div><div class="callout">다른 영양소와 다르게 <strong>질소</strong>가 들어있음 → 분해 후 질소를 따로 처리해야 해서 <strong>대사 과정이 복잡함</strong>. 일반적으로 탄수화물보다 소화·분해에 시간이 더 걸릴 수 있음.</div></article>
+<article class="panel"><p class="section-label">하는 일</p><h3>몸의 재료 + 필요할 때 에너지</h3><div class="big-number">4 <span class="unit">kcal / 1g</span></div><div class="factline"><span class="dot"></span><span>우리 몸을 이루고 자라게 하며 <b>호르몬·효소</b>를 만듦</span></div><div class="factline"><span class="dot"></span><span>탄수화물·지방이 부족하면 <b>에너지원</b>으로 사용됨</span></div><div class="factline"><span class="dot"></span><span>포도당이 부족하면 단백질의 일부가 포도당으로 만들어져 <b>혈당 유지</b>에 도움</span></div></article>
+<article class="panel"><p class="section-label">아미노산의 종류</p><h3>필수 vs 비필수</h3><div class="subpanel"><strong>필수 아미노산</strong><p>우리 몸에서 <b>만들 수 없어</b> 음식으로 꼭 먹어야 함</p></div><div class="subpanel" style="margin-top:10px"><strong>비필수 아미노산</strong><p>우리 몸에서 <b>만들 수 있음</b></p></div></article>
+<article class="panel"><p class="section-label">어떤 음식에 있을까?</p><h3>단백질 급원 식품</h3><div class="foodrow"><span class="food"> 고기</span><span class="food"> 생선</span><span class="food"> 달걀</span><span class="food"> 콩류</span></div><div class="callout"><strong>기억:</strong> 식물성 단백질도 함께 <b>골고루</b> 먹을 것!</div></article>
+</div><div class="quizwrap panel" data-quiz="protein"></div><section aria-label="급원 식품 주관식 문제" class="foodquiz panel" data-foodquiz="protein"></section><div class="songrow"><div><strong> 노래로 한 번 더 복습!</strong><div><span>아미노산·기능·식품을 노래로 외워 봐.</span></div></div><a href="https://m.site.naver.com/2hIfp" rel="noopener noreferrer" target="_blank">단백질 노래 열기 </a></div>
+</section>
+<section aria-labelledby="tab-fat" class="lesson" data-unit="fat" hidden="" id="view-fat" role="tabpanel">
+<div class="lesson-header"><div class="lesson-title-wrap"><div class="lesson-icon">03</div><div><div class="lesson-kicker">03 · HIGH ENERGY</div><h2 class="lesson-title">지방</h2><p class="lesson-sub">에너지를 많이 저장하고 몸을 보호함</p></div></div><a class="song" href="https://m.site.naver.com/2hIeU" rel="noopener noreferrer" target="_blank">♫ 지방 노래 듣기 </a></div>
+<div class="grid2">
+<article class="panel"><p class="section-label">지방의 구성</p><h3>글리세롤 + 지방산 3개</h3><div class="fat-diagram"><div class="glycerol">글리세롤<br/><small>1개</small></div><div class="bonds">—<br/>—<br/>—</div><div class="chains"><div>지방산 ①</div><div>지방산 ②</div><div>지방산 ③</div></div></div><p class="muted">일반적인 중성지방의 구조를 단순하게 표현한 그림</p></article>
+<article class="panel"><p class="section-label">에너지 비교</p><h3>지방은 에너지가 많음</h3><div class="big-number">9 <span class="unit">kcal / 1g</span></div><div class="kcal-bars"><div class="bar-row"><span>탄수화물</span><span class="track"><span class="fill" style="display:block;width:44%;background:#e9b054"></span></span><span>4kcal</span></div><div class="bar-row"><span>단백질</span><span class="track"><span class="fill" style="display:block;width:44%;background:#61c1b7"></span></span><span>4kcal</span></div><div class="bar-row"><span>지방</span><span class="track"><span class="fill" style="display:block;width:100%;background:#d8985d"></span></span><span>9kcal</span></div></div><p class="note">너무 많이 먹고 남은 에너지는 지방으로 저장됨.</p></article>
+<article class="panel"><p class="section-label">몸속에서 하는 일</p><h3>저장 · 보호 · 흡수</h3><div class="factline"><span class="dot"></span><span><b>체온 유지</b>와 <b>장기 보호</b></span></div><div class="factline"><span class="dot"></span><span>지용성 비타민 <b>A, D, E, K</b>가 잘 흡수되도록 도움</span></div><div class="factline"><span class="dot"></span><span>몸에 꼭 필요한 <b>필수지방산</b> 공급</span></div><div class="callout"><b>필수지방산:</b> 몸에서 만들 수 없어 꼭 먹어야 함 → <b>오메가3, 오메가6</b><br/><b>비필수지방산:</b> 몸에서 만들 수 있음 → <b>오메가9</b></div></article>
+<article class="panel"><p class="section-label">비교해서 외우기</p><h3>고체 지방 vs 액체 기름</h3><div class="subpanel"><strong> 고체 지방(Fat)</strong><p>상온에서 고체 · 대체로 <b>포화지방산</b>이 많음<br/>예: 버터, 쇠기름, 돼지비계(돼지기름)</p></div><div class="subpanel" style="margin-top:10px"><strong> 액체 기름(Oil)</strong><p>상온에서 액체 · 대체로 <b>불포화지방산</b>이 많음<br/>예: 참기름, 들기름, 올리브유</p></div><p class="note">견과류에도 불포화지방산이 풍부함. 고체·액체 구분에는 예외가 있음.</p></article>
+<article class="panel span2"><p class="section-label">급원 식품</p><h3>지방이 들어 있는 음식</h3><div aria-label="지방 급원 식품" class="foodrow"><span class="food"> 참기름</span><span class="food"> 들기름</span><span class="food"> 올리브유</span><span class="food"> 견과류</span><span class="food"> 버터</span><span class="food"> 쇠기름</span><span class="food"> 돼지비계(돼지기름)</span></div></article>
+</div><div class="quizwrap panel" data-quiz="fat"></div><section aria-label="급원 식품 주관식 문제" class="foodquiz panel" data-foodquiz="fat"></section><div class="songrow"><div><strong> 노래로 한 번 더 복습!</strong><div><span>9kcal·지방산·지용성 비타민 기억하기.</span></div></div><a href="https://m.site.naver.com/2hIeU" rel="noopener noreferrer" target="_blank">지방 노래 열기 </a></div>
+</section>
+<section aria-labelledby="tab-vitamin" class="lesson" data-unit="vitamin" hidden="" id="view-vitamin" role="tabpanel">
+<div class="lesson-header"><div class="lesson-title-wrap"><div class="lesson-icon">04</div><div><div class="lesson-kicker">04 · SMALL BUT ESSENTIAL</div><h2 class="lesson-title">비타민</h2><p class="lesson-sub">아주 적은 양이 필요하지만 부족하면 문제 생김</p></div></div><a class="song" href="https://m.site.naver.com/2hIeA" rel="noopener noreferrer" target="_blank">♫ 비타민 노래 듣기 </a></div>
+<article class="panel"><p class="section-label">먼저 두 종류로 나누기</p><h3>지용성 vs 수용성</h3><div class="vitagroups"><div><strong> 지용성 비타민</strong><span>A D E K</span><p class="muted" style="margin:6px 0 0">지방과 함께 흡수됨</p></div><div><strong> 수용성 비타민</strong><span>B1 B2 C</span><p class="muted" style="margin:6px 0 0">물에 녹음</p></div></div></article>
+<div class="entry-list">
+<article class="entry"><div class="entry-title"><span class="marker"></span>비타민 A (레티놀)</div><p><b>하는 일:</b> 어두운 곳에서 시력 도움, 세포 성장, 피부 건강, 뼈 성장, 면역력 도움</p><p><b>부족:</b> 야맹증, 성장 지연, 면역력 저하</p><p><b>식품:</b> 간, 달걀 노른자, 녹황색 채소</p></article>
+<article class="entry"><div class="entry-title"><span class="marker"></span>비타민 D (칼시페롤)</div><p><b>하는 일:</b> 칼슘과 인의 흡수 도움 → 뼈와 이 튼튼하게</p><p><b>특징:</b> 햇빛 쬐면 몸에서 만듦</p><p><b>부족:</b> 구루병(뼈가 휨), 골다공증(뼈에 구멍 숭숭) 위험 증가</p><p><b>식품:</b> 간, 버섯, 생선, 달걀 노른자</p></article>
+<article class="entry"><div class="entry-title"><span class="marker"></span>비타민 B1 (티아민)</div><p><b>하는 일:</b> 탄수화물이 에너지로 바뀌는 데 도움</p><p><b>부족:</b> 각기병, 피로감</p><p><b>식품:</b> 돼지고기, 현미, 콩</p></article>
+<article class="entry"><div class="entry-title"><span class="marker"></span>비타민 B2 (리보플라빈)</div><p><b>하는 일:</b> 에너지 만드는 데 도움, 새로운 세포 생성과 피부 건강 도움</p><p><b>부족:</b> 설염, 구내염, 입술염</p><p><b>식품:</b> 육류, 생선, 우유, 유제품</p></article>
+<article class="entry wide"><div class="entry-title"><span class="marker"></span>비타민 C (아스코르브산)</div><p><b>하는 일:</b> 콜라겐 생성 → 상처 회복 도움, 항산화 작용, 철의 흡수 도움</p><p><b>부족:</b> 괴혈병, 상처가 잘 안 나음</p><p><b>식품:</b> 과일류, 채소류</p></article>
+</div><div class="quizwrap panel" data-quiz="vitamin"></div><section aria-label="급원 식품 주관식 문제" class="foodquiz panel" data-foodquiz="vitamin"></section><div class="songrow"><div><strong> 노래로 한 번 더 복습!</strong><div><span>A·D·B1·B2·C의 이름, 역할, 결핍증 암기하기.</span></div></div><a href="https://m.site.naver.com/2hIeA" rel="noopener noreferrer" target="_blank">비타민 노래 열기 </a></div>
+</section>
+<section aria-labelledby="tab-mineral" class="lesson" data-unit="mineral" hidden="" id="view-mineral" role="tabpanel">
+<div class="lesson-header"><div class="lesson-title-wrap"><div class="lesson-icon">05</div><div><div class="lesson-kicker">05 · BALANCE</div><h2 class="lesson-title">무기질과 물</h2><p class="lesson-sub">뼈·혈액·수분 균형과 체온을 지켜 줌</p></div></div><a class="song" href="https://m.site.naver.com/2hIeh" rel="noopener noreferrer" target="_blank">♫ 무기질·물 노래 듣기 </a></div>
+<article class="panel"><p class="section-label">무기질의 특징</p><h3>같은 무기질이어도 하는 일은 다름</h3><p class="lead">무기질은 <b>음식으로 섭취</b>하며, <b>칼슘·철·나트륨</b>은 각각 역할이 달라.</p></article>
+<div class="entry-list">
+<article class="entry"><div class="entry-title"><span class="marker"></span>칼슘</div><p><b>하는 일:</b> 뼈와 치아를 튼튼하게 함, 혈액 응고와 근육 수축에 필요</p><p><b>식품:</b> 우유, 유제품, 뼈째 먹는 생선(멸치 등)</p></article>
+<article class="entry"><div class="entry-title"><span class="marker"></span>철</div><p><b>하는 일:</b> 적혈구의 헤모글로빈 성분 → 폐에서 산소를 받아 온몸으로 운반</p><p><b>부족:</b> 빈혈, 피로감</p><p><b>식품:</b> 간, 쇠고기, 달걀 노른자, 진한 녹색 채소</p></article>
+<article class="entry"><div class="entry-title"><span class="marker"></span>나트륨</div><p><b>특징:</b> 소금에 들어있음</p><p><b>하는 일:</b> 삼투압 조절 → 몸속 수분 균형 유지</p><p><b>과다 섭취:</b> 고혈압, 심장병, 부종 위험</p><p><b>기억:</b> 적당한 나트륨은 꼭 필요함</p></article>
+<article class="entry"><div class="entry-title"><span class="marker"></span>물</div><p><b>비율:</b> 우리 몸의 약 65~70% (교과 개략값, 개인차 있음)</p><p><b>운반:</b> 혈액의 주성분 → 영양소와 산소 운반</p><p><b>배출:</b> 소변으로 노폐물 배출</p><p><b>조절:</b> 땀으로 체온 조절</p><p><b>부족:</b> 너무 부족하면 생명이 위험할 수 있음</p></article>
+</div><div class="panel" style="margin-top:17px"><p class="section-label">한눈에 흐름 이해하기</p><h3>산소 운반과 수분 조절</h3><div class="grid2"><div class="subpanel"><strong> 철 → 헤모글로빈 → 산소 운반</strong><p>헤모글로빈이 산소를 운반하므로 철이 부족하면 빈혈이 생길 수 있음.</p></div><div class="subpanel"><strong> 나트륨 → 수분 균형 유지</strong><p>삼투압 조절에 관여하고, 물은 소변과 땀으로 노폐물 배출·체온 조절에 도움.</p></div></div></div>
+<div class="quizwrap panel" data-quiz="mineral"></div><section aria-label="급원 식품 주관식 문제" class="foodquiz panel" data-foodquiz="mineral"></section><div class="songrow"><div><strong> 노래로 한 번 더 복습!</strong><div><span>칼슘·철·나트륨·물의 역할을 구분해 보자.</span></div></div><a href="https://m.site.naver.com/2hIeh" rel="noopener noreferrer" target="_blank">무기질·물 노래 열기 </a></div>
+</section>
+<footer class="footer"> 중1 기술가정 영양소 요약 · 수정한 급원 식품 목록 반영<br/>노래 버튼을 누르면 네이버 링크가 새 탭으로 열립니다. · 일반적인 학습 설명이며 일부 내용은 이해를 위해 단순화했습니다.</footer>
+</main>
+<script>
+(()=>{'use strict';
+const data={
+ carb:[
+ ['탄수화물 1g에서 얻는 에너지는?',['4kcal','9kcal','0kcal'],0,'탄수화물은 1g당 4kcal야.'],
+ ['간과 근육에 저장되는 것은?',['비타민 C','글리코겐','철'],1,'남은 포도당은 글리코겐으로 저장돼.'],
+ ['불용성 식이섬유의 주요 기능은?',['시력 유지','혈액 응고','변비 예방'],2,'배변량을 늘리고 변비 예방에 도움을 줘.']],
+ protein:[
+ ['단백질의 기본 단위는?',['아미노산','포도당','지방산'],0,'작은 아미노산이 모여 단백질을 만들어.'],
+ ['필수 아미노산의 뜻은?',['몸에서 만들어짐','음식으로 꼭 먹어야 함','에너지가 없음'],1,'몸에서 만들 수 없어 음식으로 섭취해야 해.'],
+ ['단백질 1g의 에너지는?',['9kcal','2kcal','4kcal'],2,'단백질은 1g당 4kcal야.']],
+ fat:[
+ ['지방 1g의 에너지는?',['4kcal','9kcal','7kcal'],1,'지방은 1g당 9kcal야.'],
+ ['지용성 비타민의 조합은?',['A·D·E·K','B1·B2·C','B·C'],0,'A·D·E·K는 지용성이야.'],
+ ['필수지방산에 해당하는 것은?',['오메가9만','모든 지방산','오메가3·오메가6'],2,'오메가3·6은 꼭 섭취해야 하는 필수지방산이야.']],
+ vitamin:[
+ ['어두운 곳에서 시력을 돕는 비타민은?',['C','A','B2'],1,'비타민 A가 시력을 돕고 부족하면 야맹증이 생길 수 있어.'],
+ ['각기병과 관련된 비타민은?',['B1','D','C'],0,'비타민 B1이 부족하면 각기병이 생길 수 있어.'],
+ ['콜라겐 생성과 상처 회복을 돕는 비타민은?',['D','A','C'],2,'비타민 C는 콜라겐 생성과 상처 회복을 도와.']],
+ mineral:[
+ ['헤모글로빈의 성분이며 산소 운반에 중요한 것은?',['철','칼슘','나트륨'],0,'철은 헤모글로빈의 성분이야.'],
+ ['뼈와 치아를 튼튼하게 하는 무기질은?',['나트륨','칼슘','철'],1,'칼슘은 뼈와 치아에 중요해.'],
+ ['삼투압 조절과 수분 균형에 관여하는 것은?',['비타민 A','글리코겐','나트륨'],2,'나트륨이 삼투압과 수분 균형 조절에 관여해.']]
+};
+function activate(k){const v=document.getElementById('view-'+k),t=document.getElementById('tab-'+k);if(!v||!t)return;document.querySelectorAll('.lesson').forEach(el=>{let a=el===v;el.classList.toggle('active',a);el.hidden=!a;});document.querySelectorAll('.tab').forEach(el=>{let a=el===t;el.setAttribute('aria-selected',String(a));el.tabIndex=a?0:-1;});try{history.replaceState(null,'','#'+k)}catch(e){}if(window.scrollY>230){const nav=document.querySelector('.toolnav');const y=nav.getBoundingClientRect().top+window.scrollY-8;window.scrollTo({top:y,behavior:'smooth'});}}
+document.querySelectorAll('[data-open]').forEach(b=>b.addEventListener('click',()=>activate(b.dataset.open)));
+document.querySelector('.tablist').addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();const arr=Array.from(document.querySelectorAll('.tab'));let idx=arr.findIndex(x=>x.getAttribute('aria-selected')==='true');idx=e.key==='Home'?0:e.key==='End'?arr.length-1:(idx+(e.key==='ArrowRight'?1:-1)+arr.length)%arr.length;arr[idx].focus();activate(arr[idx].dataset.open)});
+function renderQuiz(key){const target=document.querySelector('[data-quiz="'+key+'"]');if(!target)return;target.innerHTML='';const head=document.createElement('div');head.className='quiz-head';head.innerHTML='<div><p class="section-label">기억했는지 확인</p><h3> 3문제 미니 퀴즈</h3><div class="quiz-label" aria-live="polite">정답을 선택해 봐!</div></div>';const restart=document.createElement('button');restart.className='restart';restart.type='button';restart.textContent='↻ 다시 풀기';restart.addEventListener('click',()=>renderQuiz(key));head.appendChild(restart);target.appendChild(head);const container=document.createElement('div');container.className='questions';const completed=new Set();let correct=0;data[key].forEach((q,i)=>{const card=document.createElement('div');card.className='qcard';const n=document.createElement('div');n.className='qnum';n.textContent='QUESTION '+(i+1);const p=document.createElement('div');p.className='qtext';p.textContent=q[0];const options=document.createElement('div');options.className='options';const fb=document.createElement('div');fb.className='feedback';fb.setAttribute('aria-live','polite');q[1].forEach((ans,j)=>{const btn=document.createElement('button');btn.type='button';btn.className='quiz-option';btn.textContent=(j+1)+'. '+ans;btn.addEventListener('click',()=>{if(completed.has(i))return;completed.add(i);const win=j===q[2];if(win)correct++;options.querySelectorAll('button').forEach((b,index)=>{b.disabled=true;if(index===q[2])b.classList.add('correct');else if(index===j)b.classList.add('wrong')});fb.textContent=(win?'✓ 정답! ':'✗ 아쉽지만 정답은 '+q[1][q[2]]+'. ')+q[3];fb.className='feedback '+(win?'good':'bad');head.querySelector('.quiz-label').textContent='푼 문제 '+completed.size+'/3 · 맞힌 문제 '+correct+'/3';});options.appendChild(btn)});card.append(n,p,options,fb);container.appendChild(card)});target.appendChild(container)}
+Object.keys(data).forEach(renderQuiz);let initial=decodeURIComponent(location.hash.slice(1));if(!data[initial])initial='carb';activate(initial);
+})();
+</script>
+
+<script>
+(()=>{'use strict';
+// Food sources match the nutrition notes. Some short synonyms are accepted.
+const list=(a)=>a.map(x=>typeof x==='string'?{name:x,aliases:[]}:{name:x[0],aliases:x.slice(1)});
+const banks={
+ carb:[{target:'탄수화물',foods:list(['곡류','국수','빵','감자','고구마','설탕','사탕','초콜릿','꿀'])}],
+ protein:[{target:'단백질',foods:list(['고기','생선','달걀','콩류'])}],
+ fat:[{target:'지방',foods:list(['참기름','들기름','올리브유','견과류','버터','쇠기름',['돼지비계(돼지기름)','돼지비계','돼지기름']])}],
+ vitamin:[
+  {target:'비타민 A',foods:list(['간',['달걀 노른자','달걀노른자','계란노른자'],['녹황색 채소','녹황색채소']])},
+  {target:'비타민 D',foods:list(['간','버섯','생선',['달걀 노른자','달걀노른자','계란노른자']])},
+  {target:'비타민 B1',foods:list(['돼지고기','현미','콩'])},
+  {target:'비타민 B2',foods:list(['육류','생선','우유','유제품'])},
+  {target:'비타민 C',foods:list([['과일류','과일'],['채소류','채소']])}
+ ],
+ mineral:[
+  {target:'칼슘',foods:list(['우유','유제품',['뼈째 먹는 생선(멸치 등)','뼈째 먹는 생선','뼈째먹는생선','멸치','뼈째먹는생선멸치등']])},
+  {target:'철',foods:list(['간','쇠고기',['달걀 노른자','달걀노른자','계란노른자'],['진한 녹색 채소','진한녹색채소']])},
+  {target:'나트륨',foods:list(['소금'])},
+  {target:'물',foods:list(['물'])}
+ ]
+};
+function clean(v){return v.normalize('NFKC').toLowerCase().replace(/[\s,，、;·.()（）\[\]{}'"!?\-]/g,'');}
+const hangulHeads='ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ';
+function initials(word){return Array.from(word).map(c=>{let cp=c.charCodeAt(0);return cp>=0xAC00&&cp<=0xD7A3?hangulHeads[Math.floor((cp-0xAC00)/588)]:/[가-힣a-zA-Z0-9]/.test(c)?c:/\s/.test(c)?' ':' ';}).join('').replace(/\s+/g,' ').trim()}
+function shuffled(items){const arr=items.slice();for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr}
+function readAnswer(value,foods){
+ // Parse comma-separated and space-separated input; use longest known phrase first.
+ // Thus "달걀 노른자", "진한 녹색 채소" also work without commas.
+ const dictionary=new Map();
+ foods.forEach((food,i)=>[food.name,...food.aliases].forEach(alias=>dictionary.set(clean(alias),i)));
+ const hits=new Set(), unknown=[];
+ value.split(/[,，、;\n]+/).forEach(chunk=>{
+   const words=chunk.trim().split(/\s+/).filter(Boolean);
+   for(let i=0;i<words.length;){
+     let found=null;let count=0;
+     for(let size=Math.min(7,words.length-i);size>=1;size--){
+       const original=words.slice(i,i+size).join(' '),idx=dictionary.get(clean(original));
+       if(idx!==undefined){found=idx;count=size;break;}
+     }
+     if(found!==null){hits.add(found);i+=count;}
+     else{unknown.push(words[i]);i++;}
+   }
+ });
+ return {hits,unknown};
+}
+function makeButton(name,css,action){const b=document.createElement('button');b.type='button';b.textContent=name;b.className='fq-btn '+css;b.addEventListener('click',action);return b}
+function foodExercise(key){
+ const root=document.querySelector('[data-foodquiz="'+key+'"]');
+ if(!root)return;
+ const multi=key==='vitamin'||key==='mineral';
+ let items=multi?shuffled(banks[key]):banks[key].slice();let pos=0;
+ function show(){
+  root.replaceChildren();
+  const step=items[pos],answers=step.foods,limited=multi;
+  let attempted=false, revealed=false, graded=false;
+  const head=document.createElement('div');head.className='fq-head';
+  const intro=document.createElement('div');const kicker=document.createElement('div');kicker.className='fq-kicker';kicker.textContent='QUESTION · 급원 식품 맞히기';
+  const title=document.createElement('h3');title.textContent='식품을 직접 적어 보자';
+  const expl=document.createElement('p');expl.className='fq-help';expl.textContent='정답을 쉼표(,) 또는 띄어쓰기로 구분해서 입력해. 순서는 상관없어.';
+  intro.append(kicker,title,expl);head.append(intro);
+  if(limited){
+    const progress=document.createElement('div');progress.className='fq-progressbox';
+    const counter=document.createElement('span');counter.className='fq-counter';counter.textContent=(pos+1)+' / '+items.length+' 문제';
+    const track=document.createElement('div');track.className='fq-track';const fill=document.createElement('div');fill.style.width=((pos+1)/items.length*100)+'%';track.append(fill);progress.append(counter,track);head.append(progress);
+  }
+  const card=document.createElement('div');card.className='fq-card';
+  const q=document.createElement('p');q.className='fq-question';q.textContent=step.target+'을(를) 얻을 수 있는 식품은?';
+  // Korean particle grammar: "비타민 A를", "철을", "물을"
+  q.textContent=step.target==='물'?'몸에 필요한 물을 얻을 수 있는 가장 기본적인 것은?':step.target+(step.target==='비타민 B1'?'을':(/([\uAC00-\uD7A3])$/.test(step.target)&&((step.target.charCodeAt(step.target.length-1)-0xAC00)%28!==0))?'을':'를')+' 얻을 수 있는 식품은?';
+  const label=document.createElement('label');label.className='fq-input-label';label.textContent='식품 이름 입력';
+  const textarea=document.createElement('textarea');textarea.className='fq-answer';textarea.rows=3;textarea.placeholder='식품1, 식품2 식으로 작성';textarea.autocomplete='off';textarea.spellcheck=false;
+  const fieldId='fq-'+key+'-'+pos;textarea.id=fieldId;label.htmlFor=fieldId;
+  const buttons=document.createElement('div');buttons.className='fq-buttons';
+  const hint=makeButton('초성 힌트','',()=>{hintResult.hidden=false;hintResult.textContent='초성 힌트: '+answers.map(f=>initials(f.name)).join(' / ')});
+  const grade=makeButton('채점하기','primary',()=>{
+    if(!textarea.value.trim()){feedback.hidden=false;feedback.textContent='식품 이름을 먼저 적어 줘.';feedback.className='fq-result';return;}
+    const result=readAnswer(textarea.value,answers);attempted=true;graded=true;
+    feedback.hidden=false;feedback.className='fq-result '+(result.hits.size===answers.length&&result.unknown.length===0?'good':'');
+    feedback.textContent='채점 결과: '+result.hits.size+' / '+answers.length+'개 정답'+(result.unknown.length?' · 인식되지 않은 입력 '+result.unknown.length+'개':'')+' · 빠진 식품 '+(answers.length-result.hits.size)+'개';
+    if(next)next.disabled=false;
+  });
+  const reveal=makeButton('정답 확인','',()=>{
+    revealed=true;correctAnswers.hidden=false;
+    correctAnswers.replaceChildren();const text=document.createElement('strong');text.textContent='정답 ('+answers.length+'개)';const contents=document.createElement('div');contents.textContent=answers.map(a=>a.name).join(', ');correctAnswers.append(text,contents);
+    if(next)next.disabled=false;
+  });
+  const reset=makeButton('다시 입력','',()=>{textarea.value='';feedback.hidden=true;hintResult.hidden=true;correctAnswers.hidden=true;attempted=false;revealed=false;graded=false;if(next)next.disabled=true;textarea.focus()});
+  buttons.append(hint,grade,reveal,reset);
+  const hintResult=document.createElement('div');hintResult.className='fq-hint';hintResult.hidden=true;
+  const feedback=document.createElement('div');feedback.className='fq-result';feedback.setAttribute('aria-live','polite');feedback.hidden=true;
+  const correctAnswers=document.createElement('div');correctAnswers.className='fq-answers';correctAnswers.hidden=true;
+  card.append(q,label,textarea,buttons,hintResult,feedback,correctAnswers);
+  const foot=document.createElement('div');foot.className='fq-foot';
+  const footNote=document.createElement('span');footNote.className='fq-nextinfo';footNote.textContent=limited?'채점하거나 정답을 확인한 뒤 다음 문제로 이동할 수 있어.':'모든 급원 식품을 적어 보고 채점해 봐.';
+  foot.append(footNote);
+  let next=null;
+  if(limited){
+    next=makeButton(pos===items.length-1?'학습 완료':'다음 문제 →','primary',()=>{
+      if(!(graded||revealed))return;
+      if(pos+1<items.length){pos++;show()}else{complete()}
+    });next.disabled=true;foot.append(next);
+  }else{
+    foot.append(makeButton('문제 다시 풀기','',()=>show()));
+  }
+  root.append(head,card,foot);
+  textarea.addEventListener('keydown',e=>{if(e.ctrlKey&&e.key==='Enter'){e.preventDefault();grade.click()}});
+ }
+ function complete(){
+   root.replaceChildren();const wrap=document.createElement('div');wrap.className='fq-complete';
+   const title=document.createElement('strong');title.textContent='모든 급원 식품 문제 완료!';
+   const desc=document.createElement('p');desc.textContent=items.length+'문제를 모두 확인했어. 처음부터 다시 풀면 문제 순서가 바뀌어.';
+   const restart=makeButton('다시 풀기','primary',()=>{items=shuffled(banks[key]);pos=0;show()});
+   wrap.append(title,desc,restart);root.append(wrap);
+ }
+ show();
+}
+Object.keys(banks).forEach(foodExercise);
+})();
+</script>
+</body>
+</html>
